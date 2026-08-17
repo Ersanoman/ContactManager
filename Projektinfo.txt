@@ -1,0 +1,53 @@
+=====================================================================
+Semesterprojekt "Contact Manager"
+Programming Foundation II - ZbW
+=====================================================================
+
+Gruppenmitglieder:
+------------------
+- Nando Ramsauer   [TODO: Nachnamen prüfen/ergänzen]
+- Ersan [TODO: Nachname ergänzen]
+
+Teamleiter: [TODO: ergänzen]
+
+
+Was funktioniert:
+-----------------
+- Erfassen, Bearbeiten (Mutieren) und Löschen von Kunden, Mitarbeitern
+  und Lernenden
+- Aktivieren und Deaktivieren von Personen (Status aktiv/passiv)
+- Automatische Vergabe der Mitarbeiternummern (ab Nummer 1000)
+- Protokollieren von Notizen in Kundenkontakten inkl. Kontakthistorie
+  mit Zeitstempel
+- Suche nach Nachname, Vorname, Geburtsdatum und Kategorie
+  (Kunde / Mitarbeiter / Lernender), auch kombinierbar; der Suchfilter
+  bleibt nach Aktionen wie Bearbeiten oder Löschen aktiv
+- Automatisches Speichern nach jeder Änderung und automatisches Laden
+  beim Programmstart (XML-Datei "kontaktdaten.xml" im Programmordner)
+- Eingabevalidierung:
+  * Pflichtfelder sind mit * markiert und werden geprüft
+    (Kunde: Vorname, Nachname / Mitarbeiter: zusätzlich Abteilung
+    und AHV-Nummer)
+  * Telefonnummern akzeptieren nur Ziffern (Tastatur ist gesperrt,
+    eingefügter Text wird beim Speichern geprüft)
+  * E-Mail-Format, AHV-Nummer (756.XXXX.XXXX.XX), Postleitzahl
+    (vierstellig), Austritt nicht vor Eintritt, aktuelles Lehrjahr
+    nicht grösser als Lehrjahre total
+  * Geburtsdatum kann nicht in der Zukunft liegen
+- Nationalität als Dropdown mit allen Ländern (freie Eingabe bleibt
+  möglich, z.B. für Doppelbürger)
+
+Was nicht funktioniert / bewusste Einschränkungen:
+---------------------------------------------------
+- Optionale Anforderungen (Login, Dashboard, CSV-Import,
+  Mutationshistorie) wurden nicht umgesetzt (2er-Team, nicht verlangt)
+- Beim Erfassen wird nicht geprüft, ob dieselbe Person schon existiert
+  (Duplikate sind möglich)
+
+Zusatzinformationen:
+--------------------
+- Kein Login notwendig
+- Die Daten werden in der Datei "kontaktdaten.xml" im gleichen Ordner
+  wie die ContactManager.exe gespeichert (bin\Debug bzw. bin\Release)
+- Architektur: Model-View-Controller-Prinzip mit Vererbungshierarchie
+  Person -> Kunde und Person -> Mitarbeiter -> Lernender
