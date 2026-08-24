@@ -36,7 +36,7 @@ namespace ContactManager.View
         // alle geladenen Personen an
         private void HauptForm_Load(object sender, EventArgs e)
         {
-            ListeAnzeigen(verwaltung.AllePersonen);
+            ListeAnzeigen(verwaltung.AlleSortiert());
         }
 
         // Zeigt die übergebenen Personen in der ListBox an und
@@ -107,7 +107,7 @@ namespace ContactManager.View
             ChkGeburtsdatum.Checked = false;
             CmbKategorie.SelectedIndex = 0;
 
-            ListeAnzeigen(verwaltung.AllePersonen);
+            ListeAnzeigen(verwaltung.AlleSortiert());
         }
 
         // Schaltet das Geburtsdatum-Feld frei, wenn danach gesucht

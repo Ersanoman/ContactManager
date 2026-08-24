@@ -92,6 +92,21 @@ namespace ContactManager.Controller
             return hoechsteNummer + 1;
         }
 
+        // Gibt alle Personen alphabetisch sortiert zurück.
+        // Die interne Liste bleibt unverändert, es wird eine Kopie sortiert.
+        public List<Person> AlleSortiert()
+        {
+            List<Person> kopie = new List<Person>();
+
+            foreach (Person person in personen)
+            {
+                kopie.Add(person);
+            }
+
+            Sortieren(kopie);
+            return kopie;
+        }
+
         // Durchsucht den Datenstamm nach den übergebenen Kriterien.
         // Alle Kriterien sind kombinierbar, leere Kriterien werden
         // ignoriert. Die Namenssuche findet auch Teiltreffer und
@@ -145,7 +160,58 @@ namespace ContactManager.Controller
                 }
             }
 
+            // Die Treffer werden alphabetisch sortiert ausgegeben
+            Sortieren(resultate);
             return resultate;
+        }
+
+        // Sortiert eine Personenliste alphabetisch nach Nachname und
+        // bei gleichem Nachnamen zusätzlich nach Vorname.
+        // Umgesetzt mit dem Bubblesort-Algorithmus (optimierte Variante
+        // aus dem Unterricht): Solange zwei benachbarte Elemente in der
+        // falschen Reihenfolge stehen, werden sie getauscht.
+        private void Sortieren(List<Person> liste)
+        {
+            bool getauscht = true;
+            int laenge = liste.Count;
+
+            while (getauscht)
+            {
+                getauscht = false;
+
+                for (int i = 0; i < laenge - 1; i++)
+                {
+                    if (VergleicheNamen(liste[i], liste[i + 1]) > 0)
+                    {
+                        // Die beiden Elemente tauschen
+                        Person zwischenspeicher = liste[i];
+                        liste[i] = liste[i + 1];
+                        liste[i + 1] = zwischenspeicher;
+                        getauscht = true;
+                    }
+                }
+
+                // Das letzte Element steht nach jedem Durchgang bereits
+                // richtig und muss nicht mehr verglichen werden
+                laenge--;
+            }
+        }
+
+        // Vergleicht zwei Personen anhand von Nachname und Vorname.
+        // Rückgabe kleiner 0: person1 kommt zuerst,
+        // Rückgabe grösser 0: person2 kommt zuerst, 0: gleich.
+        private int VergleicheNamen(Person person1, Person person2)
+        {
+            // CompareTo vergleicht zwei Texte alphabetisch
+            int vergleich = person1.Nachname.ToLower().CompareTo(person2.Nachname.ToLower());
+
+            // Bei gleichem Nachnamen entscheidet der Vorname
+            if (vergleich == 0)
+            {
+                vergleich = person1.Vorname.ToLower().CompareTo(person2.Vorname.ToLower());
+            }
+
+            return vergleich;
         }
 
         // Speichert den aktuellen Datenstamm. Wird von aussen aufgerufen,
