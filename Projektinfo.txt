@@ -1,15 +1,10 @@
-=====================================================================
-Semesterprojekt "Contact Manager"
-Programming Foundation II - ZbW
-=====================================================================
+Semesterprojekt Contact Manager
+Programming Foundation II 
 
 Gruppenmitglieder:
 ------------------
-- Nando Ramsauer   [TODO: Nachnamen prüfen/ergänzen]
-- Ersan [TODO: Nachname ergänzen]
-
-Teamleiter: [TODO: ergänzen]
-
+- Nando Ramsauer
+- Ersan Krizevac
 
 Was funktioniert:
 -----------------
