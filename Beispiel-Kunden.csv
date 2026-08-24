@@ -1,0 +1,10 @@
+﻿Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;TelefonGeschaeft;Mobiltelefon;EMail;Status
+Frau;Dr.;Anna;Müller;17.05.1985;Weiblich;071 222 33 44;079 555 66 77;anna.mueller@example.ch;aktiv
+Herr;;Beat;Schäfli;02.11.1979;Männlich;071 222 33 45;079 555 66 78;beat.schaefli@example.ch;aktiv
+Frau;;Céline;Roth;23.09.1992;Weiblich;044 111 22 33;076 444 55 66;celine.roth@example.ch;aktiv
+Herr;;Marco;Bernasconi;08.03.1968;Männlich;091 333 44 55;078 222 33 44;m.bernasconi@example.ch;passiv
+Frau;;Ursula;Wyss;30.01.1974;Weiblich;031 555 66 77;079 888 99 00;u.wyss@example.ch;aktiv
+Herr;;Jonas;Zimmermann;14.07.2001;Männlich;062 777 88 99;076 111 22 33;jonas.z@example.ch;aktiv
+Herr;;Fehlerhaft;Datum;31.02.2000;Männlich;071 000 00 00;079 000 00 00;fehler@example.ch;aktiv
+Frau;;;OhneVorname;01.01.1990;Weiblich;071 000 00 01;079 000 00 01;fehler2@example.ch;aktiv
+Herr;;ZuWenig;Spalten;01.01.1990

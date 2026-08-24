@@ -165,6 +165,24 @@ namespace ContactManager.Controller
             return resultate;
         }
 
+        // Prüft, ob bereits eine Person mit gleichem Nachnamen, Vornamen
+        // und Geburtsdatum erfasst ist. Wird beim CSV-Import gebraucht,
+        // damit dieselbe Datei nicht zweimal importiert werden kann.
+        public bool ExistiertBereits(Person neuePerson)
+        {
+            foreach (Person person in personen)
+            {
+                if (person.Nachname.ToLower() == neuePerson.Nachname.ToLower() &&
+                    person.Vorname.ToLower() == neuePerson.Vorname.ToLower() &&
+                    person.Geburtsdatum.Date == neuePerson.Geburtsdatum.Date)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         // Zählt alle Personen einer Kategorie ("Alle", "Kunde",
         // "Mitarbeiter" oder "Lernender"). Wird für das Dashboard gebraucht.
         public int Anzahl(string kategorie)

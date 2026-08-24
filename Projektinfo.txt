@@ -1,5 +1,5 @@
 Semesterprojekt Contact Manager
-Programming Foundation II 
+Programming Foundation II
 
 Gruppenmitglieder:
 ------------------
@@ -17,6 +17,10 @@ Was funktioniert:
 - Suche nach Nachname, Vorname, Geburtsdatum und Kategorie
   (Kunde / Mitarbeiter / Lernender), auch kombinierbar; der Suchfilter
   bleibt nach Aktionen wie Bearbeiten oder Löschen aktiv
+- Die Personenliste ist alphabetisch nach Nachname sortiert
+  (selbst implementierter Bubblesort in der Kontaktverwaltung)
+- Die Auswahl in der Liste bleibt nach dem Bearbeiten oder nach einem
+  Statuswechsel erhalten
 - Automatisches Speichern nach jeder Änderung und automatisches Laden
   beim Programmstart (XML-Datei "kontaktdaten.xml" im Programmordner)
 - Eingabevalidierung:
@@ -32,12 +36,22 @@ Was funktioniert:
 - Nationalität als Dropdown mit allen Ländern (freie Eingabe bleibt
   möglich, z.B. für Doppelbürger)
 
+Zusätzlich umgesetzte optionale Anforderungen:
+----------------------------------------------
+- Dashboard: zeigt eine Übersicht über den Datenstamm (Anzahl Kunden,
+  Mitarbeiter, Lernende, aktive und passive Personen, erfasste
+  Kundennotizen sowie die nächste freie Mitarbeiternummer)
+- CSV-Import für Kunden: liest eine mit Strichpunkt getrennte Datei ein
+  (Beispieldatei "Beispiel-Kunden.csv" liegt im Projekt).
+  Fehlerhafte Zeilen werden übersprungen und dem Benutzer gemeldet,
+  bereits vorhandene Personen werden nicht doppelt importiert.
+
 Was nicht funktioniert / bewusste Einschränkungen:
 ---------------------------------------------------
-- Optionale Anforderungen (Login, Dashboard, CSV-Import,
-  Mutationshistorie) wurden nicht umgesetzt (2er-Team, nicht verlangt)
-- Beim Erfassen wird nicht geprüft, ob dieselbe Person schon existiert
-  (Duplikate sind möglich)
+- Beim manuellen Erfassen wird nicht geprüft, ob dieselbe Person schon
+  existiert (die Prüfung greift nur beim CSV-Import)
+- Es gibt keinen Login und keine Mutationshistorie
+- Ein Export der Daten (z.B. wieder als CSV) ist nicht vorgesehen
 
 Zusatzinformationen:
 --------------------
@@ -46,3 +60,6 @@ Zusatzinformationen:
   wie die ContactManager.exe gespeichert (bin\Debug bzw. bin\Release)
 - Architektur: Model-View-Controller-Prinzip mit Vererbungshierarchie
   Person -> Kunde und Person -> Mitarbeiter -> Lernender
+- Aufbau einer Zeile in der CSV-Datei:
+  Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
+  TelefonGeschaeft;Mobiltelefon;EMail;Status

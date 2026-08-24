@@ -252,6 +252,70 @@ namespace ContactManager.View
             }
         }
 
+        // Importiert Kunden aus einer CSV-Datei. Der Benutzer wählt die
+        // Datei aus, danach werden alle gültigen Zeilen als Kunden erfasst.
+        // Bereits vorhandene Personen werden übersprungen, damit dieselbe
+        // Datei nicht doppelt importiert werden kann.
+        private void CmdCsvImport_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dateiauswahl = new OpenFileDialog();
+            dateiauswahl.Title = "CSV-Datei mit Kunden auswählen";
+            dateiauswahl.Filter = "CSV-Dateien (*.csv)|*.csv|Alle Dateien (*.*)|*.*";
+
+            if (dateiauswahl.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                CsvImporter importer = new CsvImporter();
+                List<Kunde> geleseneKunden = importer.Einlesen(dateiauswahl.FileName);
+
+                int importiert = 0;
+                int uebersprungen = 0;
+
+                foreach (Kunde kunde in geleseneKunden)
+                {
+                    if (verwaltung.ExistiertBereits(kunde))
+                    {
+                        uebersprungen++;
+                    }
+                    else
+                    {
+                        verwaltung.Hinzufuegen(kunde);
+                        importiert++;
+                    }
+                }
+
+                CmdAlleAnzeigen_Click(sender, e);
+                MeldungNachImport(importiert, uebersprungen, importer);
+            }
+            catch (Exception ex)
+            {
+                // Zum Beispiel wenn die Datei gesperrt ist oder nicht mehr existiert
+                MessageBox.Show("Die Datei konnte nicht gelesen werden:\n" + ex.Message,
+                    "Fehler beim Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Zeigt dem Benutzer nach dem Import an, was genau passiert ist
+        private void MeldungNachImport(int importiert, int uebersprungen, CsvImporter importer)
+        {
+            string meldung = "Neu importiert: " + importiert + " Kunden\n" +
+                             "Übersprungen (schon vorhanden): " + uebersprungen + "\n" +
+                             "Fehlerhafte Zeilen: " + importer.AnzahlFehlerhaft;
+
+            if (importer.AnzahlFehlerhaft > 0)
+            {
+                meldung = meldung + "\n\nDiese Zeilen wurden nicht importiert:\n" +
+                          importer.Fehlermeldungen;
+            }
+
+            MessageBox.Show(meldung, "Import abgeschlossen",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         // Öffnet das Dashboard mit der Übersicht über den Datenstamm.
         // Die Kontaktverwaltung wird übergeben, damit beide Fenster mit
         // denselben Daten arbeiten.

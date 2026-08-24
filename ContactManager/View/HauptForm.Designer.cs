@@ -47,6 +47,7 @@
             this.CmdLoeschen = new System.Windows.Forms.Button();
             this.LblStatus = new System.Windows.Forms.Label();
             this.CmdDashboard = new System.Windows.Forms.Button();
+            this.CmdCsvImport = new System.Windows.Forms.Button();
             this.GrpSuche.SuspendLayout();
             this.SuspendLayout();
             //
@@ -238,6 +239,17 @@
             this.CmdDashboard.UseVisualStyleBackColor = true;
             this.CmdDashboard.Click += new System.EventHandler(this.CmdDashboard_Click);
             //
+            // CmdCsvImport
+            //
+            this.CmdCsvImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmdCsvImport.Location = new System.Drawing.Point(684, 276);
+            this.CmdCsvImport.Name = "CmdCsvImport";
+            this.CmdCsvImport.Size = new System.Drawing.Size(164, 34);
+            this.CmdCsvImport.TabIndex = 8;
+            this.CmdCsvImport.Text = "Kunden importieren (CSV)";
+            this.CmdCsvImport.UseVisualStyleBackColor = true;
+            this.CmdCsvImport.Click += new System.EventHandler(this.CmdCsvImport_Click);
+            //
             // LblStatus
             //
             this.LblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -261,6 +273,7 @@
             this.Controls.Add(this.CmdAktivPassiv);
             this.Controls.Add(this.CmdLoeschen);
             this.Controls.Add(this.CmdDashboard);
+            this.Controls.Add(this.CmdCsvImport);
             this.Controls.Add(this.LblStatus);
             this.MinimumSize = new System.Drawing.Size(876, 619);
             this.Name = "HauptForm";
@@ -294,5 +307,6 @@
         private System.Windows.Forms.Button CmdLoeschen;
         private System.Windows.Forms.Label LblStatus;
         private System.Windows.Forms.Button CmdDashboard;
+        private System.Windows.Forms.Button CmdCsvImport;
     }
 }

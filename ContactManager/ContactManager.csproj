@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CsvImporter.cs" />
     <Compile Include="Controller\Datenspeicher.cs" />
     <Compile Include="Controller\Kontaktverwaltung.cs" />
     <Compile Include="Model\Anrede.cs" />
