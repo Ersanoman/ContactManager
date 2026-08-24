@@ -6,15 +6,25 @@ using ContactManager.Model;
 
 namespace ContactManager.Controller
 {
-    // Liest Kundendaten aus einer CSV-Datei ein (z.B. aus Excel exportiert).
+    // Liest Kontakte aus einer CSV-Datei ein (z.B. aus Excel exportiert).
+    // Die erste Spalte bestimmt, welche Art von Person erzeugt wird:
+    // "Kunde", "Mitarbeiter" oder "Lernender". So kann mit einer einzigen
+    // Datei die ganze Vererbungshierarchie importiert werden.
+    //
     // Aufbau einer Zeile, getrennt mit Strichpunkt:
-    // Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
-    // TelefonGeschaeft;Mobiltelefon;EMail;Status
+    // Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
+    // TelefonGeschaeft;Mobiltelefon;EMail;Status;
+    // Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;
+    // Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;
+    // Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
+    //
+    // Bei Kunden bleiben die Spalten ab "Abteilung" leer.
     // Die erste Zeile darf eine Überschriftszeile sein, sie wird übersprungen.
     public class CsvImporter
     {
-        // So viele Spalten muss eine gültige Zeile haben
-        private const int AnzahlSpalten = 10;
+        // So viele Spalten braucht es mindestens (die Angaben, welche
+        // jede Person hat). Die Mitarbeiterspalten dürfen fehlen.
+        private const int MinimaleSpalten = 11;
 
         // Anzahl der Zeilen, die nicht eingelesen werden konnten
         public int AnzahlFehlerhaft { get; private set; }
@@ -28,12 +38,12 @@ namespace ContactManager.Controller
             Fehlermeldungen = "";
         }
 
-        // Liest die CSV-Datei ein und gibt alle gültigen Kunden zurück.
+        // Liest die CSV-Datei ein und gibt alle gültigen Kontakte zurück.
         // Fehlerhafte Zeilen werden übersprungen und gezählt, damit der
         // Import wegen einer einzelnen kaputten Zeile nicht abbricht.
-        public List<Kunde> Einlesen(string dateipfad)
+        public List<Person> Einlesen(string dateipfad)
         {
-            List<Kunde> kunden = new List<Kunde>();
+            List<Person> kontakte = new List<Person>();
             AnzahlFehlerhaft = 0;
             Fehlermeldungen = "";
 
@@ -53,14 +63,14 @@ namespace ContactManager.Controller
                 }
 
                 // Überschriftszeile überspringen (nur die allererste Zeile)
-                if (i == 0 && zeile.ToLower().StartsWith("anrede"))
+                if (i == 0 && zeile.ToLower().StartsWith("typ"))
                 {
                     continue;
                 }
 
                 try
                 {
-                    kunden.Add(ZeileUmwandeln(zeile));
+                    kontakte.Add(ZeileUmwandeln(zeile));
                 }
                 catch (Exception ex)
                 {
@@ -70,43 +80,115 @@ namespace ContactManager.Controller
                 }
             }
 
-            return kunden;
+            return kontakte;
         }
 
-        // Wandelt eine einzelne CSV-Zeile in einen Kunden um.
-        // Stimmt etwas nicht, wird eine Exception ausgelöst, die von der
-        // Methode Einlesen aufgefangen wird.
-        private Kunde ZeileUmwandeln(string zeile)
+        // Wandelt eine einzelne CSV-Zeile in einen Kunden, einen Mitarbeiter
+        // oder einen Lernenden um. Stimmt etwas nicht, wird eine Exception
+        // ausgelöst, die von der Methode Einlesen aufgefangen wird.
+        private Person ZeileUmwandeln(string zeile)
         {
             string[] teile = zeile.Split(';');
 
-            if (teile.Length < AnzahlSpalten)
+            if (teile.Length < MinimaleSpalten)
             {
                 throw new Exception("Die Zeile hat nur " + teile.Length +
-                                    " statt " + AnzahlSpalten + " Spalten.");
+                                    " statt mindestens " + MinimaleSpalten + " Spalten.");
             }
 
             // Vorname und Nachname sind Pflichtfelder
-            if (teile[2].Trim() == "" || teile[3].Trim() == "")
+            if (Feld(teile, 3) == "" || Feld(teile, 4) == "")
             {
                 throw new Exception("Vorname oder Nachname fehlt.");
             }
 
-            Kunde kunde = new Kunde();
-            kunde.Anrede = AnredeUmwandeln(teile[0].Trim());
-            kunde.Titel = teile[1].Trim();
-            kunde.Vorname = teile[2].Trim();
-            kunde.Nachname = teile[3].Trim();
-            kunde.Geburtsdatum = DatumUmwandeln(teile[4].Trim());
-            kunde.Geschlecht = GeschlechtUmwandeln(teile[5].Trim());
-            kunde.TelefonnummerGeschaeft = teile[6].Trim();
-            kunde.Mobiltelefonnummer = teile[7].Trim();
-            kunde.EMailAdresse = teile[8].Trim();
+            // Die erste Spalte entscheidet, welches Objekt erzeugt wird
+            Person person = PersonErzeugen(Feld(teile, 0));
+
+            // Die Angaben, welche jede Person hat (aus der Basisklasse)
+            person.Anrede = AnredeUmwandeln(Feld(teile, 1));
+            person.Titel = Feld(teile, 2);
+            person.Vorname = Feld(teile, 3);
+            person.Nachname = Feld(teile, 4);
+            person.Geburtsdatum = DatumUmwandeln(Feld(teile, 5));
+            person.Geschlecht = GeschlechtUmwandeln(Feld(teile, 6));
+            person.TelefonnummerGeschaeft = Feld(teile, 7);
+            person.Mobiltelefonnummer = Feld(teile, 8);
+            person.EMailAdresse = Feld(teile, 9);
 
             // Alles ausser dem Wort "passiv" gilt als aktiv
-            kunde.Aktiv = teile[9].Trim().ToLower() != "passiv";
+            person.Aktiv = Feld(teile, 10).ToLower() != "passiv";
 
-            return kunde;
+            // Die zusätzlichen Angaben nur bei Mitarbeitern und Lernenden
+            if (person is Mitarbeiter)
+            {
+                MitarbeiterFeldenFuellen((Mitarbeiter)person, teile);
+            }
+
+            // Und die Lehrangaben nur bei Lernenden
+            if (person is Lernender)
+            {
+                Lernender lernender = (Lernender)person;
+                lernender.Lehrjahre = ZahlUmwandeln(Feld(teile, 23), 3);
+                lernender.AktuellesLehrjahr = ZahlUmwandeln(Feld(teile, 24), 1);
+            }
+
+            return person;
+        }
+
+        // Erzeugt anhand der Typ-Spalte das passende Objekt der
+        // Vererbungshierarchie
+        private Person PersonErzeugen(string typ)
+        {
+            string kleingeschrieben = typ.ToLower();
+
+            if (kleingeschrieben == "kunde")
+            {
+                return new Kunde();
+            }
+            else if (kleingeschrieben == "mitarbeiter")
+            {
+                return new Mitarbeiter();
+            }
+            else if (kleingeschrieben == "lernender")
+            {
+                return new Lernender();
+            }
+
+            throw new Exception("Unbekannter Typ '" + typ +
+                                "'. Erlaubt sind Kunde, Mitarbeiter oder Lernender.");
+        }
+
+        // Füllt die Angaben ab, welche nur Mitarbeiter (und damit auch
+        // Lernende) besitzen. Die Mitarbeiternummer wird nicht eingelesen,
+        // diese vergibt die Kontaktverwaltung automatisch.
+        private void MitarbeiterFeldenFuellen(Mitarbeiter mitarbeiter, string[] teile)
+        {
+            mitarbeiter.Abteilung = Feld(teile, 11);
+            mitarbeiter.AhvNummer = Feld(teile, 12);
+            mitarbeiter.Adresse = Feld(teile, 13);
+            mitarbeiter.Postleitzahl = Feld(teile, 14);
+            mitarbeiter.Wohnort = Feld(teile, 15);
+            mitarbeiter.Nationalitaet = Feld(teile, 16);
+            mitarbeiter.Eintrittsdatum = DatumUmwandelnOptional(Feld(teile, 17), DateTime.Today);
+            mitarbeiter.Austrittsdatum = DatumUmwandelnOptional(Feld(teile, 18), DateTime.MinValue);
+            mitarbeiter.Beschaeftigungsgrad = ZahlUmwandeln(Feld(teile, 19), 100);
+            mitarbeiter.Rolle = Feld(teile, 20);
+            mitarbeiter.Kaderstufe = ZahlUmwandeln(Feld(teile, 21), 0);
+            mitarbeiter.Geschaeftsadresse = Feld(teile, 22);
+        }
+
+        // Gibt den Inhalt einer Spalte zurück. Fehlt die Spalte in der
+        // Zeile (z.B. bei einer Kundenzeile ohne Mitarbeiterangaben),
+        // wird ein leerer Text geliefert statt ein Absturz ausgelöst.
+        private string Feld(string[] teile, int index)
+        {
+            if (index < teile.Length)
+            {
+                return teile[index].Trim();
+            }
+
+            return "";
         }
 
         // Wandelt einen Text im Format TT.MM.JJJJ in ein Datum um.
@@ -118,7 +200,7 @@ namespace ContactManager.Controller
 
             if (teile.Length != 3)
             {
-                throw new Exception("Das Geburtsdatum '" + text +
+                throw new Exception("Das Datum '" + text +
                                     "' hat nicht das Format TT.MM.JJJJ.");
             }
 
@@ -131,7 +213,39 @@ namespace ContactManager.Controller
             }
             catch (Exception)
             {
-                throw new Exception("Das Geburtsdatum '" + text + "' ist ungültig.");
+                throw new Exception("Das Datum '" + text + "' ist ungültig.");
+            }
+        }
+
+        // Wie DatumUmwandeln, aber die Spalte darf auch leer sein.
+        // In diesem Fall wird der übergebene Standardwert verwendet
+        // (z.B. für ein fehlendes Austrittsdatum).
+        private DateTime DatumUmwandelnOptional(string text, DateTime standardwert)
+        {
+            if (text == "")
+            {
+                return standardwert;
+            }
+
+            return DatumUmwandeln(text);
+        }
+
+        // Wandelt einen Text in eine ganze Zahl um. Ist die Spalte leer,
+        // wird der Standardwert verwendet.
+        private int ZahlUmwandeln(string text, int standardwert)
+        {
+            if (text == "")
+            {
+                return standardwert;
+            }
+
+            try
+            {
+                return Convert.ToInt32(text);
+            }
+            catch (Exception)
+            {
+                throw new Exception("'" + text + "' ist keine gültige Zahl.");
             }
         }
 

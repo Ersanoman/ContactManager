@@ -252,14 +252,14 @@ namespace ContactManager.View
             }
         }
 
-        // Importiert Kunden aus einer CSV-Datei. Der Benutzer wählt die
-        // Datei aus, danach werden alle gültigen Zeilen als Kunden erfasst.
-        // Bereits vorhandene Personen werden übersprungen, damit dieselbe
-        // Datei nicht doppelt importiert werden kann.
+        // Importiert Kontakte aus einer CSV-Datei. Die erste Spalte der
+        // Datei bestimmt, ob ein Kunde, ein Mitarbeiter oder ein Lernender
+        // erfasst wird. Bereits vorhandene Personen werden übersprungen,
+        // damit dieselbe Datei nicht doppelt importiert werden kann.
         private void CmdCsvImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog dateiauswahl = new OpenFileDialog();
-            dateiauswahl.Title = "CSV-Datei mit Kunden auswählen";
+            dateiauswahl.Title = "CSV-Datei mit Kontakten auswählen";
             dateiauswahl.Filter = "CSV-Dateien (*.csv)|*.csv|Alle Dateien (*.*)|*.*";
 
             if (dateiauswahl.ShowDialog() != DialogResult.OK)
@@ -270,20 +270,22 @@ namespace ContactManager.View
             try
             {
                 CsvImporter importer = new CsvImporter();
-                List<Kunde> geleseneKunden = importer.Einlesen(dateiauswahl.FileName);
+                List<Person> geleseneKontakte = importer.Einlesen(dateiauswahl.FileName);
 
                 int importiert = 0;
                 int uebersprungen = 0;
 
-                foreach (Kunde kunde in geleseneKunden)
+                foreach (Person kontakt in geleseneKontakte)
                 {
-                    if (verwaltung.ExistiertBereits(kunde))
+                    if (verwaltung.ExistiertBereits(kontakt))
                     {
                         uebersprungen++;
                     }
                     else
                     {
-                        verwaltung.Hinzufuegen(kunde);
+                        // Mitarbeiter und Lernende erhalten hier automatisch
+                        // ihre Mitarbeiternummer
+                        verwaltung.Hinzufuegen(kontakt);
                         importiert++;
                     }
                 }
@@ -302,7 +304,7 @@ namespace ContactManager.View
         // Zeigt dem Benutzer nach dem Import an, was genau passiert ist
         private void MeldungNachImport(int importiert, int uebersprungen, CsvImporter importer)
         {
-            string meldung = "Neu importiert: " + importiert + " Kunden\n" +
+            string meldung = "Neu importiert: " + importiert + " Kontakte\n" +
                              "Übersprungen (schon vorhanden): " + uebersprungen + "\n" +
                              "Fehlerhafte Zeilen: " + importer.AnzahlFehlerhaft;
 

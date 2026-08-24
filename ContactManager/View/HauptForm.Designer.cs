@@ -246,7 +246,7 @@
             this.CmdCsvImport.Name = "CmdCsvImport";
             this.CmdCsvImport.Size = new System.Drawing.Size(164, 34);
             this.CmdCsvImport.TabIndex = 8;
-            this.CmdCsvImport.Text = "Kunden importieren (CSV)";
+            this.CmdCsvImport.Text = "Kontakte importieren (CSV)";
             this.CmdCsvImport.UseVisualStyleBackColor = true;
             this.CmdCsvImport.Click += new System.EventHandler(this.CmdCsvImport_Click);
             //
