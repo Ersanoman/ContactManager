@@ -97,7 +97,7 @@
             //
             this.CmbAnrede.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbAnrede.FormattingEnabled = true;
-            this.CmbAnrede.Location = new System.Drawing.Point(125, 27);
+            this.CmbAnrede.Location = new System.Drawing.Point(140, 27);
             this.CmbAnrede.Name = "CmbAnrede";
             this.CmbAnrede.Size = new System.Drawing.Size(100, 21);
             this.CmbAnrede.TabIndex = 1;
@@ -113,9 +113,10 @@
             //
             // TxtTitel
             //
-            this.TxtTitel.Location = new System.Drawing.Point(125, 59);
+            this.TxtTitel.Location = new System.Drawing.Point(140, 59);
             this.TxtTitel.Name = "TxtTitel";
-            this.TxtTitel.Size = new System.Drawing.Size(195, 20);
+            this.TxtTitel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtTitel.Size = new System.Drawing.Size(190, 23);
             this.TxtTitel.TabIndex = 3;
             //
             // LblVorname
@@ -129,9 +130,10 @@
             //
             // TxtVorname
             //
-            this.TxtVorname.Location = new System.Drawing.Point(125, 91);
+            this.TxtVorname.Location = new System.Drawing.Point(140, 91);
             this.TxtVorname.Name = "TxtVorname";
-            this.TxtVorname.Size = new System.Drawing.Size(195, 20);
+            this.TxtVorname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtVorname.Size = new System.Drawing.Size(190, 23);
             this.TxtVorname.TabIndex = 5;
             //
             // LblNachname
@@ -145,9 +147,10 @@
             //
             // TxtNachname
             //
-            this.TxtNachname.Location = new System.Drawing.Point(125, 123);
+            this.TxtNachname.Location = new System.Drawing.Point(140, 123);
             this.TxtNachname.Name = "TxtNachname";
-            this.TxtNachname.Size = new System.Drawing.Size(195, 20);
+            this.TxtNachname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtNachname.Size = new System.Drawing.Size(190, 23);
             this.TxtNachname.TabIndex = 7;
             //
             // LblGeburtsdatum
@@ -162,7 +165,7 @@
             // DtpGeburtsdatum
             //
             this.DtpGeburtsdatum.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtpGeburtsdatum.Location = new System.Drawing.Point(125, 155);
+            this.DtpGeburtsdatum.Location = new System.Drawing.Point(140, 155);
             this.DtpGeburtsdatum.Name = "DtpGeburtsdatum";
             this.DtpGeburtsdatum.Size = new System.Drawing.Size(120, 20);
             this.DtpGeburtsdatum.TabIndex = 9;
@@ -180,7 +183,7 @@
             //
             this.CmbGeschlecht.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGeschlecht.FormattingEnabled = true;
-            this.CmbGeschlecht.Location = new System.Drawing.Point(125, 187);
+            this.CmbGeschlecht.Location = new System.Drawing.Point(140, 187);
             this.CmbGeschlecht.Name = "CmbGeschlecht";
             this.CmbGeschlecht.Size = new System.Drawing.Size(120, 21);
             this.CmbGeschlecht.TabIndex = 11;
@@ -188,7 +191,7 @@
             // ChkAktiv
             //
             this.ChkAktiv.AutoSize = true;
-            this.ChkAktiv.Location = new System.Drawing.Point(125, 215);
+            this.ChkAktiv.Location = new System.Drawing.Point(140, 215);
             this.ChkAktiv.Name = "ChkAktiv";
             this.ChkAktiv.Size = new System.Drawing.Size(48, 17);
             this.ChkAktiv.TabIndex = 12;
@@ -221,9 +224,10 @@
             //
             // TxtTelefonGeschaeft
             //
-            this.TxtTelefonGeschaeft.Location = new System.Drawing.Point(125, 27);
+            this.TxtTelefonGeschaeft.Location = new System.Drawing.Point(140, 27);
             this.TxtTelefonGeschaeft.Name = "TxtTelefonGeschaeft";
-            this.TxtTelefonGeschaeft.Size = new System.Drawing.Size(195, 20);
+            this.TxtTelefonGeschaeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtTelefonGeschaeft.Size = new System.Drawing.Size(190, 23);
             this.TxtTelefonGeschaeft.TabIndex = 1;
             this.TxtTelefonGeschaeft.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTelefon_KeyPress);
             //
@@ -238,9 +242,10 @@
             //
             // TxtMobiltelefon
             //
-            this.TxtMobiltelefon.Location = new System.Drawing.Point(125, 59);
+            this.TxtMobiltelefon.Location = new System.Drawing.Point(140, 59);
             this.TxtMobiltelefon.Name = "TxtMobiltelefon";
-            this.TxtMobiltelefon.Size = new System.Drawing.Size(195, 20);
+            this.TxtMobiltelefon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtMobiltelefon.Size = new System.Drawing.Size(190, 23);
             this.TxtMobiltelefon.TabIndex = 3;
             this.TxtMobiltelefon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTelefon_KeyPress);
             //
@@ -255,9 +260,10 @@
             //
             // TxtEMail
             //
-            this.TxtEMail.Location = new System.Drawing.Point(125, 91);
+            this.TxtEMail.Location = new System.Drawing.Point(140, 91);
             this.TxtEMail.Name = "TxtEMail";
-            this.TxtEMail.Size = new System.Drawing.Size(195, 20);
+            this.TxtEMail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtEMail.Size = new System.Drawing.Size(190, 23);
             this.TxtEMail.TabIndex = 5;
             //
             // GrpHistorie
@@ -279,6 +285,8 @@
             this.LstKontakthistorie.HorizontalScrollbar = true;
             this.LstKontakthistorie.Location = new System.Drawing.Point(12, 24);
             this.LstKontakthistorie.Name = "LstKontakthistorie";
+            this.LstKontakthistorie.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LstKontakthistorie.BackColor = System.Drawing.Color.White;
             this.LstKontakthistorie.Size = new System.Drawing.Size(320, 212);
             this.LstKontakthistorie.TabIndex = 0;
             //
@@ -297,6 +305,7 @@
             this.TxtNeueNotiz.Location = new System.Drawing.Point(12, 274);
             this.TxtNeueNotiz.Multiline = true;
             this.TxtNeueNotiz.Name = "TxtNeueNotiz";
+            this.TxtNeueNotiz.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtNeueNotiz.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TxtNeueNotiz.Size = new System.Drawing.Size(320, 110);
             this.TxtNeueNotiz.TabIndex = 2;
@@ -305,20 +314,30 @@
             //
             this.CmdNotizHinzufuegen.Location = new System.Drawing.Point(12, 392);
             this.CmdNotizHinzufuegen.Name = "CmdNotizHinzufuegen";
+            this.CmdNotizHinzufuegen.BackColor = System.Drawing.Color.White;
+            this.CmdNotizHinzufuegen.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(200, 200, 200);
+            this.CmdNotizHinzufuegen.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(235, 240, 245);
+            this.CmdNotizHinzufuegen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CmdNotizHinzufuegen.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51);
             this.CmdNotizHinzufuegen.Size = new System.Drawing.Size(150, 30);
             this.CmdNotizHinzufuegen.TabIndex = 3;
             this.CmdNotizHinzufuegen.Text = "Notiz hinzufügen";
-            this.CmdNotizHinzufuegen.UseVisualStyleBackColor = true;
+            this.CmdNotizHinzufuegen.UseVisualStyleBackColor = false;
             this.CmdNotizHinzufuegen.Click += new System.EventHandler(this.CmdNotizHinzufuegen_Click);
             //
             // CmdSpeichern
             //
             this.CmdSpeichern.Location = new System.Drawing.Point(484, 486);
             this.CmdSpeichern.Name = "CmdSpeichern";
+            this.CmdSpeichern.BackColor = System.Drawing.Color.FromArgb(31, 78, 121);
+            this.CmdSpeichern.FlatAppearance.BorderSize = 0;
+            this.CmdSpeichern.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(42, 100, 150);
+            this.CmdSpeichern.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CmdSpeichern.ForeColor = System.Drawing.Color.White;
             this.CmdSpeichern.Size = new System.Drawing.Size(100, 36);
             this.CmdSpeichern.TabIndex = 3;
             this.CmdSpeichern.Text = "Speichern";
-            this.CmdSpeichern.UseVisualStyleBackColor = true;
+            this.CmdSpeichern.UseVisualStyleBackColor = false;
             this.CmdSpeichern.Click += new System.EventHandler(this.CmdSpeichern_Click);
             //
             // CmdAbbrechen
@@ -326,10 +345,15 @@
             this.CmdAbbrechen.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CmdAbbrechen.Location = new System.Drawing.Point(604, 486);
             this.CmdAbbrechen.Name = "CmdAbbrechen";
+            this.CmdAbbrechen.BackColor = System.Drawing.Color.White;
+            this.CmdAbbrechen.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(200, 200, 200);
+            this.CmdAbbrechen.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(235, 240, 245);
+            this.CmdAbbrechen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CmdAbbrechen.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51);
             this.CmdAbbrechen.Size = new System.Drawing.Size(100, 36);
             this.CmdAbbrechen.TabIndex = 4;
             this.CmdAbbrechen.Text = "Abbrechen";
-            this.CmdAbbrechen.UseVisualStyleBackColor = true;
+            this.CmdAbbrechen.UseVisualStyleBackColor = false;
             this.CmdAbbrechen.Click += new System.EventHandler(this.CmdAbbrechen_Click);
             //
             // LblPflichtfeld
@@ -343,7 +367,7 @@
             //
             // KundeForm
             //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CmdAbbrechen;
             this.ClientSize = new System.Drawing.Size(716, 536);
@@ -356,6 +380,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.BackColor = System.Drawing.Color.White;
             this.Name = "KundeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Kunde";

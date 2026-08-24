@@ -82,8 +82,10 @@
             // LblTotalWert
             //
             this.LblTotalWert.AutoSize = true;
-            this.LblTotalWert.Location = new System.Drawing.Point(200, 28);
+            this.LblTotalWert.Location = new System.Drawing.Point(210, 28);
             this.LblTotalWert.Name = "LblTotalWert";
+            this.LblTotalWert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblTotalWert.ForeColor = System.Drawing.Color.FromArgb(31, 78, 121);
             this.LblTotalWert.Size = new System.Drawing.Size(13, 13);
             this.LblTotalWert.TabIndex = 1;
             this.LblTotalWert.Text = "0";
@@ -100,8 +102,10 @@
             // LblKundenWert
             //
             this.LblKundenWert.AutoSize = true;
-            this.LblKundenWert.Location = new System.Drawing.Point(200, 55);
+            this.LblKundenWert.Location = new System.Drawing.Point(210, 55);
             this.LblKundenWert.Name = "LblKundenWert";
+            this.LblKundenWert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblKundenWert.ForeColor = System.Drawing.Color.FromArgb(31, 78, 121);
             this.LblKundenWert.Size = new System.Drawing.Size(13, 13);
             this.LblKundenWert.TabIndex = 3;
             this.LblKundenWert.Text = "0";
@@ -118,8 +122,10 @@
             // LblMitarbeiterWert
             //
             this.LblMitarbeiterWert.AutoSize = true;
-            this.LblMitarbeiterWert.Location = new System.Drawing.Point(200, 82);
+            this.LblMitarbeiterWert.Location = new System.Drawing.Point(210, 82);
             this.LblMitarbeiterWert.Name = "LblMitarbeiterWert";
+            this.LblMitarbeiterWert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblMitarbeiterWert.ForeColor = System.Drawing.Color.FromArgb(31, 78, 121);
             this.LblMitarbeiterWert.Size = new System.Drawing.Size(13, 13);
             this.LblMitarbeiterWert.TabIndex = 5;
             this.LblMitarbeiterWert.Text = "0";
@@ -136,8 +142,10 @@
             // LblLernendeWert
             //
             this.LblLernendeWert.AutoSize = true;
-            this.LblLernendeWert.Location = new System.Drawing.Point(200, 109);
+            this.LblLernendeWert.Location = new System.Drawing.Point(210, 109);
             this.LblLernendeWert.Name = "LblLernendeWert";
+            this.LblLernendeWert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblLernendeWert.ForeColor = System.Drawing.Color.FromArgb(31, 78, 121);
             this.LblLernendeWert.Size = new System.Drawing.Size(13, 13);
             this.LblLernendeWert.TabIndex = 7;
             this.LblLernendeWert.Text = "0";
@@ -167,8 +175,10 @@
             // LblAktivWert
             //
             this.LblAktivWert.AutoSize = true;
-            this.LblAktivWert.Location = new System.Drawing.Point(200, 28);
+            this.LblAktivWert.Location = new System.Drawing.Point(210, 28);
             this.LblAktivWert.Name = "LblAktivWert";
+            this.LblAktivWert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblAktivWert.ForeColor = System.Drawing.Color.FromArgb(31, 78, 121);
             this.LblAktivWert.Size = new System.Drawing.Size(13, 13);
             this.LblAktivWert.TabIndex = 1;
             this.LblAktivWert.Text = "0";
@@ -185,8 +195,10 @@
             // LblPassivWert
             //
             this.LblPassivWert.AutoSize = true;
-            this.LblPassivWert.Location = new System.Drawing.Point(200, 55);
+            this.LblPassivWert.Location = new System.Drawing.Point(210, 55);
             this.LblPassivWert.Name = "LblPassivWert";
+            this.LblPassivWert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblPassivWert.ForeColor = System.Drawing.Color.FromArgb(31, 78, 121);
             this.LblPassivWert.Size = new System.Drawing.Size(13, 13);
             this.LblPassivWert.TabIndex = 3;
             this.LblPassivWert.Text = "0";
@@ -216,8 +228,10 @@
             // LblNotizenWert
             //
             this.LblNotizenWert.AutoSize = true;
-            this.LblNotizenWert.Location = new System.Drawing.Point(200, 28);
+            this.LblNotizenWert.Location = new System.Drawing.Point(210, 28);
             this.LblNotizenWert.Name = "LblNotizenWert";
+            this.LblNotizenWert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblNotizenWert.ForeColor = System.Drawing.Color.FromArgb(31, 78, 121);
             this.LblNotizenWert.Size = new System.Drawing.Size(13, 13);
             this.LblNotizenWert.TabIndex = 1;
             this.LblNotizenWert.Text = "0";
@@ -234,8 +248,10 @@
             // LblNaechsteNummerWert
             //
             this.LblNaechsteNummerWert.AutoSize = true;
-            this.LblNaechsteNummerWert.Location = new System.Drawing.Point(200, 55);
+            this.LblNaechsteNummerWert.Location = new System.Drawing.Point(210, 55);
             this.LblNaechsteNummerWert.Name = "LblNaechsteNummerWert";
+            this.LblNaechsteNummerWert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.LblNaechsteNummerWert.ForeColor = System.Drawing.Color.FromArgb(31, 78, 121);
             this.LblNaechsteNummerWert.Size = new System.Drawing.Size(13, 13);
             this.LblNaechsteNummerWert.TabIndex = 3;
             this.LblNaechsteNummerWert.Text = "0";
@@ -245,15 +261,20 @@
             this.CmdSchliessen.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CmdSchliessen.Location = new System.Drawing.Point(212, 370);
             this.CmdSchliessen.Name = "CmdSchliessen";
+            this.CmdSchliessen.BackColor = System.Drawing.Color.White;
+            this.CmdSchliessen.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(200, 200, 200);
+            this.CmdSchliessen.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(235, 240, 245);
+            this.CmdSchliessen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CmdSchliessen.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51);
             this.CmdSchliessen.Size = new System.Drawing.Size(100, 32);
             this.CmdSchliessen.TabIndex = 3;
             this.CmdSchliessen.Text = "Schliessen";
-            this.CmdSchliessen.UseVisualStyleBackColor = true;
+            this.CmdSchliessen.UseVisualStyleBackColor = false;
             this.CmdSchliessen.Click += new System.EventHandler(this.CmdSchliessen_Click);
             //
             // DashboardForm
             //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CmdSchliessen;
             this.ClientSize = new System.Drawing.Size(324, 414);
@@ -264,6 +285,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.BackColor = System.Drawing.Color.White;
             this.Name = "DashboardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Dashboard";

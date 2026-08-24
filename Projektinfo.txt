@@ -1,4 +1,4 @@
-Semesterprojekt Contact Manager
+﻿Semesterprojekt Contact Manager
 Programming Foundation II
 
 Gruppenmitglieder:
@@ -22,6 +22,10 @@ Was funktioniert:
 - Die Auswahl in der Liste bleibt nach dem Bearbeiten oder nach einem
   Statuswechsel erhalten
 - Die Suche kann auch mit der Enter-Taste ausgelöst werden
+- Moderne Benutzeroberfläche: Schriftart Segoe UI, farbige Kopfzeile,
+  Suche und Liste als abgesetzte Flächen, nach Aufgabe gruppierte
+  Schaltflächen (Neu erfassen / Ausgewählte Person / Werkzeuge)
+  sowie eine Statuszeile am unteren Rand
 - Automatisches Speichern nach jeder Änderung und automatisches Laden
   beim Programmstart (XML-Datei "kontaktdaten.xml" im Programmordner)
 - Eingabevalidierung:
