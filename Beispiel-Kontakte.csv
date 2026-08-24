@@ -1,0 +1,12 @@
+﻿Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;TelefonGeschaeft;Mobiltelefon;EMail;Status;Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
+Kunde;Frau;Dr.;Anna;Müller;17.05.1985;Weiblich;071 222 33 44;079 555 66 77;anna.mueller@example.ch;aktiv
+Kunde;Herr;;Beat;Schäfli;02.11.1979;Männlich;071 222 33 45;079 555 66 78;beat.schaefli@example.ch;aktiv
+Kunde;Frau;;Céline;Roth;23.09.1992;Weiblich;044 111 22 33;076 444 55 66;celine.roth@example.ch;aktiv
+Kunde;Herr;;Marco;Bernasconi;08.03.1968;Männlich;091 333 44 55;078 222 33 44;m.bernasconi@example.ch;passiv
+Kunde;Frau;;Ursula;Wyss;30.01.1974;Weiblich;031 555 66 77;079 888 99 00;u.wyss@example.ch;aktiv
+Kunde;Herr;;Jonas;Zimmermann;14.07.2001;Männlich;062 777 88 99;076 111 22 33;jonas.z@example.ch;aktiv
+Mitarbeiter;Herr;;Peter;Frei;12.04.1982;Männlich;071 200 10 01;079 300 10 01;p.frei@example.ch;aktiv;Informatik;756.1234.5678.97;Bahnhofstrasse 4;9000;St. Gallen;Schweiz;01.03.2015;;100;Softwareentwickler;2;Gaiserwaldstrasse 6, 9015 St. Gallen
+Mitarbeiter;Frau;;Sandra;Keller;25.08.1990;Weiblich;071 200 10 02;079 300 10 02;s.keller@example.ch;aktiv;Verkauf;756.2345.6789.08;Rosenweg 12;9200;Gossau;Schweiz;01.09.2019;;80;Verkaufsberaterin;1;Gaiserwaldstrasse 6, 9015 St. Gallen
+Mitarbeiter;Herr;;Thomas;Iten;03.02.1975;Männlich;071 200 10 03;079 300 10 03;t.iten@example.ch;passiv;Finanzen;756.3456.7890.19;Seestrasse 8;8640;Rapperswil;Schweiz;01.01.2010;31.12.2024;100;Buchhalter;3;Gaiserwaldstrasse 6, 9015 St. Gallen
+Lernender;Frau;;Lea;Widmer;28.02.2008;Weiblich;071 200 10 04;079 300 10 04;l.widmer@example.ch;aktiv;Informatik;756.4567.8901.20;Feldweg 3;9100;Herisau;Schweiz;01.08.2024;;100;Lernende Informatikerin;0;Gaiserwaldstrasse 6, 9015 St. Gallen;4;2
+Lernender;Herr;;Nino;Aebi;15.06.2007;Männlich;071 200 10 05;079 300 10 05;n.aebi@example.ch;aktiv;Logistik;756.5678.9012.31;Dorfstrasse 21;9300;Wittenbach;Schweiz;01.08.2023;;100;Lernender Logistiker;0;Gaiserwaldstrasse 6, 9015 St. Gallen;3;3

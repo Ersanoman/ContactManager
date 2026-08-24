@@ -21,6 +21,7 @@ Was funktioniert:
   (selbst implementierter Bubblesort in der Kontaktverwaltung)
 - Die Auswahl in der Liste bleibt nach dem Bearbeiten oder nach einem
   Statuswechsel erhalten
+- Die Suche kann auch mit der Enter-Taste ausgelöst werden
 - Automatisches Speichern nach jeder Änderung und automatisches Laden
   beim Programmstart (XML-Datei "kontaktdaten.xml" im Programmordner)
 - Eingabevalidierung:
@@ -41,10 +42,23 @@ Zusätzlich umgesetzte optionale Anforderungen:
 - Dashboard: zeigt eine Übersicht über den Datenstamm (Anzahl Kunden,
   Mitarbeiter, Lernende, aktive und passive Personen, erfasste
   Kundennotizen sowie die nächste freie Mitarbeiternummer)
-- CSV-Import für Kunden: liest eine mit Strichpunkt getrennte Datei ein
-  (Beispieldatei "Beispiel-Kunden.csv" liegt im Projekt).
-  Fehlerhafte Zeilen werden übersprungen und dem Benutzer gemeldet,
-  bereits vorhandene Personen werden nicht doppelt importiert.
+- CSV-Import: liest Kunden, Mitarbeiter UND Lernende aus einer mit
+  Strichpunkt getrennten Datei ein. Die erste Spalte "Typ" bestimmt,
+  welche Art von Person erzeugt wird. Mitarbeiter und Lernende erhalten
+  beim Import automatisch ihre Mitarbeiternummer.
+  Fehlerhafte Zeilen werden übersprungen und dem Benutzer mit
+  Zeilennummer gemeldet, bereits vorhandene Personen werden nicht
+  doppelt importiert.
+  Dem Projekt liegen zwei Beispieldateien bei:
+  * "Beispiel-Kontakte.csv" enthält 11 fehlerfreie Kontakte
+    (6 Kunden, 3 Mitarbeiter, 2 Lernende).
+  * "Beispiel-Kontakte-mit-Fehlern.csv" enthält absichtlich fehlerhafte
+    Zeilen sowie einen bereits vorhandenen Kunden. Damit lässt sich
+    zeigen, dass das Programm bei fehlerhaften Daten nicht abstürzt.
+    Enthaltene Fehler: ungültiges Datum (31.02.2000), fehlender Vorname,
+    zu wenige Spalten, unbekannter Typ, Text statt Zahl.
+    Erwartetes Resultat nach dem Import der ersten Datei:
+    2 neu importiert, 1 übersprungen, 5 fehlerhafte Zeilen.
 
 Was nicht funktioniert / bewusste Einschränkungen:
 ---------------------------------------------------
@@ -60,6 +74,12 @@ Zusatzinformationen:
   wie die ContactManager.exe gespeichert (bin\Debug bzw. bin\Release)
 - Architektur: Model-View-Controller-Prinzip mit Vererbungshierarchie
   Person -> Kunde und Person -> Mitarbeiter -> Lernender
-- Aufbau einer Zeile in der CSV-Datei:
-  Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
-  TelefonGeschaeft;Mobiltelefon;EMail;Status
+- Aufbau einer Zeile in der CSV-Datei (Trennzeichen ist der Strichpunkt):
+  Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
+  TelefonGeschaeft;Mobiltelefon;EMail;Status;
+  Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;
+  Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;
+  Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
+  Erlaubte Werte für "Typ": Kunde, Mitarbeiter oder Lernender.
+  Bei Kunden dürfen die Spalten ab "Abteilung" ganz weggelassen werden,
+  bei Mitarbeitern die beiden letzten Spalten zu den Lehrjahren.
