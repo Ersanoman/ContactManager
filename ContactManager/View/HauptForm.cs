@@ -251,5 +251,14 @@ namespace ContactManager.View
                 AnsichtAktualisieren();
             }
         }
+
+        // Öffnet das Dashboard mit der Übersicht über den Datenstamm.
+        // Die Kontaktverwaltung wird übergeben, damit beide Fenster mit
+        // denselben Daten arbeiten.
+        private void CmdDashboard_Click(object sender, EventArgs e)
+        {
+            DashboardForm dialog = new DashboardForm(verwaltung);
+            dialog.ShowDialog();
+        }
     }
 }

@@ -46,6 +46,7 @@
             this.CmdAktivPassiv = new System.Windows.Forms.Button();
             this.CmdLoeschen = new System.Windows.Forms.Button();
             this.LblStatus = new System.Windows.Forms.Label();
+            this.CmdDashboard = new System.Windows.Forms.Button();
             this.GrpSuche.SuspendLayout();
             this.SuspendLayout();
             //
@@ -226,6 +227,17 @@
             this.CmdLoeschen.UseVisualStyleBackColor = true;
             this.CmdLoeschen.Click += new System.EventHandler(this.CmdLoeschen_Click);
             //
+            // CmdDashboard
+            //
+            this.CmdDashboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmdDashboard.Location = new System.Drawing.Point(684, 236);
+            this.CmdDashboard.Name = "CmdDashboard";
+            this.CmdDashboard.Size = new System.Drawing.Size(164, 34);
+            this.CmdDashboard.TabIndex = 7;
+            this.CmdDashboard.Text = "Dashboard";
+            this.CmdDashboard.UseVisualStyleBackColor = true;
+            this.CmdDashboard.Click += new System.EventHandler(this.CmdDashboard_Click);
+            //
             // LblStatus
             //
             this.LblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -233,7 +245,7 @@
             this.LblStatus.Location = new System.Drawing.Point(12, 552);
             this.LblStatus.Name = "LblStatus";
             this.LblStatus.Size = new System.Drawing.Size(40, 13);
-            this.LblStatus.TabIndex = 7;
+            this.LblStatus.TabIndex = 9;
             this.LblStatus.Text = "Status";
             //
             // HauptForm
@@ -248,6 +260,7 @@
             this.Controls.Add(this.CmdBearbeiten);
             this.Controls.Add(this.CmdAktivPassiv);
             this.Controls.Add(this.CmdLoeschen);
+            this.Controls.Add(this.CmdDashboard);
             this.Controls.Add(this.LblStatus);
             this.MinimumSize = new System.Drawing.Size(876, 619);
             this.Name = "HauptForm";
@@ -280,5 +293,6 @@
         private System.Windows.Forms.Button CmdAktivPassiv;
         private System.Windows.Forms.Button CmdLoeschen;
         private System.Windows.Forms.Label LblStatus;
+        private System.Windows.Forms.Button CmdDashboard;
     }
 }

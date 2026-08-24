@@ -165,6 +165,50 @@ namespace ContactManager.Controller
             return resultate;
         }
 
+        // Zählt alle Personen einer Kategorie ("Alle", "Kunde",
+        // "Mitarbeiter" oder "Lernender"). Wird für das Dashboard gebraucht.
+        public int Anzahl(string kategorie)
+        {
+            // Die Suchmethode kann wiederverwendet werden: ohne Namensfilter
+            // liefert sie einfach alle Personen der gewünschten Kategorie
+            return Suchen("", "", false, DateTime.Today, kategorie).Count;
+        }
+
+        // Zählt die aktiven oder die passiven Personen.
+        // true = aktive zählen, false = passive zählen.
+        public int AnzahlNachStatus(bool aktiv)
+        {
+            int anzahl = 0;
+
+            foreach (Person person in personen)
+            {
+                if (person.Aktiv == aktiv)
+                {
+                    anzahl++;
+                }
+            }
+
+            return anzahl;
+        }
+
+        // Zählt alle Notizen, die über alle Kunden hinweg erfasst wurden
+        public int AnzahlKontaktnotizen()
+        {
+            int anzahl = 0;
+
+            foreach (Person person in personen)
+            {
+                // Nur Kunden haben eine Kontakthistorie
+                if (person is Kunde)
+                {
+                    Kunde kunde = (Kunde)person;
+                    anzahl = anzahl + kunde.Kontakthistorie.Count;
+                }
+            }
+
+            return anzahl;
+        }
+
         // Sortiert eine Personenliste alphabetisch nach Nachname und
         // bei gleichem Nachnamen zusätzlich nach Vorname.
         // Umgesetzt mit dem Bubblesort-Algorithmus (optimierte Variante
