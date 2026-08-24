@@ -4,22 +4,31 @@ using ContactManager.Model;
 
 namespace ContactManager.View
 {
-    // Dialogfenster (View) zum Erfassen eines neuen Mitarbeiters oder
-    // Lernenden sowie zum Bearbeiten einer bestehenden Person.
-    // Über die Checkbox "Ist Lernender" wird gesteuert, ob ein Objekt
-    // der Klasse Mitarbeiter oder der abgeleiteten Klasse Lernender
-    // erzeugt wird.
+    /// <summary>
+    /// Dialogfenster (View) zum Erfassen eines neuen Mitarbeiters oder
+    /// Lernenden sowie zum Bearbeiten einer bestehenden Person.
+    /// Über die Checkbox "Ist Lernender" wird gesteuert, ob ein Objekt
+    /// der Klasse Mitarbeiter oder der abgeleiteten Klasse Lernender
+    /// erzeugt wird.
+    /// </summary>
     public partial class MitarbeiterForm : Form
     {
-        // Der Mitarbeiter, der bearbeitet wird (null = Neuerfassung)
+        /// <summary>
+        /// Der Mitarbeiter, der bearbeitet wird (null = Neuerfassung)
+        /// </summary>
         private Mitarbeiter original;
 
-        // Der fertige Mitarbeiter (oder Lernende). Ist erst gefüllt,
-        // nachdem der Dialog mit "Speichern" geschlossen wurde.
+        /// <summary>
+        /// Der fertige Mitarbeiter (oder Lernende). Ist erst gefüllt,
+        /// nachdem der Dialog mit "Speichern" geschlossen wurde.
+        /// </summary>
         public Mitarbeiter Ergebnis { get; private set; }
 
-        // Konstruktor. Bekommt den zu bearbeitenden Mitarbeiter übergeben
-        // oder null, wenn eine neue Person erfasst werden soll.
+        /// <summary>
+        /// Konstruktor. Bekommt den zu bearbeitenden Mitarbeiter übergeben
+        /// oder null, wenn eine neue Person erfasst werden soll.
+        /// </summary>
+        /// <param name="vorhandenerMitarbeiter">Der zu bearbeitende Mitarbeiter oder null für eine Neuerfassung</param>
         public MitarbeiterForm(Mitarbeiter vorhandenerMitarbeiter)
         {
             InitializeComponent();
@@ -101,24 +110,30 @@ namespace ContactManager.View
             }
         }
 
-        // Schaltet die Eingabefelder für die Lehrdaten frei, wenn die
-        // Person ein Lernender ist
+        /// <summary>
+        /// Schaltet die Eingabefelder für die Lehrdaten frei, wenn die
+        /// Person ein Lernender ist
+        /// </summary>
         private void ChkLernender_CheckedChanged(object sender, EventArgs e)
         {
             NumLehrjahre.Enabled = ChkLernender.Checked;
             NumAktuellesLehrjahr.Enabled = ChkLernender.Checked;
         }
 
-        // Schaltet das Austrittsdatum-Feld frei, wenn die Person
-        // ausgetreten ist
+        /// <summary>
+        /// Schaltet das Austrittsdatum-Feld frei, wenn die Person
+        /// ausgetreten ist
+        /// </summary>
         private void ChkAusgetreten_CheckedChanged(object sender, EventArgs e)
         {
             DtpAustrittsdatum.Enabled = ChkAusgetreten.Checked;
         }
 
-        // Gemeinsamer KeyPress-Handler für beide Telefonfelder:
-        // lässt nur Ziffern, Leerzeichen und die Löschtaste durch.
-        // So können gar keine Buchstaben eingetippt werden.
+        /// <summary>
+        /// Gemeinsamer KeyPress-Handler für beide Telefonfelder:
+        /// lässt nur Ziffern, Leerzeichen und die Löschtaste durch.
+        /// So können gar keine Buchstaben eingetippt werden.
+        /// </summary>
         private void TxtTelefon_KeyPress(object sender, KeyPressEventArgs e)
         {
             bool istZiffer = e.KeyChar >= '0' && e.KeyChar <= '9';
@@ -132,9 +147,13 @@ namespace ContactManager.View
             }
         }
 
-        // Prüft, ob eine Telefonnummer nur aus Ziffern (und Leerzeichen)
-        // besteht. Wichtig gegen eingefügten Text (Ctrl+V), denn der
-        // kommt am KeyPress-Handler vorbei.
+        /// <summary>
+        /// Prüft, ob eine Telefonnummer nur aus Ziffern (und Leerzeichen)
+        /// besteht. Wichtig gegen eingefügten Text (Ctrl+V), denn der
+        /// kommt am KeyPress-Handler vorbei.
+        /// </summary>
+        /// <param name="nummer">Die zu prüfende Telefonnummer</param>
+        /// <returns>true, wenn die Nummer nur Ziffern enthält</returns>
         private bool TelefonnummerGueltig(string nummer)
         {
             // Leerzeichen entfernen, danach dürfen nur Ziffern übrig sein
@@ -151,8 +170,12 @@ namespace ContactManager.View
             return true;
         }
 
-        // Prüft, ob die AHV-Nummer gültig ist. Erwartet wird das
-        // Schweizer Format 756.XXXX.XXXX.XX (13 Ziffern, beginnt mit 756).
+        /// <summary>
+        /// Prüft, ob die AHV-Nummer gültig ist. Erwartet wird das
+        /// Schweizer Format 756.XXXX.XXXX.XX (13 Ziffern, beginnt mit 756).
+        /// </summary>
+        /// <param name="ahvNummer">Die zu prüfende AHV-Nummer</param>
+        /// <returns>true, wenn die AHV-Nummer gültig ist</returns>
         private bool AhvNummerGueltig(string ahvNummer)
         {
             // Die Trennpunkte entfernen, damit nur die Ziffern übrig bleiben
@@ -184,8 +207,12 @@ namespace ContactManager.View
             return true;
         }
 
-        // Prüft, ob die Postleitzahl gültig ist. Schweizer Postleitzahlen
-        // sind vierstellige Zahlen (1000 bis 9999).
+        /// <summary>
+        /// Prüft, ob die Postleitzahl gültig ist. Schweizer Postleitzahlen
+        /// sind vierstellige Zahlen (1000 bis 9999).
+        /// </summary>
+        /// <param name="postleitzahl">Die zu prüfende Postleitzahl</param>
+        /// <returns>true, wenn die Postleitzahl gültig ist</returns>
         private bool PostleitzahlGueltig(string postleitzahl)
         {
             try
@@ -200,8 +227,11 @@ namespace ContactManager.View
             }
         }
 
-        // Prüft alle Eingaben. Bei einem Fehler wird eine verständliche
-        // Meldung angezeigt und false zurückgegeben.
+        /// <summary>
+        /// Prüft alle Eingaben. Bei einem Fehler wird eine verständliche
+        /// Meldung angezeigt und false zurückgegeben.
+        /// </summary>
+        /// <returns>true, wenn alle Eingaben gültig sind</returns>
         private bool EingabenGueltig()
         {
             // Pflichtfelder prüfen (im Formular mit * markiert)
@@ -299,8 +329,10 @@ namespace ContactManager.View
             return true;
         }
 
-        // Prüft die Eingaben, baut daraus das Mitarbeiter- oder
-        // Lernender-Objekt und schliesst den Dialog mit OK
+        /// <summary>
+        /// Prüft die Eingaben, baut daraus das Mitarbeiter- oder
+        /// Lernender-Objekt und schliesst den Dialog mit OK
+        /// </summary>
         private void CmdSpeichern_Click(object sender, EventArgs e)
         {
             if (!EingabenGueltig())
@@ -368,7 +400,9 @@ namespace ContactManager.View
             Close();
         }
 
-        // Schliesst den Dialog ohne zu speichern
+        /// <summary>
+        /// Schliesst den Dialog ohne zu speichern
+        /// </summary>
         private void CmdAbbrechen_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

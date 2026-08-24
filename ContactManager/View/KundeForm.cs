@@ -5,25 +5,36 @@ using ContactManager.Model;
 
 namespace ContactManager.View
 {
-    // Dialogfenster (View) zum Erfassen eines neuen Kunden oder zum
-    // Bearbeiten eines bestehenden Kunden. Enthält auch die
-    // Kontakthistorie, in der Notizen zu Kundenkontakten protokolliert
-    // und angeschaut werden können.
+    /// <summary>
+    /// Dialogfenster (View) zum Erfassen eines neuen Kunden oder zum
+    /// Bearbeiten eines bestehenden Kunden. Enthält auch die
+    /// Kontakthistorie, in der Notizen zu Kundenkontakten protokolliert
+    /// und angeschaut werden können.
+    /// </summary>
     public partial class KundeForm : Form
     {
-        // Der Kunde, der bearbeitet wird (null = Neuerfassung)
+        /// <summary>
+        /// Der Kunde, der bearbeitet wird (null = Neuerfassung)
+        /// </summary>
         private Kunde original;
 
-        // Arbeitskopie der Kontakthistorie. Erst beim Speichern wird sie
-        // übernommen, damit Abbrechen keine Spuren hinterlässt.
+        /// <summary>
+        /// Arbeitskopie der Kontakthistorie. Erst beim Speichern wird sie
+        /// übernommen, damit Abbrechen keine Spuren hinterlässt.
+        /// </summary>
         private List<Kontakteintrag> kontakthistorie;
 
-        // Der fertige Kunde. Ist erst gefüllt, nachdem der Dialog mit
-        // "Speichern" geschlossen wurde.
+        /// <summary>
+        /// Der fertige Kunde. Ist erst gefüllt, nachdem der Dialog mit
+        /// "Speichern" geschlossen wurde.
+        /// </summary>
         public Kunde Ergebnis { get; private set; }
 
-        // Konstruktor. Bekommt den zu bearbeitenden Kunden übergeben
-        // oder null, wenn ein neuer Kunde erfasst werden soll.
+        /// <summary>
+        /// Konstruktor. Bekommt den zu bearbeitenden Kunden übergeben
+        /// oder null, wenn ein neuer Kunde erfasst werden soll.
+        /// </summary>
+        /// <param name="vorhandenerKunde">Der zu bearbeitende Kunde oder null für eine Neuerfassung</param>
         public KundeForm(Kunde vorhandenerKunde)
         {
             InitializeComponent();
@@ -76,7 +87,9 @@ namespace ContactManager.View
             HistorieAnzeigen();
         }
 
-        // Zeigt die Arbeitskopie der Kontakthistorie in der ListBox an
+        /// <summary>
+        /// Zeigt die Arbeitskopie der Kontakthistorie in der ListBox an
+        /// </summary>
         private void HistorieAnzeigen()
         {
             LstKontakthistorie.Items.Clear();
@@ -87,8 +100,10 @@ namespace ContactManager.View
             }
         }
 
-        // Fügt der Kontakthistorie eine neue Notiz mit dem aktuellen
-        // Zeitpunkt hinzu und leert das Eingabefeld
+        /// <summary>
+        /// Fügt der Kontakthistorie eine neue Notiz mit dem aktuellen
+        /// Zeitpunkt hinzu und leert das Eingabefeld
+        /// </summary>
         private void CmdNotizHinzufuegen_Click(object sender, EventArgs e)
         {
             string notiz = TxtNeueNotiz.Text.Trim();
@@ -105,9 +120,11 @@ namespace ContactManager.View
             TxtNeueNotiz.Text = "";
         }
 
-        // Gemeinsamer KeyPress-Handler für beide Telefonfelder:
-        // lässt nur Ziffern, Leerzeichen und die Löschtaste durch.
-        // So können gar keine Buchstaben eingetippt werden.
+        /// <summary>
+        /// Gemeinsamer KeyPress-Handler für beide Telefonfelder:
+        /// lässt nur Ziffern, Leerzeichen und die Löschtaste durch.
+        /// So können gar keine Buchstaben eingetippt werden.
+        /// </summary>
         private void TxtTelefon_KeyPress(object sender, KeyPressEventArgs e)
         {
             bool istZiffer = e.KeyChar >= '0' && e.KeyChar <= '9';
@@ -121,9 +138,13 @@ namespace ContactManager.View
             }
         }
 
-        // Prüft, ob eine Telefonnummer nur aus Ziffern (und Leerzeichen)
-        // besteht. Wichtig gegen eingefügten Text (Ctrl+V), denn der
-        // kommt am KeyPress-Handler vorbei.
+        /// <summary>
+        /// Prüft, ob eine Telefonnummer nur aus Ziffern (und Leerzeichen)
+        /// besteht. Wichtig gegen eingefügten Text (Ctrl+V), denn der
+        /// kommt am KeyPress-Handler vorbei.
+        /// </summary>
+        /// <param name="nummer">Die zu prüfende Telefonnummer</param>
+        /// <returns>true, wenn die Nummer nur Ziffern enthält</returns>
         private bool TelefonnummerGueltig(string nummer)
         {
             // Leerzeichen entfernen, danach dürfen nur Ziffern übrig sein
@@ -140,8 +161,11 @@ namespace ContactManager.View
             return true;
         }
 
-        // Prüft alle Eingaben. Bei einem Fehler wird eine verständliche
-        // Meldung angezeigt und false zurückgegeben.
+        /// <summary>
+        /// Prüft alle Eingaben. Bei einem Fehler wird eine verständliche
+        /// Meldung angezeigt und false zurückgegeben.
+        /// </summary>
+        /// <returns>true, wenn alle Eingaben gültig sind</returns>
         private bool EingabenGueltig()
         {
             // Pflichtfelder prüfen (im Formular mit * markiert)
@@ -189,8 +213,10 @@ namespace ContactManager.View
             return true;
         }
 
-        // Prüft die Eingaben, baut daraus das Kundenobjekt und schliesst
-        // den Dialog mit OK
+        /// <summary>
+        /// Prüft die Eingaben, baut daraus das Kundenobjekt und schliesst
+        /// den Dialog mit OK
+        /// </summary>
         private void CmdSpeichern_Click(object sender, EventArgs e)
         {
             if (!EingabenGueltig())
@@ -217,7 +243,9 @@ namespace ContactManager.View
             Close();
         }
 
-        // Schliesst den Dialog ohne zu speichern
+        /// <summary>
+        /// Schliesst den Dialog ohne zu speichern
+        /// </summary>
         private void CmdAbbrechen_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

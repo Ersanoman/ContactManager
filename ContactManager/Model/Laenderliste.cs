@@ -1,12 +1,17 @@
 ﻿namespace ContactManager.Model
 {
-    // Stellt die Liste aller Länder für das Nationalitäts-Dropdown bereit.
-    // Statische Klasse: es muss kein Objekt erzeugt werden, um die Liste
-    // zu holen (wie bei der Klasse Math aus dem Unterricht).
+    /// <summary>
+    /// Stellt die Liste aller Länder für das Nationalitäts-Dropdown bereit.
+    /// Statische Klasse: es muss kein Objekt erzeugt werden, um die Liste
+    /// zu holen (wie bei der Klasse Math aus dem Unterricht).
+    /// </summary>
     public static class Laenderliste
     {
-        // Gibt alle Länder der Welt in alphabetischer Reihenfolge zurück
-        // (deutsche Namen, Schweizer Schreibweise)
+        /// <summary>
+        /// Gibt alle Länder der Welt in alphabetischer Reihenfolge zurück
+        /// (deutsche Namen, Schweizer Schreibweise)
+        /// </summary>
+        /// <returns>Alle Länder in alphabetischer Reihenfolge</returns>
         public static string[] Alle()
         {
             return new string[]

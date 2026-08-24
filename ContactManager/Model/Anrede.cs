@@ -1,13 +1,19 @@
 ﻿namespace ContactManager.Model
 {
-    // Enumeration für die Anrede einer Person.
-    // Die Zahlenwerte entsprechen der Reihenfolge in der ComboBox im Formular.
+    /// <summary>
+    /// Enumeration für die Anrede einer Person.
+    /// Die Zahlenwerte entsprechen der Reihenfolge in der ComboBox im Formular.
+    /// </summary>
     public enum Anrede
     {
-        // Anrede für männliche Personen
+        /// <summary>
+        /// Anrede für männliche Personen
+        /// </summary>
         Herr = 0,
 
-        // Anrede für weibliche Personen
+        /// <summary>
+        /// Anrede für weibliche Personen
+        /// </summary>
         Frau = 1
     }
 }

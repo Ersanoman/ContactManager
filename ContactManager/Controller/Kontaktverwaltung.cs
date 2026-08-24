@@ -4,36 +4,49 @@ using ContactManager.Model;
 
 namespace ContactManager.Controller
 {
-    // Zentrale Verwaltungsklasse (Controller) der Applikation.
-    // Hält die Liste aller Personen und stellt den Formularen alle
-    // Funktionen bereit: Erfassen, Mutieren, Löschen, Aktivieren/
-    // Deaktivieren, Suchen und die automatische Mitarbeiternummer.
-    // Nach jeder Änderung wird automatisch gespeichert.
+    /// <summary>
+    /// Zentrale Verwaltungsklasse (Controller) der Applikation.
+    /// Hält die Liste aller Personen und stellt den Formularen alle
+    /// Funktionen bereit: Erfassen, Mutieren, Löschen, Aktivieren/
+    /// Deaktivieren, Suchen und die automatische Mitarbeiternummer.
+    /// Nach jeder Änderung wird automatisch gespeichert.
+    /// </summary>
     public class Kontaktverwaltung
     {
-        // Zentrale Liste mit allen Personen. Dank der Vererbung können
-        // Kunden, Mitarbeiter und Lernende zusammen in einer Liste vom
-        // Basistyp Person verwaltet werden.
+        /// <summary>
+        /// Zentrale Liste mit allen Personen. Dank der Vererbung können
+        /// Kunden, Mitarbeiter und Lernende zusammen in einer Liste vom
+        /// Basistyp Person verwaltet werden.
+        /// </summary>
         private List<Person> personen;
 
-        // Zuständig für das Speichern und Laden auf die Festplatte
+        /// <summary>
+        /// Zuständig für das Speichern und Laden auf die Festplatte
+        /// </summary>
         private Datenspeicher datenspeicher;
 
-        // Konstruktor: lädt beim Programmstart automatisch alle Daten
+        /// <summary>
+        /// Konstruktor: lädt beim Programmstart automatisch alle Daten
+        /// </summary>
         public Kontaktverwaltung()
         {
             datenspeicher = new Datenspeicher();
             personen = datenspeicher.Laden();
         }
 
-        // Liste aller verwalteten Personen
+        /// <summary>
+        /// Liste aller verwalteten Personen
+        /// </summary>
         public List<Person> AllePersonen
         {
             get { return personen; }
         }
 
-        // Fügt eine neue Person hinzu. Mitarbeiter und Lernende bekommen
-        // automatisch die nächste freie Mitarbeiternummer.
+        /// <summary>
+        /// Fügt eine neue Person hinzu. Mitarbeiter und Lernende bekommen
+        /// automatisch die nächste freie Mitarbeiternummer.
+        /// </summary>
+        /// <param name="person">Die neu erfasste Person</param>
         public void Hinzufuegen(Person person)
         {
             MitarbeiternummerVergeben(person);
@@ -41,10 +54,14 @@ namespace ContactManager.Controller
             Speichern();
         }
 
-        // Ersetzt eine bestehende Person durch die bearbeitete Version
-        // (Mutieren). Die Position in der Liste bleibt gleich.
-        // Nötig, weil beim Bearbeiten auch der Typ wechseln kann
-        // (z.B. ein Mitarbeiter wird zum Lernenden).
+        /// <summary>
+        /// Ersetzt eine bestehende Person durch die bearbeitete Version
+        /// (Mutieren). Die Position in der Liste bleibt gleich.
+        /// Nötig, weil beim Bearbeiten auch der Typ wechseln kann
+        /// (z.B. ein Mitarbeiter wird zum Lernenden).
+        /// </summary>
+        /// <param name="alt">Die bisherige Person aus der Liste</param>
+        /// <param name="neu">Die bearbeitete Version der Person</param>
         public void Ersetzen(Person alt, Person neu)
         {
             int position = personen.IndexOf(alt);
@@ -56,22 +73,31 @@ namespace ContactManager.Controller
             }
         }
 
-        // Löscht eine Person definitiv aus dem Datenstamm
+        /// <summary>
+        /// Löscht eine Person definitiv aus dem Datenstamm
+        /// </summary>
+        /// <param name="person">Die zu löschende Person</param>
         public void Loeschen(Person person)
         {
             personen.Remove(person);
             Speichern();
         }
 
-        // Schaltet den Status um: aus aktiv wird passiv und umgekehrt
+        /// <summary>
+        /// Schaltet den Status um: aus aktiv wird passiv und umgekehrt
+        /// </summary>
+        /// <param name="person">Die Person, deren Status umgeschaltet wird</param>
         public void AktivUmschalten(Person person)
         {
             person.Aktiv = !person.Aktiv;
             Speichern();
         }
 
-        // Ermittelt die nächste freie Mitarbeiternummer.
-        // Die erste Nummer ist 1000, danach immer höchste Nummer + 1.
+        /// <summary>
+        /// Ermittelt die nächste freie Mitarbeiternummer.
+        /// Die erste Nummer ist 1000, danach immer höchste Nummer + 1.
+        /// </summary>
+        /// <returns>Die nächste freie Mitarbeiternummer</returns>
         public int NaechsteMitarbeiternummer()
         {
             int hoechsteNummer = 999;
@@ -92,8 +118,11 @@ namespace ContactManager.Controller
             return hoechsteNummer + 1;
         }
 
-        // Gibt alle Personen alphabetisch sortiert zurück.
-        // Die interne Liste bleibt unverändert, es wird eine Kopie sortiert.
+        /// <summary>
+        /// Gibt alle Personen alphabetisch sortiert zurück.
+        /// Die interne Liste bleibt unverändert, es wird eine Kopie sortiert.
+        /// </summary>
+        /// <returns>Eine sortierte Kopie aller Personen</returns>
         public List<Person> AlleSortiert()
         {
             List<Person> kopie = new List<Person>();
@@ -107,10 +136,18 @@ namespace ContactManager.Controller
             return kopie;
         }
 
-        // Durchsucht den Datenstamm nach den übergebenen Kriterien.
-        // Alle Kriterien sind kombinierbar, leere Kriterien werden
-        // ignoriert. Die Namenssuche findet auch Teiltreffer und
-        // ignoriert Gross-/Kleinschreibung.
+        /// <summary>
+        /// Durchsucht den Datenstamm nach den übergebenen Kriterien.
+        /// Alle Kriterien sind kombinierbar, leere Kriterien werden
+        /// ignoriert. Die Namenssuche findet auch Teiltreffer und
+        /// ignoriert Gross-/Kleinschreibung.
+        /// </summary>
+        /// <param name="nachname">Gesuchter Nachname (leer = ignorieren)</param>
+        /// <param name="vorname">Gesuchter Vorname (leer = ignorieren)</param>
+        /// <param name="mitGeburtsdatum">true, wenn nach dem Geburtsdatum gesucht werden soll</param>
+        /// <param name="geburtsdatum">Gesuchtes Geburtsdatum</param>
+        /// <param name="kategorie">"Alle", "Kunde", "Mitarbeiter" oder "Lernender"</param>
+        /// <returns>Alle Personen, welche sämtliche Kriterien erfüllen</returns>
         public List<Person> Suchen(string nachname, string vorname, bool mitGeburtsdatum,
                                    DateTime geburtsdatum, string kategorie)
         {
@@ -165,9 +202,13 @@ namespace ContactManager.Controller
             return resultate;
         }
 
-        // Prüft, ob bereits eine Person mit gleichem Nachnamen, Vornamen
-        // und Geburtsdatum erfasst ist. Wird beim CSV-Import gebraucht,
-        // damit dieselbe Datei nicht zweimal importiert werden kann.
+        /// <summary>
+        /// Prüft, ob bereits eine Person mit gleichem Nachnamen, Vornamen
+        /// und Geburtsdatum erfasst ist. Wird beim CSV-Import gebraucht,
+        /// damit dieselbe Datei nicht zweimal importiert werden kann.
+        /// </summary>
+        /// <param name="neuePerson">Die zu prüfende Person</param>
+        /// <returns>true, wenn die Person bereits erfasst ist</returns>
         public bool ExistiertBereits(Person neuePerson)
         {
             foreach (Person person in personen)
@@ -183,8 +224,12 @@ namespace ContactManager.Controller
             return false;
         }
 
-        // Zählt alle Personen einer Kategorie ("Alle", "Kunde",
-        // "Mitarbeiter" oder "Lernender"). Wird für das Dashboard gebraucht.
+        /// <summary>
+        /// Zählt alle Personen einer Kategorie ("Alle", "Kunde",
+        /// "Mitarbeiter" oder "Lernender"). Wird für das Dashboard gebraucht.
+        /// </summary>
+        /// <param name="kategorie">"Alle", "Kunde", "Mitarbeiter" oder "Lernender"</param>
+        /// <returns>Anzahl Personen dieser Kategorie</returns>
         public int Anzahl(string kategorie)
         {
             // Die Suchmethode kann wiederverwendet werden: ohne Namensfilter
@@ -192,8 +237,12 @@ namespace ContactManager.Controller
             return Suchen("", "", false, DateTime.Today, kategorie).Count;
         }
 
-        // Zählt die aktiven oder die passiven Personen.
-        // true = aktive zählen, false = passive zählen.
+        /// <summary>
+        /// Zählt die aktiven oder die passiven Personen.
+        /// true = aktive zählen, false = passive zählen.
+        /// </summary>
+        /// <param name="aktiv">true = aktive zählen, false = passive zählen</param>
+        /// <returns>Anzahl Personen mit diesem Status</returns>
         public int AnzahlNachStatus(bool aktiv)
         {
             int anzahl = 0;
@@ -209,7 +258,10 @@ namespace ContactManager.Controller
             return anzahl;
         }
 
-        // Zählt alle Notizen, die über alle Kunden hinweg erfasst wurden
+        /// <summary>
+        /// Zählt alle Notizen, die über alle Kunden hinweg erfasst wurden
+        /// </summary>
+        /// <returns>Anzahl aller Notizen über alle Kunden</returns>
         public int AnzahlKontaktnotizen()
         {
             int anzahl = 0;
@@ -227,11 +279,14 @@ namespace ContactManager.Controller
             return anzahl;
         }
 
-        // Sortiert eine Personenliste alphabetisch nach Nachname und
-        // bei gleichem Nachnamen zusätzlich nach Vorname.
-        // Umgesetzt mit dem Bubblesort-Algorithmus (optimierte Variante
-        // aus dem Unterricht): Solange zwei benachbarte Elemente in der
-        // falschen Reihenfolge stehen, werden sie getauscht.
+        /// <summary>
+        /// Sortiert eine Personenliste alphabetisch nach Nachname und
+        /// bei gleichem Nachnamen zusätzlich nach Vorname.
+        /// Umgesetzt mit dem Bubblesort-Algorithmus (optimierte Variante
+        /// aus dem Unterricht): Solange zwei benachbarte Elemente in der
+        /// falschen Reihenfolge stehen, werden sie getauscht.
+        /// </summary>
+        /// <param name="liste">Die zu sortierende Liste</param>
         private void Sortieren(List<Person> liste)
         {
             bool getauscht = true;
@@ -259,9 +314,14 @@ namespace ContactManager.Controller
             }
         }
 
-        // Vergleicht zwei Personen anhand von Nachname und Vorname.
-        // Rückgabe kleiner 0: person1 kommt zuerst,
-        // Rückgabe grösser 0: person2 kommt zuerst, 0: gleich.
+        /// <summary>
+        /// Vergleicht zwei Personen anhand von Nachname und Vorname.
+        /// Rückgabe kleiner 0: person1 kommt zuerst,
+        /// Rückgabe grösser 0: person2 kommt zuerst, 0: gleich.
+        /// </summary>
+        /// <param name="person1">Erste Person</param>
+        /// <param name="person2">Zweite Person</param>
+        /// <returns>Kleiner 0, wenn person1 zuerst kommt; grösser 0 umgekehrt; 0 bei gleich</returns>
         private int VergleicheNamen(Person person1, Person person2)
         {
             // CompareTo vergleicht zwei Texte alphabetisch
@@ -276,15 +336,20 @@ namespace ContactManager.Controller
             return vergleich;
         }
 
-        // Speichert den aktuellen Datenstamm. Wird von aussen aufgerufen,
-        // wenn eine Person direkt verändert wurde.
+        /// <summary>
+        /// Speichert den aktuellen Datenstamm. Wird von aussen aufgerufen,
+        /// wenn eine Person direkt verändert wurde.
+        /// </summary>
         public void AenderungenSpeichern()
         {
             Speichern();
         }
 
-        // Vergibt einem Mitarbeiter oder Lernenden die nächste freie
-        // Nummer, falls er noch keine hat (Wert 0). Bei Kunden passiert nichts.
+        /// <summary>
+        /// Vergibt einem Mitarbeiter oder Lernenden die nächste freie
+        /// Nummer, falls er noch keine hat (Wert 0). Bei Kunden passiert nichts.
+        /// </summary>
+        /// <param name="person">Die zu prüfende Person</param>
         private void MitarbeiternummerVergeben(Person person)
         {
             if (person is Mitarbeiter)
@@ -297,8 +362,10 @@ namespace ContactManager.Controller
             }
         }
 
-        // Speichert alle Personen über den Datenspeicher auf die
-        // Festplatte (automatisches Speichern nach jeder Änderung)
+        /// <summary>
+        /// Speichert alle Personen über den Datenspeicher auf die
+        /// Festplatte (automatisches Speichern nach jeder Änderung)
+        /// </summary>
         private void Speichern()
         {
             datenspeicher.Speichern(personen);

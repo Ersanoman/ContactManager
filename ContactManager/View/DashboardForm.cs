@@ -4,23 +4,32 @@ using ContactManager.Controller;
 
 namespace ContactManager.View
 {
-    // Dashboard (View): zeigt eine kurze Übersicht über den Datenstamm.
-    // Die Zahlen werden von der Kontaktverwaltung (Controller) geholt,
-    // das Fenster rechnet selber nichts aus.
+    /// <summary>
+    /// Dashboard (View): zeigt eine kurze Übersicht über den Datenstamm.
+    /// Die Zahlen werden von der Kontaktverwaltung (Controller) geholt,
+    /// das Fenster rechnet selber nichts aus.
+    /// </summary>
     public partial class DashboardForm : Form
     {
-        // Der Controller mit den Daten
+        /// <summary>
+        /// Der Controller mit den Daten
+        /// </summary>
         private Kontaktverwaltung verwaltung;
 
-        // Konstruktor. Bekommt die Kontaktverwaltung vom Hauptfenster
-        // übergeben, damit beide mit denselben Daten arbeiten.
+        /// <summary>
+        /// Konstruktor. Bekommt die Kontaktverwaltung vom Hauptfenster
+        /// übergeben, damit beide mit denselben Daten arbeiten.
+        /// </summary>
+        /// <param name="kontaktverwaltung">Die Verwaltung mit den anzuzeigenden Daten</param>
         public DashboardForm(Kontaktverwaltung kontaktverwaltung)
         {
             InitializeComponent();
             verwaltung = kontaktverwaltung;
         }
 
-        // Wird beim Öffnen des Fensters ausgeführt und füllt alle Zahlen ab
+        /// <summary>
+        /// Wird beim Öffnen des Fensters ausgeführt und füllt alle Zahlen ab
+        /// </summary>
         private void DashboardForm_Load(object sender, EventArgs e)
         {
             int anzahlLernende = verwaltung.Anzahl("Lernender");
@@ -40,7 +49,9 @@ namespace ContactManager.View
             LblNaechsteNummerWert.Text = Convert.ToString(verwaltung.NaechsteMitarbeiternummer());
         }
 
-        // Schliesst das Dashboard
+        /// <summary>
+        /// Schliesst das Dashboard
+        /// </summary>
         private void CmdSchliessen_Click(object sender, EventArgs e)
         {
             Close();

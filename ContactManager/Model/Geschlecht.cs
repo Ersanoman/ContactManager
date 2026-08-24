@@ -1,16 +1,24 @@
 ﻿namespace ContactManager.Model
 {
-    // Enumeration für das Geschlecht einer Person.
-    // Die Zahlenwerte entsprechen der Reihenfolge in der ComboBox im Formular.
+    /// <summary>
+    /// Enumeration für das Geschlecht einer Person.
+    /// Die Zahlenwerte entsprechen der Reihenfolge in der ComboBox im Formular.
+    /// </summary>
     public enum Geschlecht
     {
-        // Männliches Geschlecht
+        /// <summary>
+        /// Männliches Geschlecht
+        /// </summary>
         Maennlich = 0,
 
-        // Weibliches Geschlecht
+        /// <summary>
+        /// Weibliches Geschlecht
+        /// </summary>
         Weiblich = 1,
 
-        // Diverses Geschlecht
+        /// <summary>
+        /// Diverses Geschlecht
+        /// </summary>
         Divers = 2
     }
 }

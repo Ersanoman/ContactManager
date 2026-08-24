@@ -6,41 +6,55 @@ using ContactManager.Model;
 
 namespace ContactManager.Controller
 {
-    // Liest Kontakte aus einer CSV-Datei ein (z.B. aus Excel exportiert).
-    // Die erste Spalte bestimmt, welche Art von Person erzeugt wird:
-    // "Kunde", "Mitarbeiter" oder "Lernender". So kann mit einer einzigen
-    // Datei die ganze Vererbungshierarchie importiert werden.
-    //
-    // Aufbau einer Zeile, getrennt mit Strichpunkt:
-    // Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
-    // TelefonGeschaeft;Mobiltelefon;EMail;Status;
-    // Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;
-    // Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;
-    // Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
-    //
-    // Bei Kunden bleiben die Spalten ab "Abteilung" leer.
-    // Die erste Zeile darf eine Überschriftszeile sein, sie wird übersprungen.
+    /// <summary>
+    /// Liest Kontakte aus einer CSV-Datei ein (z.B. aus Excel exportiert).
+    /// Die erste Spalte bestimmt, welche Art von Person erzeugt wird:
+    /// "Kunde", "Mitarbeiter" oder "Lernender". So kann mit einer einzigen
+    /// Datei die ganze Vererbungshierarchie importiert werden.
+    ///
+    /// Aufbau einer Zeile, getrennt mit Strichpunkt:
+    /// Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
+    /// TelefonGeschaeft;Mobiltelefon;EMail;Status;
+    /// Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;
+    /// Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;
+    /// Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
+    ///
+    /// Bei Kunden bleiben die Spalten ab "Abteilung" leer.
+    /// Die erste Zeile darf eine Überschriftszeile sein, sie wird übersprungen.
+    /// </summary>
     public class CsvImporter
     {
-        // So viele Spalten braucht es mindestens (die Angaben, welche
-        // jede Person hat). Die Mitarbeiterspalten dürfen fehlen.
+        /// <summary>
+        /// So viele Spalten braucht es mindestens (die Angaben, welche
+        /// jede Person hat). Die Mitarbeiterspalten dürfen fehlen.
+        /// </summary>
         private const int MinimaleSpalten = 11;
 
-        // Anzahl der Zeilen, die nicht eingelesen werden konnten
+        /// <summary>
+        /// Anzahl der Zeilen, die nicht eingelesen werden konnten
+        /// </summary>
         public int AnzahlFehlerhaft { get; private set; }
 
-        // Beschreibung der fehlerhaften Zeilen für die Meldung an den Benutzer
+        /// <summary>
+        /// Beschreibung der fehlerhaften Zeilen für die Meldung an den Benutzer
+        /// </summary>
         public string Fehlermeldungen { get; private set; }
 
-        // Konstruktor
+        /// <summary>
+        /// Konstruktor
+        /// </summary>
         public CsvImporter()
         {
             Fehlermeldungen = "";
         }
 
-        // Liest die CSV-Datei ein und gibt alle gültigen Kontakte zurück.
-        // Fehlerhafte Zeilen werden übersprungen und gezählt, damit der
-        // Import wegen einer einzelnen kaputten Zeile nicht abbricht.
+        /// <summary>
+        /// Liest die CSV-Datei ein und gibt alle gültigen Kontakte zurück.
+        /// Fehlerhafte Zeilen werden übersprungen und gezählt, damit der
+        /// Import wegen einer einzelnen kaputten Zeile nicht abbricht.
+        /// </summary>
+        /// <param name="dateipfad">Vollständiger Pfad zur CSV-Datei</param>
+        /// <returns>Alle gültigen Kontakte aus der Datei</returns>
         public List<Person> Einlesen(string dateipfad)
         {
             List<Person> kontakte = new List<Person>();
@@ -83,9 +97,13 @@ namespace ContactManager.Controller
             return kontakte;
         }
 
-        // Wandelt eine einzelne CSV-Zeile in einen Kunden, einen Mitarbeiter
-        // oder einen Lernenden um. Stimmt etwas nicht, wird eine Exception
-        // ausgelöst, die von der Methode Einlesen aufgefangen wird.
+        /// <summary>
+        /// Wandelt eine einzelne CSV-Zeile in einen Kunden, einen Mitarbeiter
+        /// oder einen Lernenden um. Stimmt etwas nicht, wird eine Exception
+        /// ausgelöst, die von der Methode Einlesen aufgefangen wird.
+        /// </summary>
+        /// <param name="zeile">Eine Zeile aus der CSV-Datei</param>
+        /// <returns>Der erzeugte Kunde, Mitarbeiter oder Lernende</returns>
         private Person ZeileUmwandeln(string zeile)
         {
             string[] teile = zeile.Split(';');
@@ -136,8 +154,12 @@ namespace ContactManager.Controller
             return person;
         }
 
-        // Erzeugt anhand der Typ-Spalte das passende Objekt der
-        // Vererbungshierarchie
+        /// <summary>
+        /// Erzeugt anhand der Typ-Spalte das passende Objekt der
+        /// Vererbungshierarchie
+        /// </summary>
+        /// <param name="typ">Inhalt der Spalte "Typ"</param>
+        /// <returns>Ein leeres Objekt der passenden Klasse</returns>
         private Person PersonErzeugen(string typ)
         {
             string kleingeschrieben = typ.ToLower();
@@ -159,9 +181,13 @@ namespace ContactManager.Controller
                                 "'. Erlaubt sind Kunde, Mitarbeiter oder Lernender.");
         }
 
-        // Füllt die Angaben ab, welche nur Mitarbeiter (und damit auch
-        // Lernende) besitzen. Die Mitarbeiternummer wird nicht eingelesen,
-        // diese vergibt die Kontaktverwaltung automatisch.
+        /// <summary>
+        /// Füllt die Angaben ab, welche nur Mitarbeiter (und damit auch
+        /// Lernende) besitzen. Die Mitarbeiternummer wird nicht eingelesen,
+        /// diese vergibt die Kontaktverwaltung automatisch.
+        /// </summary>
+        /// <param name="mitarbeiter">Der zu füllende Mitarbeiter</param>
+        /// <param name="teile">Die Spalten der CSV-Zeile</param>
         private void MitarbeiterFeldenFuellen(Mitarbeiter mitarbeiter, string[] teile)
         {
             mitarbeiter.Abteilung = Feld(teile, 11);
@@ -178,9 +204,14 @@ namespace ContactManager.Controller
             mitarbeiter.Geschaeftsadresse = Feld(teile, 22);
         }
 
-        // Gibt den Inhalt einer Spalte zurück. Fehlt die Spalte in der
-        // Zeile (z.B. bei einer Kundenzeile ohne Mitarbeiterangaben),
-        // wird ein leerer Text geliefert statt ein Absturz ausgelöst.
+        /// <summary>
+        /// Gibt den Inhalt einer Spalte zurück. Fehlt die Spalte in der
+        /// Zeile (z.B. bei einer Kundenzeile ohne Mitarbeiterangaben),
+        /// wird ein leerer Text geliefert statt ein Absturz ausgelöst.
+        /// </summary>
+        /// <param name="teile">Die Spalten der CSV-Zeile</param>
+        /// <param name="index">Nummer der gewünschten Spalte</param>
+        /// <returns>Inhalt der Spalte oder ein leerer Text</returns>
         private string Feld(string[] teile, int index)
         {
             if (index < teile.Length)
@@ -191,9 +222,13 @@ namespace ContactManager.Controller
             return "";
         }
 
-        // Wandelt einen Text im Format TT.MM.JJJJ in ein Datum um.
-        // Bewusst von Hand zerlegt, damit das Ergebnis nicht von den
-        // Ländereinstellungen des Computers abhängt.
+        /// <summary>
+        /// Wandelt einen Text im Format TT.MM.JJJJ in ein Datum um.
+        /// Bewusst von Hand zerlegt, damit das Ergebnis nicht von den
+        /// Ländereinstellungen des Computers abhängt.
+        /// </summary>
+        /// <param name="text">Datum im Format TT.MM.JJJJ</param>
+        /// <returns>Das umgewandelte Datum</returns>
         private DateTime DatumUmwandeln(string text)
         {
             string[] teile = text.Split('.');
@@ -217,9 +252,14 @@ namespace ContactManager.Controller
             }
         }
 
-        // Wie DatumUmwandeln, aber die Spalte darf auch leer sein.
-        // In diesem Fall wird der übergebene Standardwert verwendet
-        // (z.B. für ein fehlendes Austrittsdatum).
+        /// <summary>
+        /// Wie DatumUmwandeln, aber die Spalte darf auch leer sein.
+        /// In diesem Fall wird der übergebene Standardwert verwendet
+        /// (z.B. für ein fehlendes Austrittsdatum).
+        /// </summary>
+        /// <param name="text">Datum im Format TT.MM.JJJJ oder leer</param>
+        /// <param name="standardwert">Wert, der bei leerer Spalte gilt</param>
+        /// <returns>Das umgewandelte Datum oder der Standardwert</returns>
         private DateTime DatumUmwandelnOptional(string text, DateTime standardwert)
         {
             if (text == "")
@@ -230,8 +270,13 @@ namespace ContactManager.Controller
             return DatumUmwandeln(text);
         }
 
-        // Wandelt einen Text in eine ganze Zahl um. Ist die Spalte leer,
-        // wird der Standardwert verwendet.
+        /// <summary>
+        /// Wandelt einen Text in eine ganze Zahl um. Ist die Spalte leer,
+        /// wird der Standardwert verwendet.
+        /// </summary>
+        /// <param name="text">Der umzuwandelnde Text</param>
+        /// <param name="standardwert">Wert, der bei leerer Spalte gilt</param>
+        /// <returns>Die umgewandelte Zahl oder der Standardwert</returns>
         private int ZahlUmwandeln(string text, int standardwert)
         {
             if (text == "")
@@ -249,7 +294,11 @@ namespace ContactManager.Controller
             }
         }
 
-        // Wandelt den Text der Anrede in den passenden Enumerationswert um
+        /// <summary>
+        /// Wandelt den Text der Anrede in den passenden Enumerationswert um
+        /// </summary>
+        /// <param name="text">Text aus der Spalte Anrede</param>
+        /// <returns>Der passende Wert der Enumeration Anrede</returns>
         private Anrede AnredeUmwandeln(string text)
         {
             if (text.ToLower() == "frau")
@@ -260,7 +309,11 @@ namespace ContactManager.Controller
             return Anrede.Herr;
         }
 
-        // Wandelt den Text des Geschlechts in den passenden Enumerationswert um
+        /// <summary>
+        /// Wandelt den Text des Geschlechts in den passenden Enumerationswert um
+        /// </summary>
+        /// <param name="text">Text aus der Spalte Geschlecht</param>
+        /// <returns>Der passende Wert der Enumeration Geschlecht</returns>
         private Geschlecht GeschlechtUmwandeln(string text)
         {
             string kleingeschrieben = text.ToLower();

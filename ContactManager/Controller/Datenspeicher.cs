@@ -7,31 +7,42 @@ using ContactManager.Model;
 
 namespace ContactManager.Controller
 {
-    // Zuständig für das Speichern und Laden des gesamten Datenstamms
-    // auf die Festplatte. Die Daten werden per XML-Serialisierung in
-    // eine Datei geschrieben und von dort wieder als Objekte eingelesen.
+    /// <summary>
+    /// Zuständig für das Speichern und Laden des gesamten Datenstamms
+    /// auf die Festplatte. Die Daten werden per XML-Serialisierung in
+    /// eine Datei geschrieben und von dort wieder als Objekte eingelesen.
+    /// </summary>
     public class Datenspeicher
     {
-        // Vollständiger Pfad zur XML-Datei mit dem Datenstamm
+        /// <summary>
+        /// Vollständiger Pfad zur XML-Datei mit dem Datenstamm
+        /// </summary>
         private string dateipfad;
 
-        // Konstruktor: die Datei "kontaktdaten.xml" liegt im gleichen
-        // Ordner wie die Programmdatei (.exe)
+        /// <summary>
+        /// Konstruktor: die Datei "kontaktdaten.xml" liegt im gleichen
+        /// Ordner wie die Programmdatei (.exe)
+        /// </summary>
         public Datenspeicher()
         {
             dateipfad = Path.Combine(Application.StartupPath, "kontaktdaten.xml");
         }
 
-        // Pfad der XML-Datei (nur lesbar)
+        /// <summary>
+        /// Pfad der XML-Datei (nur lesbar)
+        /// </summary>
         public string Dateipfad
         {
             get { return dateipfad; }
         }
 
-        // Speichert alle Personen als XML-Datei auf die Festplatte.
-        // Dank der XmlInclude-Attribute auf der Klasse Person werden auch
-        // Kunden, Mitarbeiter und Lernende korrekt gespeichert.
-        // Fehler werden abgefangen, damit das Programm nicht abstürzt.
+        /// <summary>
+        /// Speichert alle Personen als XML-Datei auf die Festplatte.
+        /// Dank der XmlInclude-Attribute auf der Klasse Person werden auch
+        /// Kunden, Mitarbeiter und Lernende korrekt gespeichert.
+        /// Fehler werden abgefangen, damit das Programm nicht abstürzt.
+        /// </summary>
+        /// <param name="personen">Liste aller zu speichernden Personen</param>
         public void Speichern(List<Person> personen)
         {
             try
@@ -54,10 +65,13 @@ namespace ContactManager.Controller
             }
         }
 
-        // Lädt alle Personen aus der XML-Datei von der Festplatte.
-        // Gibt es noch keine Datei (erster Start) oder ist sie kaputt,
-        // wird eine leere Liste zurückgegeben, damit das Programm
-        // trotzdem starten kann.
+        /// <summary>
+        /// Lädt alle Personen aus der XML-Datei von der Festplatte.
+        /// Gibt es noch keine Datei (erster Start) oder ist sie kaputt,
+        /// wird eine leere Liste zurückgegeben, damit das Programm
+        /// trotzdem starten kann.
+        /// </summary>
+        /// <returns>Liste aller geladenen Personen (nie null)</returns>
         public List<Person> Laden()
         {
             // Beim allerersten Programmstart existiert noch keine Datei

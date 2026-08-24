@@ -6,18 +6,24 @@ using ContactManager.Model;
 
 namespace ContactManager.View
 {
-    // Hauptfenster der Applikation (View).
-    // Zeigt alle Personen in einer Liste an und bietet die Suche sowie
-    // die Aktionen Erfassen, Bearbeiten, Aktivieren/Deaktivieren und
-    // Löschen an. Die eigentliche Logik macht die Kontaktverwaltung
-    // (Controller), das Fenster zeigt nur an.
+    /// <summary>
+    /// Hauptfenster der Applikation (View).
+    /// Zeigt alle Personen in einer Liste an und bietet die Suche sowie
+    /// die Aktionen Erfassen, Bearbeiten, Aktivieren/Deaktivieren und
+    /// Löschen an. Die eigentliche Logik macht die Kontaktverwaltung
+    /// (Controller), das Fenster zeigt nur an.
+    /// </summary>
     public partial class HauptForm : Form
     {
-        // Der Controller mit der ganzen Verwaltungslogik
+        /// <summary>
+        /// Der Controller mit der ganzen Verwaltungslogik
+        /// </summary>
         private Kontaktverwaltung verwaltung;
 
-        // Konstruktor: erstellt den Controller (dieser lädt automatisch
-        // den Datenstamm) und füllt das Kategorie-Auswahlfeld
+        /// <summary>
+        /// Konstruktor: erstellt den Controller (dieser lädt automatisch
+        /// den Datenstamm) und füllt das Kategorie-Auswahlfeld
+        /// </summary>
         public HauptForm()
         {
             InitializeComponent();
@@ -32,16 +38,21 @@ namespace ContactManager.View
             CmbKategorie.SelectedIndex = 0;
         }
 
-        // Wird nach dem Erscheinen des Fensters ausgeführt und zeigt
-        // alle geladenen Personen an
+        /// <summary>
+        /// Wird nach dem Erscheinen des Fensters ausgeführt und zeigt
+        /// alle geladenen Personen an
+        /// </summary>
         private void HauptForm_Load(object sender, EventArgs e)
         {
             ListeAnzeigen(verwaltung.AlleSortiert());
         }
 
-        // Zeigt die übergebenen Personen in der ListBox an und
-        // aktualisiert die Statuszeile. Die ListBox zeigt für jedes
-        // Objekt automatisch dessen ToString-Text an.
+        /// <summary>
+        /// Zeigt die übergebenen Personen in der ListBox an und
+        /// aktualisiert die Statuszeile. Die ListBox zeigt für jedes
+        /// Objekt automatisch dessen ToString-Text an.
+        /// </summary>
+        /// <param name="anzuzeigendePersonen">Die anzuzeigenden Personen</param>
         private void ListeAnzeigen(List<Person> anzuzeigendePersonen)
         {
             LstPersonen.Items.Clear();
@@ -56,10 +67,12 @@ namespace ContactManager.View
                              "Alle Änderungen werden automatisch gespeichert";
         }
 
-        // Wendet die aktuell eingestellten Suchkriterien (neu) an.
-        // Sind alle Felder leer, werden einfach alle Personen angezeigt.
-        // So bleibt der Suchfilter auch nach einer Aktion (z.B. Bearbeiten)
-        // erhalten.
+        /// <summary>
+        /// Wendet die aktuell eingestellten Suchkriterien (neu) an.
+        /// Sind alle Felder leer, werden einfach alle Personen angezeigt.
+        /// So bleibt der Suchfilter auch nach einer Aktion (z.B. Bearbeiten)
+        /// erhalten.
+        /// </summary>
         private void AnsichtAktualisieren()
         {
             List<Person> resultate = verwaltung.Suchen(
@@ -72,8 +85,11 @@ namespace ContactManager.View
             ListeAnzeigen(resultate);
         }
 
-        // Gibt die aktuell ausgewählte Person zurück oder null,
-        // wenn nichts ausgewählt ist
+        /// <summary>
+        /// Gibt die aktuell ausgewählte Person zurück oder null,
+        /// wenn nichts ausgewählt ist
+        /// </summary>
+        /// <returns>Die ausgewählte Person oder null</returns>
         private Person AusgewaehltePerson()
         {
             if (LstPersonen.SelectedItem == null)
@@ -84,22 +100,29 @@ namespace ContactManager.View
             return (Person)LstPersonen.SelectedItem;
         }
 
-        // Markiert die übergebene Person in der Liste, damit die Auswahl
-        // nach einer Aktion (z.B. Bearbeiten oder Statuswechsel) nicht
-        // verloren geht. Ist die Person gerade nicht in der Liste
-        // (z.B. vom Suchfilter ausgeblendet), passiert einfach nichts.
+        /// <summary>
+        /// Markiert die übergebene Person in der Liste, damit die Auswahl
+        /// nach einer Aktion (z.B. Bearbeiten oder Statuswechsel) nicht
+        /// verloren geht. Ist die Person gerade nicht in der Liste
+        /// (z.B. vom Suchfilter ausgeblendet), passiert einfach nichts.
+        /// </summary>
+        /// <param name="person">Die zu markierende Person</param>
         private void PersonMarkieren(Person person)
         {
             LstPersonen.SelectedItem = person;
         }
 
-        // Startet die Suche mit den eingegebenen Kriterien
+        /// <summary>
+        /// Startet die Suche mit den eingegebenen Kriterien
+        /// </summary>
         private void CmdSuchen_Click(object sender, EventArgs e)
         {
             AnsichtAktualisieren();
         }
 
-        // Setzt alle Suchkriterien zurück und zeigt wieder alle Personen an
+        /// <summary>
+        /// Setzt alle Suchkriterien zurück und zeigt wieder alle Personen an
+        /// </summary>
         private void CmdAlleAnzeigen_Click(object sender, EventArgs e)
         {
             TxtNachname.Text = "";
@@ -110,14 +133,18 @@ namespace ContactManager.View
             ListeAnzeigen(verwaltung.AlleSortiert());
         }
 
-        // Schaltet das Geburtsdatum-Feld frei, wenn danach gesucht
-        // werden soll
+        /// <summary>
+        /// Schaltet das Geburtsdatum-Feld frei, wenn danach gesucht
+        /// werden soll
+        /// </summary>
         private void ChkGeburtsdatum_CheckedChanged(object sender, EventArgs e)
         {
             DtpGeburtsdatum.Enabled = ChkGeburtsdatum.Checked;
         }
 
-        // Öffnet den Dialog zum Erfassen eines neuen Kunden
+        /// <summary>
+        /// Öffnet den Dialog zum Erfassen eines neuen Kunden
+        /// </summary>
         private void CmdNeuerKunde_Click(object sender, EventArgs e)
         {
             KundeForm dialog = new KundeForm(null);
@@ -135,8 +162,10 @@ namespace ContactManager.View
             }
         }
 
-        // Öffnet den Dialog zum Erfassen eines neuen Mitarbeiters oder
-        // Lernenden. Die Mitarbeiternummer wird automatisch vergeben.
+        /// <summary>
+        /// Öffnet den Dialog zum Erfassen eines neuen Mitarbeiters oder
+        /// Lernenden. Die Mitarbeiternummer wird automatisch vergeben.
+        /// </summary>
         private void CmdNeuerMitarbeiter_Click(object sender, EventArgs e)
         {
             MitarbeiterForm dialog = new MitarbeiterForm(null);
@@ -154,9 +183,11 @@ namespace ContactManager.View
             }
         }
 
-        // Öffnet die ausgewählte Person im passenden Dialog zum
-        // Bearbeiten. Mit dem is-Operator wird geprüft, ob es ein Kunde
-        // oder ein Mitarbeiter ist.
+        /// <summary>
+        /// Öffnet die ausgewählte Person im passenden Dialog zum
+        /// Bearbeiten. Mit dem is-Operator wird geprüft, ob es ein Kunde
+        /// oder ein Mitarbeiter ist.
+        /// </summary>
         private void CmdBearbeiten_Click(object sender, EventArgs e)
         {
             Person person = AusgewaehltePerson();
@@ -199,15 +230,19 @@ namespace ContactManager.View
             }
         }
 
-        // Doppelklick auf einen Eintrag öffnet ihn direkt zum Bearbeiten
-        // (gleiche Methode wie der Button, damit kein doppelter Code entsteht)
+        /// <summary>
+        /// Doppelklick auf einen Eintrag öffnet ihn direkt zum Bearbeiten
+        /// (gleiche Methode wie der Button, damit kein doppelter Code entsteht)
+        /// </summary>
         private void LstPersonen_DoubleClick(object sender, EventArgs e)
         {
             CmdBearbeiten_Click(sender, e);
         }
 
-        // Schaltet den Status der ausgewählten Person zwischen aktiv
-        // und passiv um
+        /// <summary>
+        /// Schaltet den Status der ausgewählten Person zwischen aktiv
+        /// und passiv um
+        /// </summary>
         private void CmdAktivPassiv_Click(object sender, EventArgs e)
         {
             Person person = AusgewaehltePerson();
@@ -226,7 +261,9 @@ namespace ContactManager.View
             PersonMarkieren(person);
         }
 
-        // Löscht die ausgewählte Person nach einer Sicherheitsabfrage
+        /// <summary>
+        /// Löscht die ausgewählte Person nach einer Sicherheitsabfrage
+        /// </summary>
         private void CmdLoeschen_Click(object sender, EventArgs e)
         {
             Person person = AusgewaehltePerson();
@@ -252,10 +289,12 @@ namespace ContactManager.View
             }
         }
 
-        // Importiert Kontakte aus einer CSV-Datei. Die erste Spalte der
-        // Datei bestimmt, ob ein Kunde, ein Mitarbeiter oder ein Lernender
-        // erfasst wird. Bereits vorhandene Personen werden übersprungen,
-        // damit dieselbe Datei nicht doppelt importiert werden kann.
+        /// <summary>
+        /// Importiert Kontakte aus einer CSV-Datei. Die erste Spalte der
+        /// Datei bestimmt, ob ein Kunde, ein Mitarbeiter oder ein Lernender
+        /// erfasst wird. Bereits vorhandene Personen werden übersprungen,
+        /// damit dieselbe Datei nicht doppelt importiert werden kann.
+        /// </summary>
         private void CmdCsvImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog dateiauswahl = new OpenFileDialog();
@@ -301,7 +340,12 @@ namespace ContactManager.View
             }
         }
 
-        // Zeigt dem Benutzer nach dem Import an, was genau passiert ist
+        /// <summary>
+        /// Zeigt dem Benutzer nach dem Import an, was genau passiert ist
+        /// </summary>
+        /// <param name="importiert">Anzahl neu importierter Kontakte</param>
+        /// <param name="uebersprungen">Anzahl bereits vorhandener Kontakte</param>
+        /// <param name="importer">Der Importer mit den Fehlermeldungen</param>
         private void MeldungNachImport(int importiert, int uebersprungen, CsvImporter importer)
         {
             string meldung = "Neu importiert: " + importiert + " Kontakte\n" +
@@ -318,9 +362,11 @@ namespace ContactManager.View
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // Öffnet das Dashboard mit der Übersicht über den Datenstamm.
-        // Die Kontaktverwaltung wird übergeben, damit beide Fenster mit
-        // denselben Daten arbeiten.
+        /// <summary>
+        /// Öffnet das Dashboard mit der Übersicht über den Datenstamm.
+        /// Die Kontaktverwaltung wird übergeben, damit beide Fenster mit
+        /// denselben Daten arbeiten.
+        /// </summary>
         private void CmdDashboard_Click(object sender, EventArgs e)
         {
             DashboardForm dialog = new DashboardForm(verwaltung);

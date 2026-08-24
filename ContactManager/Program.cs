@@ -4,11 +4,15 @@ using ContactManager.View;
 
 namespace ContactManager
 {
-    // Startklasse der Applikation.
-    // Von hier aus wird das Hauptfenster gestartet.
+    /// <summary>
+    /// Startklasse der Applikation.
+    /// Von hier aus wird das Hauptfenster gestartet.
+    /// </summary>
     internal static class Program
     {
-        // Einstiegspunkt des Programms
+        /// <summary>
+        /// Einstiegspunkt des Programms
+        /// </summary>
         [STAThread]
         private static void Main()
         {

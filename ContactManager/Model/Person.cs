@@ -3,60 +3,86 @@ using System.Xml.Serialization;
 
 namespace ContactManager.Model
 {
-    // Basisklasse der Vererbungshierarchie.
-    // Hier stecken alle Daten drin, die Kunden und Mitarbeiter gemeinsam haben.
-    // Es werden nie direkt Personen erzeugt, sondern immer Kunden,
-    // Mitarbeiter oder Lernende.
-    //
-    // Die XmlInclude-Attribute braucht es, damit die XML-Serialisierung
-    // weiss, dass in einer Personen-Liste auch die abgeleiteten Klassen
-    // vorkommen können.
+    /// <summary>
+    /// Basisklasse der Vererbungshierarchie.
+    /// Hier stecken alle Daten drin, die Kunden und Mitarbeiter gemeinsam haben.
+    /// Es werden nie direkt Personen erzeugt, sondern immer Kunden,
+    /// Mitarbeiter oder Lernende.
+    ///
+    /// Die XmlInclude-Attribute braucht es, damit die XML-Serialisierung
+    /// weiss, dass in einer Personen-Liste auch die abgeleiteten Klassen
+    /// vorkommen können.
+    /// </summary>
     [XmlInclude(typeof(Kunde))]
     [XmlInclude(typeof(Mitarbeiter))]
     [XmlInclude(typeof(Lernender))]
     public class Person
     {
-        // Anrede der Person (Herr oder Frau)
+        /// <summary>
+        /// Anrede der Person (Herr oder Frau)
+        /// </summary>
         public Anrede Anrede { get; set; }
 
-        // Akademischer Titel, z.B. "Dr." (darf leer sein)
+        /// <summary>
+        /// Akademischer Titel, z.B. "Dr." (darf leer sein)
+        /// </summary>
         public string Titel { get; set; }
 
-        // Vorname der Person
+        /// <summary>
+        /// Vorname der Person
+        /// </summary>
         public string Vorname { get; set; }
 
-        // Nachname der Person
+        /// <summary>
+        /// Nachname der Person
+        /// </summary>
         public string Nachname { get; set; }
 
-        // Geburtsdatum der Person
+        /// <summary>
+        /// Geburtsdatum der Person
+        /// </summary>
         public DateTime Geburtsdatum { get; set; }
 
-        // Geschlecht der Person
+        /// <summary>
+        /// Geschlecht der Person
+        /// </summary>
         public Geschlecht Geschlecht { get; set; }
 
-        // Geschäftliche Telefonnummer
+        /// <summary>
+        /// Geschäftliche Telefonnummer
+        /// </summary>
         public string TelefonnummerGeschaeft { get; set; }
 
-        // Mobiltelefonnummer
+        /// <summary>
+        /// Mobiltelefonnummer
+        /// </summary>
         public string Mobiltelefonnummer { get; set; }
 
-        // E-Mail-Adresse
+        /// <summary>
+        /// E-Mail-Adresse
+        /// </summary>
         public string EMailAdresse { get; set; }
 
-        // Status der Person: true = aktiv, false = passiv.
-        // So können Personen deaktiviert werden, ohne sie zu löschen.
+        /// <summary>
+        /// Status der Person: true = aktiv, false = passiv.
+        /// So können Personen deaktiviert werden, ohne sie zu löschen.
+        /// </summary>
         public bool Aktiv { get; set; }
 
-        // Name der Kategorie für die Anzeige und die Suche.
-        // Wird von den abgeleiteten Klassen überschrieben.
+        /// <summary>
+        /// Name der Kategorie für die Anzeige und die Suche.
+        /// Wird von den abgeleiteten Klassen überschrieben.
+        /// </summary>
         [XmlIgnore]
         public virtual string Kategorie
         {
             get { return "Person"; }
         }
 
-        // Leerer Konstruktor: setzt Standardwerte.
-        // Wird auch für die XML-Serialisierung gebraucht.
+        /// <summary>
+        /// Leerer Konstruktor: setzt Standardwerte.
+        /// Wird auch für die XML-Serialisierung gebraucht.
+        /// </summary>
         public Person()
         {
             Titel = "";
@@ -69,9 +95,12 @@ namespace ContactManager.Model
             Aktiv = true;
         }
 
-        // Gibt die Person als lesbaren Text zurück, z.B.
-        // "[Kunde] Muster Max, geb. 01.01.1990 (aktiv)".
-        // Die ListBox im Hauptfenster zeigt automatisch diesen Text an.
+        /// <summary>
+        /// Gibt die Person als lesbaren Text zurück, z.B.
+        /// "[Kunde] Muster Max, geb. 01.01.1990 (aktiv)".
+        /// Die ListBox im Hauptfenster zeigt automatisch diesen Text an.
+        /// </summary>
+        /// <returns>Zusammenfassung der Person als Text</returns>
         public override string ToString()
         {
             // Ternärer Operator: aktiv oder passiv als Text

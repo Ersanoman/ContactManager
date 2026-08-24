@@ -3,48 +3,72 @@ using System.Xml.Serialization;
 
 namespace ContactManager.Model
 {
-    // Ein Mitarbeiter der Firma.
-    // Erbt alle allgemeinen Personendaten von der Basisklasse Person und
-    // hat zusätzlich die Daten zur Anstellung.
+    /// <summary>
+    /// Ein Mitarbeiter der Firma.
+    /// Erbt alle allgemeinen Personendaten von der Basisklasse Person und
+    /// hat zusätzlich die Daten zur Anstellung.
+    /// </summary>
     public class Mitarbeiter : Person
     {
-        // Private Felder für die Properties mit Wertprüfung (Datenkapselung)
+        /// <summary>
+        /// Private Felder für die Properties mit Wertprüfung (Datenkapselung)
+        /// </summary>
         private int kaderstufe;
         private int beschaeftigungsgrad;
 
-        // Eindeutige Mitarbeiternummer.
-        // Wird von der Kontaktverwaltung automatisch vergeben (ab 1000).
-        // 0 bedeutet: noch keine Nummer vergeben.
+        /// <summary>
+        /// Eindeutige Mitarbeiternummer.
+        /// Wird von der Kontaktverwaltung automatisch vergeben (ab 1000).
+        /// 0 bedeutet: noch keine Nummer vergeben.
+        /// </summary>
         public int Mitarbeiternummer { get; set; }
 
-        // Abteilung, in der der Mitarbeiter arbeitet
+        /// <summary>
+        /// Abteilung, in der der Mitarbeiter arbeitet
+        /// </summary>
         public string Abteilung { get; set; }
 
-        // Schweizer AHV-Nummer im Format 756.XXXX.XXXX.XX
+        /// <summary>
+        /// Schweizer AHV-Nummer im Format 756.XXXX.XXXX.XX
+        /// </summary>
         public string AhvNummer { get; set; }
 
-        // Private Wohnadresse (Strasse und Hausnummer)
+        /// <summary>
+        /// Private Wohnadresse (Strasse und Hausnummer)
+        /// </summary>
         public string Adresse { get; set; }
 
-        // Postleitzahl des Wohnorts (in der Schweiz vierstellig)
+        /// <summary>
+        /// Postleitzahl des Wohnorts (in der Schweiz vierstellig)
+        /// </summary>
         public string Postleitzahl { get; set; }
 
-        // Wohnort des Mitarbeiters
+        /// <summary>
+        /// Wohnort des Mitarbeiters
+        /// </summary>
         public string Wohnort { get; set; }
 
-        // Nationalität des Mitarbeiters
+        /// <summary>
+        /// Nationalität des Mitarbeiters
+        /// </summary>
         public string Nationalitaet { get; set; }
 
-        // Datum des Firmeneintritts
+        /// <summary>
+        /// Datum des Firmeneintritts
+        /// </summary>
         public DateTime Eintrittsdatum { get; set; }
 
-        // Datum des Firmenaustritts.
-        // DateTime.MinValue bedeutet: noch angestellt, kein Austritt.
+        /// <summary>
+        /// Datum des Firmenaustritts.
+        /// DateTime.MinValue bedeutet: noch angestellt, kein Austritt.
+        /// </summary>
         public DateTime Austrittsdatum { get; set; }
 
-        // Beschäftigungsgrad in Prozent.
-        // Das set lässt nur Werte von 0 bis 100 zu, ungültige Werte
-        // werden ignoriert (Datenkapselung).
+        /// <summary>
+        /// Beschäftigungsgrad in Prozent.
+        /// Das set lässt nur Werte von 0 bis 100 zu, ungültige Werte
+        /// werden ignoriert (Datenkapselung).
+        /// </summary>
         public int Beschaeftigungsgrad
         {
             get { return beschaeftigungsgrad; }
@@ -57,12 +81,16 @@ namespace ContactManager.Model
             }
         }
 
-        // Rolle bzw. Tätigkeitsbezeichnung des Mitarbeiters
+        /// <summary>
+        /// Rolle bzw. Tätigkeitsbezeichnung des Mitarbeiters
+        /// </summary>
         public string Rolle { get; set; }
 
-        // Kaderstufe des Mitarbeiters.
-        // Das set lässt nur Werte von 0 bis 5 zu, ungültige Werte
-        // werden ignoriert (Datenkapselung).
+        /// <summary>
+        /// Kaderstufe des Mitarbeiters.
+        /// Das set lässt nur Werte von 0 bis 5 zu, ungültige Werte
+        /// werden ignoriert (Datenkapselung).
+        /// </summary>
         public int Kaderstufe
         {
             get { return kaderstufe; }
@@ -75,18 +103,24 @@ namespace ContactManager.Model
             }
         }
 
-        // Geschäftsadresse des Arbeitsorts
+        /// <summary>
+        /// Geschäftsadresse des Arbeitsorts
+        /// </summary>
         public string Geschaeftsadresse { get; set; }
 
-        // Name der Kategorie für die Anzeige und die Suche
+        /// <summary>
+        /// Name der Kategorie für die Anzeige und die Suche
+        /// </summary>
         [XmlIgnore]
         public override string Kategorie
         {
             get { return "Mitarbeiter"; }
         }
 
-        // Leerer Konstruktor: setzt Standardwerte.
-        // Wird auch für die XML-Serialisierung gebraucht.
+        /// <summary>
+        /// Leerer Konstruktor: setzt Standardwerte.
+        /// Wird auch für die XML-Serialisierung gebraucht.
+        /// </summary>
         public Mitarbeiter()
         {
             Abteilung = "";
@@ -103,9 +137,12 @@ namespace ContactManager.Model
             Geschaeftsadresse = "";
         }
 
-        // Gibt den Mitarbeiter als lesbaren Text zurück.
-        // Ruft ToString der Basisklasse auf und hängt die
-        // Mitarbeiternummer an.
+        /// <summary>
+        /// Gibt den Mitarbeiter als lesbaren Text zurück.
+        /// Ruft ToString der Basisklasse auf und hängt die
+        /// Mitarbeiternummer an.
+        /// </summary>
+        /// <returns>Zusammenfassung des Mitarbeiters als Text</returns>
         public override string ToString()
         {
             return base.ToString() + " - Nr. " + Mitarbeiternummer;
