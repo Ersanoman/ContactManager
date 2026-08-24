@@ -84,6 +84,15 @@ namespace ContactManager.View
             return (Person)LstPersonen.SelectedItem;
         }
 
+        // Markiert die übergebene Person in der Liste, damit die Auswahl
+        // nach einer Aktion (z.B. Bearbeiten oder Statuswechsel) nicht
+        // verloren geht. Ist die Person gerade nicht in der Liste
+        // (z.B. vom Suchfilter ausgeblendet), passiert einfach nichts.
+        private void PersonMarkieren(Person person)
+        {
+            LstPersonen.SelectedItem = person;
+        }
+
         // Startet die Suche mit den eingegebenen Kriterien
         private void CmdSuchen_Click(object sender, EventArgs e)
         {
@@ -120,6 +129,9 @@ namespace ContactManager.View
                 // Filter zurücksetzen, damit die neue Person sicher
                 // sichtbar ist
                 CmdAlleAnzeigen_Click(sender, e);
+
+                // Die neu erfasste Person direkt markieren
+                PersonMarkieren(dialog.Ergebnis);
             }
         }
 
@@ -136,6 +148,9 @@ namespace ContactManager.View
                 // Filter zurücksetzen, damit die neue Person sicher
                 // sichtbar ist
                 CmdAlleAnzeigen_Click(sender, e);
+
+                // Die neu erfasste Person direkt markieren
+                PersonMarkieren(dialog.Ergebnis);
             }
         }
 
@@ -161,6 +176,10 @@ namespace ContactManager.View
                 {
                     verwaltung.Ersetzen(person, dialog.Ergebnis);
                     AnsichtAktualisieren();
+
+                    // Das Ergebnis markieren (nicht "person", denn beim
+                    // Ersetzen wurde ein neues Objekt erzeugt)
+                    PersonMarkieren(dialog.Ergebnis);
                 }
             }
             else if (person is Mitarbeiter)
@@ -172,6 +191,10 @@ namespace ContactManager.View
                 {
                     verwaltung.Ersetzen(person, dialog.Ergebnis);
                     AnsichtAktualisieren();
+
+                    // Das Ergebnis markieren (nicht "person", denn beim
+                    // Ersetzen wurde ein neues Objekt erzeugt)
+                    PersonMarkieren(dialog.Ergebnis);
                 }
             }
         }
@@ -198,6 +221,9 @@ namespace ContactManager.View
 
             verwaltung.AktivUmschalten(person);
             AnsichtAktualisieren();
+
+            // Die Person bleibt nach dem Statuswechsel markiert
+            PersonMarkieren(person);
         }
 
         // Löscht die ausgewählte Person nach einer Sicherheitsabfrage

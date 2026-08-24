@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 # Lokale Datendatei der Applikation (wird zur Laufzeit erzeugt)
 kontaktdaten.xml
+
+# macOS-Systemdateien
+.DS_Store
