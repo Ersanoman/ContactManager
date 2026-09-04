@@ -120,6 +120,22 @@ namespace ContactManager.Controller
                 throw new Exception("Vorname oder Nachname fehlt.");
             }
 
+            // In Namen gehören keine Zahlen
+            if (!Pruefung.OhneZiffern(Feld(teile, 3)) || !Pruefung.OhneZiffern(Feld(teile, 4)))
+            {
+                throw new Exception("Vorname oder Nachname enthält Zahlen.");
+            }
+
+            // Das Geburtsdatum muss in der Vergangenheit und nach 1900 liegen.
+            // Sonst könnte das Datums-Auswahlfeld im Formular den Wert später
+            // gar nicht anzeigen.
+            DateTime geburtsdatum = DatumUmwandeln(Feld(teile, 5));
+            if (!Pruefung.GeburtsdatumPlausibel(geburtsdatum))
+            {
+                throw new Exception("Das Geburtsdatum '" + Feld(teile, 5) +
+                                    "' liegt in der Zukunft oder vor 1900.");
+            }
+
             // Die erste Spalte entscheidet, welches Objekt erzeugt wird
             Person person = PersonErzeugen(Feld(teile, 0));
 
@@ -128,7 +144,7 @@ namespace ContactManager.Controller
             person.Titel = Feld(teile, 2);
             person.Vorname = Feld(teile, 3);
             person.Nachname = Feld(teile, 4);
-            person.Geburtsdatum = DatumUmwandeln(Feld(teile, 5));
+            person.Geburtsdatum = geburtsdatum;
             person.Geschlecht = GeschlechtUmwandeln(Feld(teile, 6));
             person.TelefonnummerGeschaeft = Feld(teile, 7);
             person.Mobiltelefonnummer = Feld(teile, 8);
@@ -147,8 +163,13 @@ namespace ContactManager.Controller
             if (person is Lernender)
             {
                 Lernender lernender = (Lernender)person;
-                lernender.Lehrjahre = ZahlUmwandeln(Feld(teile, 23), 3);
-                lernender.AktuellesLehrjahr = ZahlUmwandeln(Feld(teile, 24), 1);
+                lernender.Lehrjahre = ZahlImBereich(Feld(teile, 23), 3, 1, 4, "Lehrjahre");
+                lernender.AktuellesLehrjahr = ZahlImBereich(Feld(teile, 24), 1, 1, 4, "aktuelles Lehrjahr");
+
+                if (lernender.AktuellesLehrjahr > lernender.Lehrjahre)
+                {
+                    throw new Exception("Das aktuelle Lehrjahr ist grösser als die Anzahl Lehrjahre.");
+                }
             }
 
             return person;
@@ -198,10 +219,17 @@ namespace ContactManager.Controller
             mitarbeiter.Nationalitaet = Feld(teile, 16);
             mitarbeiter.Eintrittsdatum = DatumUmwandelnOptional(Feld(teile, 17), DateTime.Today);
             mitarbeiter.Austrittsdatum = DatumUmwandelnOptional(Feld(teile, 18), DateTime.MinValue);
-            mitarbeiter.Beschaeftigungsgrad = ZahlUmwandeln(Feld(teile, 19), 100);
+            mitarbeiter.Beschaeftigungsgrad = ZahlImBereich(Feld(teile, 19), 100, 0, 100, "Beschäftigungsgrad");
             mitarbeiter.Rolle = Feld(teile, 20);
-            mitarbeiter.Kaderstufe = ZahlUmwandeln(Feld(teile, 21), 0);
+            mitarbeiter.Kaderstufe = ZahlImBereich(Feld(teile, 21), 0, 0, 5, "Kaderstufe");
             mitarbeiter.Geschaeftsadresse = Feld(teile, 22);
+
+            // Ein Austritt kann nicht vor dem Eintritt liegen
+            if (mitarbeiter.Austrittsdatum != DateTime.MinValue &&
+                mitarbeiter.Austrittsdatum < mitarbeiter.Eintrittsdatum)
+            {
+                throw new Exception("Das Austrittsdatum liegt vor dem Eintrittsdatum.");
+            }
         }
 
         /// <summary>
@@ -292,6 +320,31 @@ namespace ContactManager.Controller
             {
                 throw new Exception("'" + text + "' ist keine gültige Zahl.");
             }
+        }
+
+        /// <summary>
+        /// Wandelt einen Text in eine ganze Zahl um und prüft zusätzlich,
+        /// ob sie im erlaubten Bereich liegt. Ohne diese Prüfung würden
+        /// unsinnige Werte von den Properties stillschweigend verworfen
+        /// und der Benutzer würde nichts davon merken.
+        /// </summary>
+        /// <param name="text">Der umzuwandelnde Text</param>
+        /// <param name="standardwert">Wert, der bei leerer Spalte gilt</param>
+        /// <param name="minimum">Kleinster erlaubter Wert</param>
+        /// <param name="maximum">Grösster erlaubter Wert</param>
+        /// <param name="feldname">Name der Spalte für die Fehlermeldung</param>
+        /// <returns>Die geprüfte Zahl</returns>
+        private int ZahlImBereich(string text, int standardwert, int minimum, int maximum, string feldname)
+        {
+            int wert = ZahlUmwandeln(text, standardwert);
+
+            if (wert < minimum || wert > maximum)
+            {
+                throw new Exception("Der Wert '" + text + "' für " + feldname +
+                                    " liegt nicht zwischen " + minimum + " und " + maximum + ".");
+            }
+
+            return wert;
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using ContactManager.Controller;
 using ContactManager.Model;
 
 namespace ContactManager.View
@@ -71,7 +72,14 @@ namespace ContactManager.View
                 TxtTitel.Text = original.Titel;
                 TxtVorname.Text = original.Vorname;
                 TxtNachname.Text = original.Nachname;
-                DtpGeburtsdatum.Value = original.Geburtsdatum;
+                // Ein Datum ausserhalb des erlaubten Bereichs (z.B. aus einer
+                // importierten Datei) würde im Auswahlfeld einen Laufzeitfehler
+                // auslösen. Darum wird es vorher geprüft.
+                if (Pruefung.DatumImBereich(original.Geburtsdatum,
+                        DtpGeburtsdatum.MinDate, DtpGeburtsdatum.MaxDate))
+                {
+                    DtpGeburtsdatum.Value = original.Geburtsdatum;
+                }
                 CmbGeschlecht.SelectedIndex = (int)original.Geschlecht;
                 TxtTelefonGeschaeft.Text = original.TelefonnummerGeschaeft;
                 TxtMobiltelefon.Text = original.Mobiltelefonnummer;
@@ -85,7 +93,11 @@ namespace ContactManager.View
                 TxtPostleitzahl.Text = original.Postleitzahl;
                 TxtWohnort.Text = original.Wohnort;
                 CmbNationalitaet.Text = original.Nationalitaet;
-                DtpEintrittsdatum.Value = original.Eintrittsdatum;
+                if (Pruefung.DatumImBereich(original.Eintrittsdatum,
+                        DtpEintrittsdatum.MinDate, DtpEintrittsdatum.MaxDate))
+                {
+                    DtpEintrittsdatum.Value = original.Eintrittsdatum;
+                }
                 NumBeschaeftigungsgrad.Value = original.Beschaeftigungsgrad;
                 TxtRolle.Text = original.Rolle;
                 NumKaderstufe.Value = original.Kaderstufe;
@@ -95,7 +107,11 @@ namespace ContactManager.View
                 if (original.Austrittsdatum != DateTime.MinValue)
                 {
                     ChkAusgetreten.Checked = true;
-                    DtpAustrittsdatum.Value = original.Austrittsdatum;
+                    if (Pruefung.DatumImBereich(original.Austrittsdatum,
+                            DtpAustrittsdatum.MinDate, DtpAustrittsdatum.MaxDate))
+                    {
+                        DtpAustrittsdatum.Value = original.Austrittsdatum;
+                    }
                 }
 
                 // Mit dem is-Operator prüfen, ob es ein Lernender ist,
@@ -148,86 +164,6 @@ namespace ContactManager.View
         }
 
         /// <summary>
-        /// Prüft, ob eine Telefonnummer nur aus Ziffern (und Leerzeichen)
-        /// besteht. Wichtig gegen eingefügten Text (Ctrl+V), denn der
-        /// kommt am KeyPress-Handler vorbei.
-        /// </summary>
-        /// <param name="nummer">Die zu prüfende Telefonnummer</param>
-        /// <returns>true, wenn die Nummer nur Ziffern enthält</returns>
-        private bool TelefonnummerGueltig(string nummer)
-        {
-            // Leerzeichen entfernen, danach dürfen nur Ziffern übrig sein
-            string ziffern = nummer.Replace(" ", "");
-
-            foreach (char zeichen in ziffern)
-            {
-                if (zeichen < '0' || zeichen > '9')
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Prüft, ob die AHV-Nummer gültig ist. Erwartet wird das
-        /// Schweizer Format 756.XXXX.XXXX.XX (13 Ziffern, beginnt mit 756).
-        /// </summary>
-        /// <param name="ahvNummer">Die zu prüfende AHV-Nummer</param>
-        /// <returns>true, wenn die AHV-Nummer gültig ist</returns>
-        private bool AhvNummerGueltig(string ahvNummer)
-        {
-            // Die Trennpunkte entfernen, damit nur die Ziffern übrig bleiben
-            string ziffern = ahvNummer.Replace(".", "");
-
-            // Eine AHV-Nummer besteht aus genau 13 Ziffern
-            if (ziffern.Length != 13)
-            {
-                return false;
-            }
-
-            // Schweizer AHV-Nummern beginnen immer mit dem Ländercode 756
-            if (ziffern.Substring(0, 3) != "756")
-            {
-                return false;
-            }
-
-            // Prüfen, ob wirklich nur Ziffern drin sind. Wenn die
-            // Umwandlung in eine Zahl scheitert, ist die Eingabe ungültig.
-            try
-            {
-                Convert.ToInt64(ziffern);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Prüft, ob die Postleitzahl gültig ist. Schweizer Postleitzahlen
-        /// sind vierstellige Zahlen (1000 bis 9999).
-        /// </summary>
-        /// <param name="postleitzahl">Die zu prüfende Postleitzahl</param>
-        /// <returns>true, wenn die Postleitzahl gültig ist</returns>
-        private bool PostleitzahlGueltig(string postleitzahl)
-        {
-            try
-            {
-                int wert = Convert.ToInt32(postleitzahl);
-                return wert >= 1000 && wert <= 9999;
-            }
-            catch (Exception)
-            {
-                // Die Eingabe ist keine gültige Zahl
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Prüft alle Eingaben. Bei einem Fehler wird eine verständliche
         /// Meldung angezeigt und false zurückgegeben.
         /// </summary>
@@ -237,96 +173,123 @@ namespace ContactManager.View
             // Pflichtfelder prüfen (im Formular mit * markiert)
             if (TxtVorname.Text.Trim() == "")
             {
-                MessageBox.Show("Bitte einen Vornamen eingeben (Pflichtfeld).",
-                    "Eingabe unvollständig", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Bitte einen Vornamen eingeben (Pflichtfeld).");
                 return false;
             }
 
             if (TxtNachname.Text.Trim() == "")
             {
-                MessageBox.Show("Bitte einen Nachnamen eingeben (Pflichtfeld).",
-                    "Eingabe unvollständig", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Bitte einen Nachnamen eingeben (Pflichtfeld).");
                 return false;
             }
 
             if (TxtAbteilung.Text.Trim() == "")
             {
-                MessageBox.Show("Bitte eine Abteilung eingeben (Pflichtfeld).",
-                    "Eingabe unvollständig", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Bitte eine Abteilung eingeben (Pflichtfeld).");
                 return false;
             }
 
             if (TxtAhvNummer.Text.Trim() == "")
             {
-                MessageBox.Show("Bitte eine AHV-Nummer eingeben (Pflichtfeld).",
-                    "Eingabe unvollständig", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Bitte eine AHV-Nummer eingeben (Pflichtfeld).");
                 return false;
             }
 
-            // AHV-Nummer auf das richtige Format prüfen
-            if (!AhvNummerGueltig(TxtAhvNummer.Text.Trim()))
+            // In Namen, Titel, Wohnort und Nationalität gehören keine Zahlen
+            if (!Pruefung.OhneZiffern(TxtVorname.Text))
             {
-                MessageBox.Show("Die AHV-Nummer ist ungültig. " +
-                    "Erwartet wird das Format 756.XXXX.XXXX.XX.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Der Vorname darf keine Zahlen enthalten.");
                 return false;
             }
 
-            // Einfache Prüfung der E-Mail-Adresse (nur wenn eine da ist)
-            string email = TxtEMail.Text.Trim();
-            if (email != "" && (!email.Contains("@") || !email.Contains(".")))
+            if (!Pruefung.OhneZiffern(TxtNachname.Text))
             {
-                MessageBox.Show("Die E-Mail-Adresse ist ungültig. " +
-                    "Sie muss ein @-Zeichen und einen Punkt enthalten.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Der Nachname darf keine Zahlen enthalten.");
+                return false;
+            }
+
+            if (!Pruefung.OhneZiffern(TxtTitel.Text))
+            {
+                Meldung("Der Titel darf keine Zahlen enthalten.");
+                return false;
+            }
+
+            if (!Pruefung.OhneZiffern(TxtWohnort.Text))
+            {
+                Meldung("Der Wohnort darf keine Zahlen enthalten.");
+                return false;
+            }
+
+            if (!Pruefung.OhneZiffern(CmbNationalitaet.Text))
+            {
+                Meldung("Die Nationalität darf keine Zahlen enthalten.");
+                return false;
+            }
+
+            // AHV-Nummer auf das Schweizer Format prüfen
+            if (!Pruefung.AhvNummerGueltig(TxtAhvNummer.Text.Trim()))
+            {
+                Meldung("Die AHV-Nummer ist ungültig. " +
+                    "Erwartet wird das Format 756.XXXX.XXXX.XX.");
+                return false;
+            }
+
+            // E-Mail-Adresse prüfen (nur wenn eine eingegeben wurde)
+            if (TxtEMail.Text.Trim() != "" && !Pruefung.EMailGueltig(TxtEMail.Text.Trim()))
+            {
+                Meldung("Die E-Mail-Adresse ist ungültig. Beispiel: name@firma.ch");
                 return false;
             }
 
             // Telefonnummern dürfen nur Zahlen enthalten
-            if (TxtTelefonGeschaeft.Text.Trim() != "" &&
-                !TelefonnummerGueltig(TxtTelefonGeschaeft.Text.Trim()))
+            if (!Pruefung.TelefonnummerGueltig(TxtTelefonGeschaeft.Text))
             {
-                MessageBox.Show("Die Telefonnummer Geschäft darf nur Zahlen enthalten.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Die Telefonnummer Geschäft darf nur Zahlen enthalten.");
                 return false;
             }
 
-            if (TxtMobiltelefon.Text.Trim() != "" &&
-                !TelefonnummerGueltig(TxtMobiltelefon.Text.Trim()))
+            if (!Pruefung.TelefonnummerGueltig(TxtMobiltelefon.Text))
             {
-                MessageBox.Show("Die Mobiltelefonnummer darf nur Zahlen enthalten.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Die Mobiltelefonnummer darf nur Zahlen enthalten.");
                 return false;
             }
 
-            // Postleitzahl prüfen (nur wenn eine da ist)
+            // Postleitzahl prüfen (nur wenn eine eingegeben wurde)
             if (TxtPostleitzahl.Text.Trim() != "" &&
-                !PostleitzahlGueltig(TxtPostleitzahl.Text.Trim()))
+                !Pruefung.PostleitzahlGueltig(TxtPostleitzahl.Text.Trim()))
             {
-                MessageBox.Show("Die Postleitzahl ist ungültig. " +
-                    "Erwartet wird eine vierstellige Zahl (1000 bis 9999).",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Die Postleitzahl ist ungültig. " +
+                    "Erwartet wird eine vierstellige Zahl (1000 bis 9999).");
                 return false;
             }
 
             // Das Austrittsdatum darf nicht vor dem Eintrittsdatum liegen
             if (ChkAusgetreten.Checked && DtpAustrittsdatum.Value.Date < DtpEintrittsdatum.Value.Date)
             {
-                MessageBox.Show("Das Austrittsdatum darf nicht vor dem Eintrittsdatum liegen.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Das Austrittsdatum darf nicht vor dem Eintrittsdatum liegen.");
                 return false;
             }
 
             // Das aktuelle Lehrjahr kann nicht grösser als die Lehrdauer sein
             if (ChkLernender.Checked && NumAktuellesLehrjahr.Value > NumLehrjahre.Value)
             {
-                MessageBox.Show("Das aktuelle Lehrjahr kann nicht grösser sein " +
-                    "als die gesamte Anzahl Lehrjahre.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Das aktuelle Lehrjahr kann nicht grösser sein " +
+                    "als die gesamte Anzahl Lehrjahre.");
                 return false;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Zeigt dem Benutzer einen Hinweis zu einer fehlerhaften Eingabe an.
+        /// Spart das mehrfache Schreiben derselben MessageBox-Zeile.
+        /// </summary>
+        /// <param name="text">Der anzuzeigende Hinweistext</param>
+        private void Meldung(string text)
+        {
+            MessageBox.Show(text, "Eingabe prüfen",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         /// <summary>

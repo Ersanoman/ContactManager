@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ContactManager.Controller;
 using ContactManager.Model;
 
 namespace ContactManager.View
@@ -70,7 +71,14 @@ namespace ContactManager.View
                 TxtTitel.Text = original.Titel;
                 TxtVorname.Text = original.Vorname;
                 TxtNachname.Text = original.Nachname;
-                DtpGeburtsdatum.Value = original.Geburtsdatum;
+                // Ein Datum ausserhalb des erlaubten Bereichs (z.B. aus einer
+                // importierten Datei) würde im Auswahlfeld einen Laufzeitfehler
+                // auslösen. Darum wird es vorher geprüft.
+                if (Pruefung.DatumImBereich(original.Geburtsdatum,
+                        DtpGeburtsdatum.MinDate, DtpGeburtsdatum.MaxDate))
+                {
+                    DtpGeburtsdatum.Value = original.Geburtsdatum;
+                }
                 CmbGeschlecht.SelectedIndex = (int)original.Geschlecht;
                 TxtTelefonGeschaeft.Text = original.TelefonnummerGeschaeft;
                 TxtMobiltelefon.Text = original.Mobiltelefonnummer;
@@ -139,29 +147,6 @@ namespace ContactManager.View
         }
 
         /// <summary>
-        /// Prüft, ob eine Telefonnummer nur aus Ziffern (und Leerzeichen)
-        /// besteht. Wichtig gegen eingefügten Text (Ctrl+V), denn der
-        /// kommt am KeyPress-Handler vorbei.
-        /// </summary>
-        /// <param name="nummer">Die zu prüfende Telefonnummer</param>
-        /// <returns>true, wenn die Nummer nur Ziffern enthält</returns>
-        private bool TelefonnummerGueltig(string nummer)
-        {
-            // Leerzeichen entfernen, danach dürfen nur Ziffern übrig sein
-            string ziffern = nummer.Replace(" ", "");
-
-            foreach (char zeichen in ziffern)
-            {
-                if (zeichen < '0' || zeichen > '9')
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Prüft alle Eingaben. Bei einem Fehler wird eine verständliche
         /// Meldung angezeigt und false zurückgegeben.
         /// </summary>
@@ -171,46 +156,67 @@ namespace ContactManager.View
             // Pflichtfelder prüfen (im Formular mit * markiert)
             if (TxtVorname.Text.Trim() == "")
             {
-                MessageBox.Show("Bitte einen Vornamen eingeben (Pflichtfeld).",
-                    "Eingabe unvollständig", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Bitte einen Vornamen eingeben (Pflichtfeld).");
                 return false;
             }
 
             if (TxtNachname.Text.Trim() == "")
             {
-                MessageBox.Show("Bitte einen Nachnamen eingeben (Pflichtfeld).",
-                    "Eingabe unvollständig", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Bitte einen Nachnamen eingeben (Pflichtfeld).");
                 return false;
             }
 
-            // Einfache Prüfung der E-Mail-Adresse (nur wenn eine da ist)
-            string email = TxtEMail.Text.Trim();
-            if (email != "" && (!email.Contains("@") || !email.Contains(".")))
+            // In Namen und Titel gehören keine Zahlen
+            if (!Pruefung.OhneZiffern(TxtVorname.Text))
             {
-                MessageBox.Show("Die E-Mail-Adresse ist ungültig. " +
-                    "Sie muss ein @-Zeichen und einen Punkt enthalten.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Der Vorname darf keine Zahlen enthalten.");
+                return false;
+            }
+
+            if (!Pruefung.OhneZiffern(TxtNachname.Text))
+            {
+                Meldung("Der Nachname darf keine Zahlen enthalten.");
+                return false;
+            }
+
+            if (!Pruefung.OhneZiffern(TxtTitel.Text))
+            {
+                Meldung("Der Titel darf keine Zahlen enthalten.");
+                return false;
+            }
+
+            // E-Mail-Adresse prüfen (nur wenn eine eingegeben wurde)
+            if (TxtEMail.Text.Trim() != "" && !Pruefung.EMailGueltig(TxtEMail.Text.Trim()))
+            {
+                Meldung("Die E-Mail-Adresse ist ungültig. Beispiel: name@firma.ch");
                 return false;
             }
 
             // Telefonnummern dürfen nur Zahlen enthalten
-            if (TxtTelefonGeschaeft.Text.Trim() != "" &&
-                !TelefonnummerGueltig(TxtTelefonGeschaeft.Text.Trim()))
+            if (!Pruefung.TelefonnummerGueltig(TxtTelefonGeschaeft.Text))
             {
-                MessageBox.Show("Die Telefonnummer Geschäft darf nur Zahlen enthalten.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Die Telefonnummer Geschäft darf nur Zahlen enthalten.");
                 return false;
             }
 
-            if (TxtMobiltelefon.Text.Trim() != "" &&
-                !TelefonnummerGueltig(TxtMobiltelefon.Text.Trim()))
+            if (!Pruefung.TelefonnummerGueltig(TxtMobiltelefon.Text))
             {
-                MessageBox.Show("Die Mobiltelefonnummer darf nur Zahlen enthalten.",
-                    "Ungültige Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Meldung("Die Mobiltelefonnummer darf nur Zahlen enthalten.");
                 return false;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Zeigt dem Benutzer einen Hinweis zu einer fehlerhaften Eingabe an.
+        /// Spart das mehrfache Schreiben derselben MessageBox-Zeile.
+        /// </summary>
+        /// <param name="text">Der anzuzeigende Hinweistext</param>
+        private void Meldung(string text)
+        {
+            MessageBox.Show(text, "Eingabe prüfen",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         /// <summary>
