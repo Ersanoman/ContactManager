@@ -664,9 +664,10 @@
             this.LblPflichtfeld.AutoSize = true;
             this.LblPflichtfeld.Location = new System.Drawing.Point(12, 606);
             this.LblPflichtfeld.Name = "LblPflichtfeld";
-            this.LblPflichtfeld.Size = new System.Drawing.Size(61, 13);
+            this.LblPflichtfeld.ForeColor = System.Drawing.Color.FromArgb(90, 100, 112);
+            this.LblPflichtfeld.Size = new System.Drawing.Size(390, 15);
             this.LblPflichtfeld.TabIndex = 6;
-            this.LblPflichtfeld.Text = "* Pflichtfeld";
+            this.LblPflichtfeld.Text = "* Pflichtfeld   |   AHV-Nummer: 756.XXXX.XXXX.XX   |   Postleitzahl: 1000 bis 9999";
             //
             // MitarbeiterForm
             //
