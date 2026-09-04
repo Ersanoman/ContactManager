@@ -48,9 +48,19 @@
             this.LblNaechsteNummer = new System.Windows.Forms.Label();
             this.LblNaechsteNummerWert = new System.Windows.Forms.Label();
             this.CmdSchliessen = new System.Windows.Forms.Button();
+            this.GrpVerteilung = new System.Windows.Forms.GroupBox();
+            this.PnlDiagramm = new System.Windows.Forms.Panel();
+            this.PnlFarbeKunden = new System.Windows.Forms.Panel();
+            this.LblLegendeKunden = new System.Windows.Forms.Label();
+            this.PnlFarbeMitarbeiter = new System.Windows.Forms.Panel();
+            this.LblLegendeMitarbeiter = new System.Windows.Forms.Label();
+            this.PnlFarbeLernende = new System.Windows.Forms.Panel();
+            this.LblLegendeLernende = new System.Windows.Forms.Label();
+            this.LblDiagrammHinweis = new System.Windows.Forms.Label();
             this.GrpBestand.SuspendLayout();
             this.GrpStatus.SuspendLayout();
             this.GrpWeiteres.SuspendLayout();
+            this.GrpVerteilung.SuspendLayout();
             this.SuspendLayout();
             //
             // GrpBestand
@@ -259,7 +269,7 @@
             // CmdSchliessen
             //
             this.CmdSchliessen.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CmdSchliessen.Location = new System.Drawing.Point(212, 370);
+            this.CmdSchliessen.Location = new System.Drawing.Point(528, 372);
             this.CmdSchliessen.Name = "CmdSchliessen";
             this.CmdSchliessen.BackColor = System.Drawing.Color.White;
             this.CmdSchliessen.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(200, 200, 200);
@@ -272,15 +282,100 @@
             this.CmdSchliessen.UseVisualStyleBackColor = false;
             this.CmdSchliessen.Click += new System.EventHandler(this.CmdSchliessen_Click);
             //
-            // DashboardForm
+            // GrpVerteilung
             //
+            this.GrpVerteilung.Controls.Add(this.PnlDiagramm);
+            this.GrpVerteilung.Controls.Add(this.PnlFarbeKunden);
+            this.GrpVerteilung.Controls.Add(this.LblLegendeKunden);
+            this.GrpVerteilung.Controls.Add(this.PnlFarbeMitarbeiter);
+            this.GrpVerteilung.Controls.Add(this.LblLegendeMitarbeiter);
+            this.GrpVerteilung.Controls.Add(this.PnlFarbeLernende);
+            this.GrpVerteilung.Controls.Add(this.LblLegendeLernende);
+            this.GrpVerteilung.Controls.Add(this.LblDiagrammHinweis);
+            this.GrpVerteilung.Location = new System.Drawing.Point(324, 12);
+            this.GrpVerteilung.Name = "GrpVerteilung";
+            this.GrpVerteilung.Size = new System.Drawing.Size(304, 344);
+            this.GrpVerteilung.TabIndex = 3;
+            this.GrpVerteilung.TabStop = false;
+            this.GrpVerteilung.Text = "Verteilung der Kategorien";
+            //
+            // PnlDiagramm
+            //
+            this.PnlDiagramm.BackColor = System.Drawing.Color.White;
+            this.PnlDiagramm.Location = new System.Drawing.Point(77, 28);
+            this.PnlDiagramm.Name = "PnlDiagramm";
+            this.PnlDiagramm.Size = new System.Drawing.Size(150, 150);
+            this.PnlDiagramm.TabIndex = 0;
+            this.PnlDiagramm.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlDiagramm_Paint);
+            //
+            // PnlFarbeKunden
+            //
+            this.PnlFarbeKunden.Location = new System.Drawing.Point(40, 199);
+            this.PnlFarbeKunden.Name = "PnlFarbeKunden";
+            this.PnlFarbeKunden.Size = new System.Drawing.Size(13, 13);
+            this.PnlFarbeKunden.TabIndex = 1;
+            //
+            // LblLegendeKunden
+            //
+            this.LblLegendeKunden.AutoSize = true;
+            this.LblLegendeKunden.Location = new System.Drawing.Point(62, 197);
+            this.LblLegendeKunden.Name = "LblLegendeKunden";
+            this.LblLegendeKunden.Size = new System.Drawing.Size(60, 15);
+            this.LblLegendeKunden.TabIndex = 2;
+            this.LblLegendeKunden.Text = "Kunden";
+            //
+            // PnlFarbeMitarbeiter
+            //
+            this.PnlFarbeMitarbeiter.Location = new System.Drawing.Point(40, 227);
+            this.PnlFarbeMitarbeiter.Name = "PnlFarbeMitarbeiter";
+            this.PnlFarbeMitarbeiter.Size = new System.Drawing.Size(13, 13);
+            this.PnlFarbeMitarbeiter.TabIndex = 3;
+            //
+            // LblLegendeMitarbeiter
+            //
+            this.LblLegendeMitarbeiter.AutoSize = true;
+            this.LblLegendeMitarbeiter.Location = new System.Drawing.Point(62, 225);
+            this.LblLegendeMitarbeiter.Name = "LblLegendeMitarbeiter";
+            this.LblLegendeMitarbeiter.Size = new System.Drawing.Size(70, 15);
+            this.LblLegendeMitarbeiter.TabIndex = 4;
+            this.LblLegendeMitarbeiter.Text = "Mitarbeiter";
+            //
+            // PnlFarbeLernende
+            //
+            this.PnlFarbeLernende.Location = new System.Drawing.Point(40, 255);
+            this.PnlFarbeLernende.Name = "PnlFarbeLernende";
+            this.PnlFarbeLernende.Size = new System.Drawing.Size(13, 13);
+            this.PnlFarbeLernende.TabIndex = 5;
+            //
+            // LblLegendeLernende
+            //
+            this.LblLegendeLernende.AutoSize = true;
+            this.LblLegendeLernende.Location = new System.Drawing.Point(62, 253);
+            this.LblLegendeLernende.Name = "LblLegendeLernende";
+            this.LblLegendeLernende.Size = new System.Drawing.Size(64, 15);
+            this.LblLegendeLernende.TabIndex = 6;
+            this.LblLegendeLernende.Text = "Lernende";
+            //
+            // LblDiagrammHinweis
+            //
+            this.LblDiagrammHinweis.AutoSize = true;
+            this.LblDiagrammHinweis.ForeColor = System.Drawing.Color.FromArgb(90, 100, 112);
+            this.LblDiagrammHinweis.Location = new System.Drawing.Point(20, 296);
+            this.LblDiagrammHinweis.Name = "LblDiagrammHinweis";
+            this.LblDiagrammHinweis.Size = new System.Drawing.Size(195, 15);
+            this.LblDiagrammHinweis.TabIndex = 7;
+            this.LblDiagrammHinweis.Text = "Anteile am gesamten Datenstamm";
+            //
+            // DashboardForm
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CmdSchliessen;
-            this.ClientSize = new System.Drawing.Size(324, 414);
+            this.ClientSize = new System.Drawing.Size(640, 420);
             this.Controls.Add(this.GrpBestand);
             this.Controls.Add(this.GrpStatus);
             this.Controls.Add(this.GrpWeiteres);
+            this.Controls.Add(this.GrpVerteilung);
             this.Controls.Add(this.CmdSchliessen);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -297,6 +392,8 @@
             this.GrpStatus.PerformLayout();
             this.GrpWeiteres.ResumeLayout(false);
             this.GrpWeiteres.PerformLayout();
+            this.GrpVerteilung.ResumeLayout(false);
+            this.GrpVerteilung.PerformLayout();
             this.ResumeLayout(false);
         }
 
@@ -322,5 +419,14 @@
         private System.Windows.Forms.Label LblNaechsteNummer;
         private System.Windows.Forms.Label LblNaechsteNummerWert;
         private System.Windows.Forms.Button CmdSchliessen;
+        private System.Windows.Forms.GroupBox GrpVerteilung;
+        private System.Windows.Forms.Panel PnlDiagramm;
+        private System.Windows.Forms.Panel PnlFarbeKunden;
+        private System.Windows.Forms.Label LblLegendeKunden;
+        private System.Windows.Forms.Panel PnlFarbeMitarbeiter;
+        private System.Windows.Forms.Label LblLegendeMitarbeiter;
+        private System.Windows.Forms.Panel PnlFarbeLernende;
+        private System.Windows.Forms.Label LblLegendeLernende;
+        private System.Windows.Forms.Label LblDiagrammHinweis;
     }
 }
