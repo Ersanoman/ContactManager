@@ -11,9 +11,13 @@ namespace ContactManager.Model
     public class Mitarbeiter : Person
     {
         /// <summary>
-        /// Private Felder für die Properties mit Wertprüfung (Datenkapselung)
+        /// Privates Feld hinter der Property Kaderstufe (Datenkapselung)
         /// </summary>
         private int kaderstufe;
+
+        /// <summary>
+        /// Privates Feld hinter der Property Beschaeftigungsgrad (Datenkapselung)
+        /// </summary>
         private int beschaeftigungsgrad;
 
         /// <summary>

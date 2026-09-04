@@ -639,7 +639,7 @@
             this.CmdSpeichern.ForeColor = System.Drawing.Color.White;
             this.CmdSpeichern.Size = new System.Drawing.Size(100, 36);
             this.CmdSpeichern.TabIndex = 4;
-            this.CmdSpeichern.Text = "Speichern";
+            this.CmdSpeichern.Text = "&Speichern";
             this.CmdSpeichern.UseVisualStyleBackColor = false;
             this.CmdSpeichern.Click += new System.EventHandler(this.CmdSpeichern_Click);
             //
@@ -673,6 +673,7 @@
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AcceptButton = this.CmdSpeichern;
             this.CancelButton = this.CmdAbbrechen;
             this.ClientSize = new System.Drawing.Size(756, 650);
             this.Controls.Add(this.GrpPersonalien);

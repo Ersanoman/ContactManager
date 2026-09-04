@@ -321,7 +321,7 @@
             this.CmdNotizHinzufuegen.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51);
             this.CmdNotizHinzufuegen.Size = new System.Drawing.Size(150, 30);
             this.CmdNotizHinzufuegen.TabIndex = 3;
-            this.CmdNotizHinzufuegen.Text = "Notiz hinzufügen";
+            this.CmdNotizHinzufuegen.Text = "Notiz &hinzufügen";
             this.CmdNotizHinzufuegen.UseVisualStyleBackColor = false;
             this.CmdNotizHinzufuegen.Click += new System.EventHandler(this.CmdNotizHinzufuegen_Click);
             //
@@ -336,7 +336,7 @@
             this.CmdSpeichern.ForeColor = System.Drawing.Color.White;
             this.CmdSpeichern.Size = new System.Drawing.Size(100, 36);
             this.CmdSpeichern.TabIndex = 3;
-            this.CmdSpeichern.Text = "Speichern";
+            this.CmdSpeichern.Text = "&Speichern";
             this.CmdSpeichern.UseVisualStyleBackColor = false;
             this.CmdSpeichern.Click += new System.EventHandler(this.CmdSpeichern_Click);
             //
@@ -369,6 +369,7 @@
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AcceptButton = this.CmdSpeichern;
             this.CancelButton = this.CmdAbbrechen;
             this.ClientSize = new System.Drawing.Size(716, 536);
             this.Controls.Add(this.GrpPersonalien);

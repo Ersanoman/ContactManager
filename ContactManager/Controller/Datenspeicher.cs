@@ -48,15 +48,30 @@ namespace ContactManager.Controller
         {
             LetzterFehler = "";
 
+            // Zuerst wird in eine Hilfsdatei geschrieben. Erst wenn das
+            // vollständig geklappt hat, ersetzt sie die richtige Datei.
+            // Würde direkt in die Datendatei geschrieben, wäre sie sofort
+            // leer - und bei einem Fehler mittendrin (z.B. Datenträger voll)
+            // wären alle bisherigen Daten verloren.
+            string hilfsdatei = dateipfad + ".neu";
+
             try
             {
                 XmlSerializer serialisierer = new XmlSerializer(typeof(List<Person>));
 
                 // using schliesst die Datei am Schluss automatisch wieder
-                using (StreamWriter schreiber = new StreamWriter(dateipfad))
+                using (StreamWriter schreiber = new StreamWriter(hilfsdatei))
                 {
                     serialisierer.Serialize(schreiber, personen);
                 }
+
+                // Die alte Datei durch die frisch geschriebene ersetzen
+                if (File.Exists(dateipfad))
+                {
+                    File.Delete(dateipfad);
+                }
+
+                File.Move(hilfsdatei, dateipfad);
             }
             catch (Exception ex)
             {

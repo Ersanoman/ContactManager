@@ -277,8 +277,8 @@
             this.CmdSchliessen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CmdSchliessen.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51);
             this.CmdSchliessen.Size = new System.Drawing.Size(100, 32);
-            this.CmdSchliessen.TabIndex = 3;
-            this.CmdSchliessen.Text = "Schliessen";
+            this.CmdSchliessen.TabIndex = 4;
+            this.CmdSchliessen.Text = "&Schliessen";
             this.CmdSchliessen.UseVisualStyleBackColor = false;
             this.CmdSchliessen.Click += new System.EventHandler(this.CmdSchliessen_Click);
             //

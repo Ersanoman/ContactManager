@@ -114,14 +114,21 @@ namespace ContactManager.Controller
                                     " statt mindestens " + MinimaleSpalten + " Spalten.");
             }
 
+            // Die Spalten mit sprechenden Namen versehen, damit weiter unten
+            // nicht mit blossen Spaltennummern gearbeitet werden muss
+            string typ = Feld(teile, 0);
+            string vorname = Feld(teile, 3);
+            string nachname = Feld(teile, 4);
+            string geburtstext = Feld(teile, 5);
+
             // Vorname und Nachname sind Pflichtfelder
-            if (Feld(teile, 3) == "" || Feld(teile, 4) == "")
+            if (vorname == "" || nachname == "")
             {
                 throw new Exception("Vorname oder Nachname fehlt.");
             }
 
             // In Namen gehören keine Zahlen
-            if (!Pruefung.OhneZiffern(Feld(teile, 3)) || !Pruefung.OhneZiffern(Feld(teile, 4)))
+            if (!Pruefung.OhneZiffern(vorname) || !Pruefung.OhneZiffern(nachname))
             {
                 throw new Exception("Vorname oder Nachname enthält Zahlen.");
             }
@@ -129,21 +136,21 @@ namespace ContactManager.Controller
             // Das Geburtsdatum muss in der Vergangenheit und nach 1900 liegen.
             // Sonst könnte das Datums-Auswahlfeld im Formular den Wert später
             // gar nicht anzeigen.
-            DateTime geburtsdatum = DatumUmwandeln(Feld(teile, 5));
+            DateTime geburtsdatum = DatumUmwandeln(geburtstext);
             if (!Pruefung.GeburtsdatumPlausibel(geburtsdatum))
             {
-                throw new Exception("Das Geburtsdatum '" + Feld(teile, 5) +
+                throw new Exception("Das Geburtsdatum '" + geburtstext +
                                     "' liegt in der Zukunft oder vor 1900.");
             }
 
             // Die erste Spalte entscheidet, welches Objekt erzeugt wird
-            Person person = PersonErzeugen(Feld(teile, 0));
+            Person person = PersonErzeugen(typ);
 
             // Die Angaben, welche jede Person hat (aus der Basisklasse)
             person.Anrede = AnredeUmwandeln(Feld(teile, 1));
             person.Titel = Feld(teile, 2);
-            person.Vorname = Feld(teile, 3);
-            person.Nachname = Feld(teile, 4);
+            person.Vorname = vorname;
+            person.Nachname = nachname;
             person.Geburtsdatum = geburtsdatum;
             person.Geschlecht = GeschlechtUmwandeln(Feld(teile, 6));
             person.TelefonnummerGeschaeft = Feld(teile, 7);

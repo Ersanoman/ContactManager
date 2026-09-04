@@ -52,8 +52,21 @@ namespace ContactManager.View
             ListeAnzeigen(verwaltung.AlleSortiert());
 
             // Konnte die Datendatei nicht gelesen werden, erfährt es der
-            // Benutzer hier. Die Meldung kommt vom Fenster und nicht vom
-            // Datenspeicher, damit die Logik von der Anzeige getrennt bleibt.
+            // Benutzer hier
+            DateifehlerMelden();
+        }
+
+        /// <summary>
+        /// Zeigt eine Meldung, falls beim letzten Speichern oder Laden etwas
+        /// schiefgelaufen ist. Wird nach jeder Änderung aufgerufen, damit der
+        /// Benutzer nie glaubt, seine Daten seien gesichert, obwohl das
+        /// Schreiben fehlgeschlagen ist (z.B. weil die Datei schreibgeschützt
+        /// ist oder gerade in einem anderen Programm offen liegt).
+        /// Die Meldung kommt vom Fenster und nicht vom Datenspeicher, damit
+        /// die Logik von der Anzeige getrennt bleibt.
+        /// </summary>
+        private void DateifehlerMelden()
+        {
             if (verwaltung.LetzterFehler != "")
             {
                 MessageBox.Show(verwaltung.LetzterFehler, "Hinweis zum Datenstamm",
@@ -76,9 +89,33 @@ namespace ContactManager.View
                 LstPersonen.Items.Add(person);
             }
 
-            LblStatus.Text = "Angezeigt: " + LstPersonen.Items.Count + " von " +
-                             verwaltung.AllePersonen.Count + " Personen | " +
-                             "Alle Änderungen werden automatisch gespeichert";
+            LblStatus.Text = Statustext(LstPersonen.Items.Count, verwaltung.AllePersonen.Count);
+        }
+
+        /// <summary>
+        /// Baut den Text für die Statuszeile. Ist die Liste leer, wird
+        /// erklärt warum: entweder ist noch gar nichts erfasst, oder die
+        /// Suche hat keinen Treffer geliefert.
+        /// </summary>
+        /// <param name="angezeigt">Anzahl gerade sichtbarer Personen</param>
+        /// <param name="total">Anzahl Personen im ganzen Datenstamm</param>
+        /// <returns>Der Text für die Statuszeile</returns>
+        private string Statustext(int angezeigt, int total)
+        {
+            if (total == 0)
+            {
+                return "Noch keine Personen erfasst - beginnen Sie mit " +
+                       "\"Neuer Kunde\" oder \"Neuer Mitarbeiter\"";
+            }
+
+            if (angezeigt == 0)
+            {
+                return "Keine Person entspricht der Suche - mit " +
+                       "\"Filter zurücksetzen\" werden wieder alle angezeigt";
+            }
+
+            return "Angezeigt: " + angezeigt + " von " + total + " Personen | " +
+                   "Alle Änderungen werden automatisch gespeichert";
         }
 
         /// <summary>
@@ -220,6 +257,7 @@ namespace ContactManager.View
                 }
 
                 verwaltung.Hinzufuegen(dialog.Ergebnis);
+                DateifehlerMelden();
 
                 // Filter zurücksetzen, damit die neue Person sicher
                 // sichtbar ist
@@ -246,6 +284,7 @@ namespace ContactManager.View
                 }
 
                 verwaltung.Hinzufuegen(dialog.Ergebnis);
+                DateifehlerMelden();
 
                 // Filter zurücksetzen, damit die neue Person sicher
                 // sichtbar ist
@@ -279,6 +318,7 @@ namespace ContactManager.View
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     verwaltung.Ersetzen(person, dialog.Ergebnis);
+                    DateifehlerMelden();
                     AnsichtAktualisieren();
 
                     // Das Ergebnis markieren (nicht "person", denn beim
@@ -294,12 +334,23 @@ namespace ContactManager.View
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     verwaltung.Ersetzen(person, dialog.Ergebnis);
+                    DateifehlerMelden();
                     AnsichtAktualisieren();
 
                     // Das Ergebnis markieren (nicht "person", denn beim
                     // Ersetzen wurde ein neues Objekt erzeugt)
                     PersonMarkieren(dialog.Ergebnis);
                 }
+            }
+            else
+            {
+                // Kann nur auftreten, wenn die Datendatei von Hand verändert
+                // wurde. Ohne diese Meldung würde die Schaltfläche einfach
+                // nichts tun und der Benutzer wüsste nicht warum.
+                MessageBox.Show("Dieser Eintrag ist weder ein Kunde noch ein " +
+                    "Mitarbeiter und kann darum nicht bearbeitet werden.",
+                    "Unbekannte Art von Eintrag",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -328,6 +379,7 @@ namespace ContactManager.View
             }
 
             verwaltung.AktivUmschalten(person);
+            DateifehlerMelden();
             AnsichtAktualisieren();
 
             // Die Person bleibt nach dem Statuswechsel markiert
@@ -358,6 +410,7 @@ namespace ContactManager.View
             if (antwort == DialogResult.Yes)
             {
                 verwaltung.Loeschen(person);
+                DateifehlerMelden();
                 AnsichtAktualisieren();
             }
         }
@@ -404,6 +457,7 @@ namespace ContactManager.View
                 // Mitarbeiter und Lernende erhalten dabei automatisch
                 // ihre Mitarbeiternummer.
                 verwaltung.MehrereHinzufuegen(neueKontakte);
+                DateifehlerMelden();
 
                 CmdAlleAnzeigen_Click(sender, e);
                 MeldungNachImport(neueKontakte.Count, uebersprungen, importer);

@@ -212,7 +212,7 @@
             this.CmdSuchen.Name = "CmdSuchen";
             this.CmdSuchen.Size = new System.Drawing.Size(130, 30);
             this.CmdSuchen.TabIndex = 9;
-            this.CmdSuchen.Text = "Suchen";
+            this.CmdSuchen.Text = "&Suchen";
             this.CmdSuchen.UseVisualStyleBackColor = false;
             this.CmdSuchen.Click += new System.EventHandler(this.CmdSuchen_Click);
             // 
@@ -227,7 +227,7 @@
             this.CmdAlleAnzeigen.Name = "CmdAlleAnzeigen";
             this.CmdAlleAnzeigen.Size = new System.Drawing.Size(130, 30);
             this.CmdAlleAnzeigen.TabIndex = 10;
-            this.CmdAlleAnzeigen.Text = "Filter zurücksetzen";
+            this.CmdAlleAnzeigen.Text = "Filter &zurücksetzen";
             this.CmdAlleAnzeigen.UseVisualStyleBackColor = false;
             this.CmdAlleAnzeigen.Click += new System.EventHandler(this.CmdAlleAnzeigen_Click);
             // 
@@ -283,7 +283,7 @@
             this.CmdNeuerKunde.Name = "CmdNeuerKunde";
             this.CmdNeuerKunde.Size = new System.Drawing.Size(260, 40);
             this.CmdNeuerKunde.TabIndex = 5;
-            this.CmdNeuerKunde.Text = "+   Neuer Kunde";
+            this.CmdNeuerKunde.Text = "+   Neuer &Kunde";
             this.CmdNeuerKunde.UseVisualStyleBackColor = false;
             this.CmdNeuerKunde.Click += new System.EventHandler(this.CmdNeuerKunde_Click);
             // 
@@ -299,7 +299,7 @@
             this.CmdNeuerMitarbeiter.Name = "CmdNeuerMitarbeiter";
             this.CmdNeuerMitarbeiter.Size = new System.Drawing.Size(260, 40);
             this.CmdNeuerMitarbeiter.TabIndex = 6;
-            this.CmdNeuerMitarbeiter.Text = "+   Neuer Mitarbeiter";
+            this.CmdNeuerMitarbeiter.Text = "+   Neuer &Mitarbeiter";
             this.CmdNeuerMitarbeiter.UseVisualStyleBackColor = false;
             this.CmdNeuerMitarbeiter.Click += new System.EventHandler(this.CmdNeuerMitarbeiter_Click);
             // 
@@ -327,7 +327,7 @@
             this.CmdBearbeiten.Name = "CmdBearbeiten";
             this.CmdBearbeiten.Size = new System.Drawing.Size(260, 40);
             this.CmdBearbeiten.TabIndex = 8;
-            this.CmdBearbeiten.Text = "Bearbeiten";
+            this.CmdBearbeiten.Text = "&Bearbeiten";
             this.CmdBearbeiten.UseVisualStyleBackColor = false;
             this.CmdBearbeiten.Click += new System.EventHandler(this.CmdBearbeiten_Click);
             // 
@@ -343,7 +343,7 @@
             this.CmdAktivPassiv.Name = "CmdAktivPassiv";
             this.CmdAktivPassiv.Size = new System.Drawing.Size(260, 40);
             this.CmdAktivPassiv.TabIndex = 9;
-            this.CmdAktivPassiv.Text = "Aktivieren / Deaktivieren";
+            this.CmdAktivPassiv.Text = "&Aktivieren / Deaktivieren";
             this.CmdAktivPassiv.UseVisualStyleBackColor = false;
             this.CmdAktivPassiv.Click += new System.EventHandler(this.CmdAktivPassiv_Click);
             // 
@@ -359,7 +359,7 @@
             this.CmdLoeschen.Name = "CmdLoeschen";
             this.CmdLoeschen.Size = new System.Drawing.Size(260, 40);
             this.CmdLoeschen.TabIndex = 10;
-            this.CmdLoeschen.Text = "Löschen";
+            this.CmdLoeschen.Text = "&Löschen";
             this.CmdLoeschen.UseVisualStyleBackColor = false;
             this.CmdLoeschen.Click += new System.EventHandler(this.CmdLoeschen_Click);
             // 
@@ -387,7 +387,7 @@
             this.CmdDashboard.Name = "CmdDashboard";
             this.CmdDashboard.Size = new System.Drawing.Size(260, 40);
             this.CmdDashboard.TabIndex = 12;
-            this.CmdDashboard.Text = "Dashboard";
+            this.CmdDashboard.Text = "&Dashboard";
             this.CmdDashboard.UseVisualStyleBackColor = false;
             this.CmdDashboard.Click += new System.EventHandler(this.CmdDashboard_Click);
             // 
@@ -403,7 +403,7 @@
             this.CmdCsvImport.Name = "CmdCsvImport";
             this.CmdCsvImport.Size = new System.Drawing.Size(260, 40);
             this.CmdCsvImport.TabIndex = 13;
-            this.CmdCsvImport.Text = "Kontakte importieren (CSV)";
+            this.CmdCsvImport.Text = "Kontakte &importieren (CSV)";
             this.CmdCsvImport.UseVisualStyleBackColor = false;
             this.CmdCsvImport.Click += new System.EventHandler(this.CmdCsvImport_Click);
             // 

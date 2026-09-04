@@ -10,9 +10,13 @@ namespace ContactManager.Model
     public class Lernender : Mitarbeiter
     {
         /// <summary>
-        /// Private Felder für die Properties mit Wertprüfung (Datenkapselung)
+        /// Privates Feld hinter der Property Lehrjahre (Datenkapselung)
         /// </summary>
         private int lehrjahre;
+
+        /// <summary>
+        /// Privates Feld hinter der Property AktuellesLehrjahr (Datenkapselung)
+        /// </summary>
         private int aktuellesLehrjahr;
 
         /// <summary>

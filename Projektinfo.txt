@@ -23,13 +23,24 @@ Was funktioniert:
   (selbst implementierter Bubblesort in der Kontaktverwaltung)
 - Die Auswahl in der Liste bleibt nach dem Bearbeiten oder nach einem
   Statuswechsel erhalten
-- Die Suche kann auch mit der Enter-Taste ausgelöst werden
+- Die Suche kann auch mit der Enter-Taste ausgelöst werden; in den
+  Erfassungsfenstern speichert Enter, Escape bricht ab
+- Alle Schaltflächen haben ein Tastenkürzel (z.B. Alt+K für einen
+  neuen Kunden, Alt+L für Löschen)
+- Die Statuszeile erklärt eine leere Liste: entweder ist noch nichts
+  erfasst oder die Suche hat keinen Treffer geliefert
 - Moderne Benutzeroberfläche: Schriftart Segoe UI, farbige Kopfzeile,
   Suche und Liste als abgesetzte Flächen, nach Aufgabe gruppierte
   Schaltflächen (Neu erfassen / Ausgewählte Person / Werkzeuge)
   sowie eine Statuszeile am unteren Rand
 - Automatisches Speichern nach jeder Änderung und automatisches Laden
-  beim Programmstart (XML-Datei "kontaktdaten.xml" im Programmordner)
+  beim Programmstart (XML-Datei "kontaktdaten.xml" im Programmordner).
+  Gespeichert wird über eine Hilfsdatei, die erst nach vollständigem
+  Schreiben die richtige Datei ersetzt - so gehen bei einem Fehler
+  mitten im Speichern nicht alle Daten verloren.
+  Schlägt das Speichern trotzdem fehl (z.B. Datei schreibgeschützt),
+  erscheint sofort eine Meldung; der Benutzer glaubt nie, seine Daten
+  seien gesichert, obwohl sie es nicht sind.
 - Eingabevalidierung:
   * Pflichtfelder sind mit einem Stern nach dem Doppelpunkt markiert
     (z.B. "Vorname:*") und werden geprüft: beim Kunden Vorname und
