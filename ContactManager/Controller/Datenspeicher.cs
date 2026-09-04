@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 using ContactManager.Model;
 
@@ -20,12 +19,33 @@ namespace ContactManager.Controller
         private string dateipfad;
 
         /// <summary>
+        /// Meldung des letzten Fehlers beim Speichern oder Laden.
+        /// Ist der Text leer, ist alles gut gegangen. Der Datenspeicher
+        /// zeigt selber keine Meldung an, denn das ist Aufgabe der
+        /// Fenster (Trennung von Logik und Anzeige).
+        /// </summary>
+        public string LetzterFehler { get; private set; }
+
+        /// <summary>
         /// Konstruktor: die Datei "kontaktdaten.xml" liegt im gleichen
         /// Ordner wie die Programmdatei (.exe)
         /// </summary>
         public Datenspeicher()
         {
-            dateipfad = Path.Combine(Application.StartupPath, "kontaktdaten.xml");
+            dateipfad = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "kontaktdaten.xml");
+            LetzterFehler = "";
+        }
+
+        /// <summary>
+        /// Konstruktor mit eigenem Dateipfad (Konstruktor-Überladung).
+        /// Damit lässt sich der Datenstamm auch aus einer anderen Datei
+        /// lesen, zum Beispiel beim Testen.
+        /// </summary>
+        /// <param name="eigenerDateipfad">Vollständiger Pfad zur XML-Datei</param>
+        public Datenspeicher(string eigenerDateipfad)
+        {
+            dateipfad = eigenerDateipfad;
+            LetzterFehler = "";
         }
 
         /// <summary>
@@ -37,6 +57,8 @@ namespace ContactManager.Controller
         /// <param name="personen">Liste aller zu speichernden Personen</param>
         public void Speichern(List<Person> personen)
         {
+            LetzterFehler = "";
+
             try
             {
                 XmlSerializer serialisierer = new XmlSerializer(typeof(List<Person>));
@@ -49,11 +71,7 @@ namespace ContactManager.Controller
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Die Daten konnten nicht gespeichert werden:\n" + ex.Message,
-                    "Fehler beim Speichern",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                LetzterFehler = "Die Daten konnten nicht gespeichert werden:\n" + ex.Message;
             }
         }
 
@@ -66,6 +84,8 @@ namespace ContactManager.Controller
         /// <returns>Liste aller geladenen Personen (nie null)</returns>
         public List<Person> Laden()
         {
+            LetzterFehler = "";
+
             // Beim allerersten Programmstart existiert noch keine Datei
             if (!File.Exists(dateipfad))
             {
@@ -84,12 +104,8 @@ namespace ContactManager.Controller
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Die Datendatei konnte nicht gelesen werden:\n" + ex.Message +
-                    "\n\nDas Programm startet mit einem leeren Datenstamm.",
-                    "Fehler beim Laden",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                LetzterFehler = "Die Datendatei konnte nicht gelesen werden:\n" + ex.Message +
+                                "\n\nDas Programm startet mit einem leeren Datenstamm.";
                 return new List<Person>();
             }
         }

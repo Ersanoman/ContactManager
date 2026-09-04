@@ -35,11 +35,46 @@ namespace ContactManager.Controller
         }
 
         /// <summary>
-        /// Liste aller verwalteten Personen
+        /// Konstruktor mit eigenem Dateipfad (Konstruktor-Überladung).
+        /// Damit kann die Verwaltung auch mit einer anderen Datendatei
+        /// arbeiten, zum Beispiel beim Testen.
+        /// </summary>
+        /// <param name="dateipfad">Vollständiger Pfad zur XML-Datei</param>
+        public Kontaktverwaltung(string dateipfad)
+        {
+            datenspeicher = new Datenspeicher(dateipfad);
+            personen = datenspeicher.Laden();
+        }
+
+        /// <summary>
+        /// Meldung des letzten Fehlers beim Speichern oder Laden.
+        /// Ist der Text leer, ist alles gut gegangen. Das Hauptfenster
+        /// zeigt die Meldung an, falls etwas schiefgelaufen ist.
+        /// </summary>
+        public string LetzterFehler
+        {
+            get { return datenspeicher.LetzterFehler; }
+        }
+
+        /// <summary>
+        /// Liste aller verwalteten Personen.
+        /// Es wird bewusst eine Kopie der Liste zurückgegeben: So kann von
+        /// aussen niemand Personen einfügen oder entfernen, ohne dass die
+        /// Verwaltung es merkt und automatisch speichert (Datenkapselung).
         /// </summary>
         public List<Person> AllePersonen
         {
-            get { return personen; }
+            get
+            {
+                List<Person> kopie = new List<Person>();
+
+                foreach (Person person in personen)
+                {
+                    kopie.Add(person);
+                }
+
+                return kopie;
+            }
         }
 
         /// <summary>
@@ -125,13 +160,8 @@ namespace ContactManager.Controller
         /// <returns>Eine sortierte Kopie aller Personen</returns>
         public List<Person> AlleSortiert()
         {
-            List<Person> kopie = new List<Person>();
-
-            foreach (Person person in personen)
-            {
-                kopie.Add(person);
-            }
-
+            // AllePersonen liefert bereits eine Kopie, die sortiert werden darf
+            List<Person> kopie = AllePersonen;
             Sortieren(kopie);
             return kopie;
         }

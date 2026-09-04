@@ -45,6 +45,15 @@ namespace ContactManager.View
         private void HauptForm_Load(object sender, EventArgs e)
         {
             ListeAnzeigen(verwaltung.AlleSortiert());
+
+            // Konnte die Datendatei nicht gelesen werden, erfährt es der
+            // Benutzer hier. Die Meldung kommt vom Fenster und nicht vom
+            // Datenspeicher, damit die Logik von der Anzeige getrennt bleibt.
+            if (verwaltung.LetzterFehler != "")
+            {
+                MessageBox.Show(verwaltung.LetzterFehler, "Hinweis zum Datenstamm",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         /// <summary>

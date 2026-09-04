@@ -29,13 +29,15 @@ Was funktioniert:
 - Automatisches Speichern nach jeder Änderung und automatisches Laden
   beim Programmstart (XML-Datei "kontaktdaten.xml" im Programmordner)
 - Eingabevalidierung:
-  * Pflichtfelder sind mit * markiert und werden geprüft
-    (Kunde: Vorname, Nachname / Mitarbeiter: zusätzlich Abteilung
-    und AHV-Nummer)
+  * Pflichtfelder sind mit einem Stern nach dem Doppelpunkt markiert
+    (z.B. "Vorname:*") und werden geprüft: beim Kunden Vorname und
+    Nachname, beim Mitarbeiter zusätzlich Abteilung und AHV-Nummer
   * Telefonnummern akzeptieren nur Ziffern (Tastatur ist gesperrt,
     eingefügter Text wird beim Speichern geprüft)
   * In Vorname, Nachname, Titel, Wohnort und Nationalität sind keine
     Zahlen erlaubt
+  * Die nötigen Formate (AHV-Nummer, Postleitzahl) stehen als Hinweis
+    unten im Fenster, bevor man etwas falsch machen kann
   * E-Mail-Adresse: genau ein @, davor und danach Text, im hinteren
     Teil ein Punkt mit einer Endung von mindestens zwei Zeichen
   * AHV-Nummer (756.XXXX.XXXX.XX), Postleitzahl (1000 bis 9999),
@@ -51,7 +53,10 @@ Zusätzlich umgesetzte optionale Anforderungen:
 ----------------------------------------------
 - Dashboard: zeigt eine Übersicht über den Datenstamm (Anzahl Kunden,
   Mitarbeiter, Lernende, aktive und passive Personen, erfasste
-  Kundennotizen sowie die nächste freie Mitarbeiternummer)
+  Kundennotizen sowie die nächste freie Mitarbeiternummer).
+  Dazu ein selbst gezeichnetes Kreisdiagramm mit der Verteilung der
+  drei Kategorien: Kunden dunkelblau, Mitarbeiter orange, Lernende
+  grün, mit Legende und Prozentangaben.
 - CSV-Import: liest Kunden, Mitarbeiter UND Lernende aus einer mit
   Strichpunkt getrennten Datei ein. Die erste Spalte "Typ" bestimmt,
   welche Art von Person erzeugt wird. Mitarbeiter und Lernende erhalten
@@ -78,7 +83,10 @@ Was nicht funktioniert / bewusste Einschränkungen:
 - Beim manuellen Erfassen wird nicht geprüft, ob dieselbe Person schon
   existiert (die Prüfung greift nur beim CSV-Import)
 - Es gibt keinen Login und keine Mutationshistorie
-- Ein Export der Daten (z.B. wieder als CSV) ist nicht vorgesehen
+- Ein Export der Daten ist nicht vorgesehen (in der Aufgabenstellung
+  auch nicht verlangt; die Daten stehen als lesbare XML-Datei bereit)
+- Läuft das Programm zweimal gleichzeitig, überschreibt die zuletzt
+  geschlossene Instanz die Datei der anderen
 
 Zusatzinformationen:
 --------------------
@@ -92,7 +100,9 @@ Zusatzinformationen:
                 statische Länderliste
   * Controller: Kontaktverwaltung (CRUD, Suche, Sortierung mit
                 Bubblesort, Mitarbeiternummern), Datenspeicher
-                (XML-Serialisierung), CsvImporter und Pruefung
+                (XML-Serialisierung), CsvImporter und Pruefung.
+                Der Controller kommt ohne Windows Forms aus; Meldungen
+                zeigen immer die Fenster an, nie die Logik.
   * View:       HauptForm, KundeForm, MitarbeiterForm, DashboardForm
                 (die Formulare enthalten keine Verwaltungslogik)
 - Aufbau einer Zeile in der CSV-Datei (Trennzeichen ist der Strichpunkt):
