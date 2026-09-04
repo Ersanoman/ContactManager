@@ -34,14 +34,5 @@ namespace ContactManager.Model
             Kontakthistorie = new List<Kontakteintrag>();
         }
 
-        /// <summary>
-        /// Fügt der Kontakthistorie eine neue Notiz mit dem aktuellen
-        /// Zeitpunkt hinzu
-        /// </summary>
-        /// <param name="notiz">Inhalt der Notiz zum Kundenkontakt</param>
-        public void NotizHinzufuegen(string notiz)
-        {
-            Kontakthistorie.Add(new Kontakteintrag(DateTime.Now, notiz));
-        }
     }
 }

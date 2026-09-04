@@ -29,14 +29,6 @@ namespace ContactManager.Controller
         }
 
         /// <summary>
-        /// Pfad der XML-Datei (nur lesbar)
-        /// </summary>
-        public string Dateipfad
-        {
-            get { return dateipfad; }
-        }
-
-        /// <summary>
         /// Speichert alle Personen als XML-Datei auf die Festplatte.
         /// Dank der XmlInclude-Attribute auf der Klasse Person werden auch
         /// Kunden, Mitarbeiter und Lernende korrekt gespeichert.

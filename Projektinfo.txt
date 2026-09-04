@@ -34,10 +34,16 @@ Was funktioniert:
     und AHV-Nummer)
   * Telefonnummern akzeptieren nur Ziffern (Tastatur ist gesperrt,
     eingefügter Text wird beim Speichern geprüft)
-  * E-Mail-Format, AHV-Nummer (756.XXXX.XXXX.XX), Postleitzahl
-    (vierstellig), Austritt nicht vor Eintritt, aktuelles Lehrjahr
-    nicht grösser als Lehrjahre total
-  * Geburtsdatum kann nicht in der Zukunft liegen
+  * In Vorname, Nachname, Titel, Wohnort und Nationalität sind keine
+    Zahlen erlaubt
+  * E-Mail-Adresse: genau ein @, davor und danach Text, im hinteren
+    Teil ein Punkt mit einer Endung von mindestens zwei Zeichen
+  * AHV-Nummer (756.XXXX.XXXX.XX), Postleitzahl (1000 bis 9999),
+    Austritt nicht vor Eintritt, aktuelles Lehrjahr nicht grösser
+    als Lehrjahre total
+  * Geburtsdatum kann nicht in der Zukunft und nicht vor 1900 liegen
+  * Alle diese Regeln stehen in der statischen Klasse Pruefung und
+    gelten sowohl für die Formulare als auch für den CSV-Import
 - Nationalität als Dropdown mit allen Ländern (freie Eingabe bleibt
   möglich, z.B. für Doppelbürger)
 
@@ -61,6 +67,9 @@ Zusätzlich umgesetzte optionale Anforderungen:
     zeigen, dass das Programm bei fehlerhaften Daten nicht abstürzt.
     Enthaltene Fehler: ungültiges Datum (31.02.2000), fehlender Vorname,
     zu wenige Spalten, unbekannter Typ, Text statt Zahl.
+    Der Import weist zusätzlich Zahlen in Namen, Geburtsdaten in der
+    Zukunft, Beschäftigungsgrade ausserhalb 0-100, Kaderstufen
+    ausserhalb 0-5 sowie einen Austritt vor dem Eintritt zurück.
     Erwartetes Resultat nach dem Import der ersten Datei:
     2 neu importiert, 1 übersprungen, 5 fehlerhafte Zeilen.
 
@@ -78,6 +87,14 @@ Zusatzinformationen:
   wie die ContactManager.exe gespeichert (bin\Debug bzw. bin\Release)
 - Architektur: Model-View-Controller-Prinzip mit Vererbungshierarchie
   Person -> Kunde und Person -> Mitarbeiter -> Lernender
+  * Model:      Person, Kunde, Mitarbeiter, Lernender, Kontakteintrag,
+                die Enumerationen Anrede und Geschlecht sowie die
+                statische Länderliste
+  * Controller: Kontaktverwaltung (CRUD, Suche, Sortierung mit
+                Bubblesort, Mitarbeiternummern), Datenspeicher
+                (XML-Serialisierung), CsvImporter und Pruefung
+  * View:       HauptForm, KundeForm, MitarbeiterForm, DashboardForm
+                (die Formulare enthalten keine Verwaltungslogik)
 - Aufbau einer Zeile in der CSV-Datei (Trennzeichen ist der Strichpunkt):
   Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
   TelefonGeschaeft;Mobiltelefon;EMail;Status;

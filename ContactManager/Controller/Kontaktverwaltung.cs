@@ -337,15 +337,6 @@ namespace ContactManager.Controller
         }
 
         /// <summary>
-        /// Speichert den aktuellen Datenstamm. Wird von aussen aufgerufen,
-        /// wenn eine Person direkt verändert wurde.
-        /// </summary>
-        public void AenderungenSpeichern()
-        {
-            Speichern();
-        }
-
-        /// <summary>
         /// Vergibt einem Mitarbeiter oder Lernenden die nächste freie
         /// Nummer, falls er noch keine hat (Wert 0). Bei Kunden passiert nichts.
         /// </summary>
