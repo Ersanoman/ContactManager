@@ -27,24 +27,13 @@ namespace ContactManager.Controller
         public string LetzterFehler { get; private set; }
 
         /// <summary>
-        /// Konstruktor: die Datei "kontaktdaten.xml" liegt im gleichen
-        /// Ordner wie die Programmdatei (.exe)
+        /// Konstruktor. Der Pfad zur Datendatei wird von aussen übergeben,
+        /// damit der Datenspeicher nicht wissen muss, wo das Programm liegt.
         /// </summary>
-        public Datenspeicher()
+        /// <param name="pfadZurDatei">Vollständiger Pfad zur XML-Datei</param>
+        public Datenspeicher(string pfadZurDatei)
         {
-            dateipfad = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "kontaktdaten.xml");
-            LetzterFehler = "";
-        }
-
-        /// <summary>
-        /// Konstruktor mit eigenem Dateipfad (Konstruktor-Überladung).
-        /// Damit lässt sich der Datenstamm auch aus einer anderen Datei
-        /// lesen, zum Beispiel beim Testen.
-        /// </summary>
-        /// <param name="eigenerDateipfad">Vollständiger Pfad zur XML-Datei</param>
-        public Datenspeicher(string eigenerDateipfad)
-        {
-            dateipfad = eigenerDateipfad;
+            dateipfad = pfadZurDatei;
             LetzterFehler = "";
         }
 

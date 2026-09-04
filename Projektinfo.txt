@@ -14,9 +14,11 @@ Was funktioniert:
 - Automatische Vergabe der Mitarbeiternummern (ab Nummer 1000)
 - Protokollieren von Notizen in Kundenkontakten inkl. Kontakthistorie
   mit Zeitstempel
-- Suche nach Nachname, Vorname, Geburtsdatum und Kategorie
-  (Kunde / Mitarbeiter / Lernender), auch kombinierbar; der Suchfilter
-  bleibt nach Aktionen wie Bearbeiten oder Löschen aktiv
+- Suche nach Nachname, Vorname, Geburtsdatum und Kategorie, auch
+  kombinierbar; der Suchfilter bleibt nach Aktionen wie Bearbeiten
+  oder Löschen aktiv. Die Kategorien heissen "Alle", "Kunden",
+  "Mitarbeiter (inkl. Lernende)" und "Nur Lernende" - der Zusatz
+  ist wichtig, weil ein Lernender auch ein Mitarbeiter ist.
 - Die Personenliste ist alphabetisch nach Nachname sortiert
   (selbst implementierter Bubblesort in der Kontaktverwaltung)
 - Die Auswahl in der Liste bleibt nach dem Bearbeiten oder nach einem
@@ -48,6 +50,10 @@ Was funktioniert:
     gelten sowohl für die Formulare als auch für den CSV-Import
 - Nationalität als Dropdown mit allen Ländern (freie Eingabe bleibt
   möglich, z.B. für Doppelbürger)
+- Warnung bei möglicher Doppelerfassung: Ist bereits eine Person mit
+  gleichem Vornamen, Nachnamen und Geburtsdatum erfasst, wird
+  nachgefragt. Erfassen bleibt erlaubt, denn es kann echte
+  Namensgleichheit geben.
 
 Zusätzlich umgesetzte optionale Anforderungen:
 ----------------------------------------------
@@ -80,8 +86,6 @@ Zusätzlich umgesetzte optionale Anforderungen:
 
 Was nicht funktioniert / bewusste Einschränkungen:
 ---------------------------------------------------
-- Beim manuellen Erfassen wird nicht geprüft, ob dieselbe Person schon
-  existiert (die Prüfung greift nur beim CSV-Import)
 - Es gibt keinen Login und keine Mutationshistorie
 - Ein Export der Daten ist nicht vorgesehen (in der Aufgabenstellung
   auch nicht verlangt; die Daten stehen als lesbare XML-Datei bereit)
@@ -104,7 +108,9 @@ Zusatzinformationen:
                 Der Controller kommt ohne Windows Forms aus; Meldungen
                 zeigen immer die Fenster an, nie die Logik.
   * View:       HauptForm, KundeForm, MitarbeiterForm, DashboardForm
-                (die Formulare enthalten keine Verwaltungslogik)
+                (die Formulare enthalten keine Verwaltungslogik).
+                Das Hauptfenster bestimmt den Pfad der Datendatei und
+                übergibt ihn der Kontaktverwaltung.
 - Aufbau einer Zeile in der CSV-Datei (Trennzeichen ist der Strichpunkt):
   Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
   TelefonGeschaeft;Mobiltelefon;EMail;Status;

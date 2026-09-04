@@ -147,13 +147,26 @@ namespace ContactManager.View
         }
 
         /// <summary>
-        /// Prüft alle Eingaben. Bei einem Fehler wird eine verständliche
-        /// Meldung angezeigt und false zurückgegeben.
+        /// Prüft alle Eingaben. Die einzelnen Prüfungen stehen in eigenen
+        /// Methoden, damit jede nur eine Aufgabe hat. Sobald eine davon
+        /// false liefert, wird abgebrochen und der Benutzer sieht die
+        /// erste unpassende Eingabe.
         /// </summary>
         /// <returns>true, wenn alle Eingaben gültig sind</returns>
         private bool EingabenGueltig()
         {
-            // Pflichtfelder prüfen (im Formular mit * markiert)
+            return PflichtfelderAusgefuellt()
+                && NamenOhneZahlen()
+                && FormateGueltig();
+        }
+
+        /// <summary>
+        /// Prüft, ob alle Pflichtfelder ausgefüllt sind
+        /// (im Formular mit einem Stern markiert).
+        /// </summary>
+        /// <returns>true, wenn kein Pflichtfeld leer ist</returns>
+        private bool PflichtfelderAusgefuellt()
+        {
             if (TxtVorname.Text.Trim() == "")
             {
                 Meldung("Bitte einen Vornamen eingeben (Pflichtfeld).");
@@ -166,7 +179,15 @@ namespace ContactManager.View
                 return false;
             }
 
-            // In Namen und Titel gehören keine Zahlen
+            return true;
+        }
+
+        /// <summary>
+        /// Prüft die Felder, in die keine Zahlen gehören.
+        /// </summary>
+        /// <returns>true, wenn keines dieser Felder eine Zahl enthält</returns>
+        private bool NamenOhneZahlen()
+        {
             if (!Pruefung.OhneZiffern(TxtVorname.Text))
             {
                 Meldung("Der Vorname darf keine Zahlen enthalten.");
@@ -185,14 +206,23 @@ namespace ContactManager.View
                 return false;
             }
 
-            // E-Mail-Adresse prüfen (nur wenn eine eingegeben wurde)
+            return true;
+        }
+
+        /// <summary>
+        /// Prüft die Felder mit einem vorgegebenen Format:
+        /// E-Mail-Adresse und Telefonnummern.
+        /// </summary>
+        /// <returns>true, wenn alle Formate stimmen</returns>
+        private bool FormateGueltig()
+        {
+            // E-Mail-Adresse nur prüfen, wenn eine eingegeben wurde
             if (TxtEMail.Text.Trim() != "" && !Pruefung.EMailGueltig(TxtEMail.Text.Trim()))
             {
                 Meldung("Die E-Mail-Adresse ist ungültig. Beispiel: name@firma.ch");
                 return false;
             }
 
-            // Telefonnummern dürfen nur Zahlen enthalten
             if (!Pruefung.TelefonnummerGueltig(TxtTelefonGeschaeft.Text))
             {
                 Meldung("Die Telefonnummer Geschäft darf nur Zahlen enthalten.");

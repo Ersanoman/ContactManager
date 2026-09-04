@@ -26,18 +26,9 @@ namespace ContactManager.Controller
         private Datenspeicher datenspeicher;
 
         /// <summary>
-        /// Konstruktor: lädt beim Programmstart automatisch alle Daten
-        /// </summary>
-        public Kontaktverwaltung()
-        {
-            datenspeicher = new Datenspeicher();
-            personen = datenspeicher.Laden();
-        }
-
-        /// <summary>
-        /// Konstruktor mit eigenem Dateipfad (Konstruktor-Überladung).
-        /// Damit kann die Verwaltung auch mit einer anderen Datendatei
-        /// arbeiten, zum Beispiel beim Testen.
+        /// Konstruktor: lädt den Datenstamm aus der übergebenen Datei.
+        /// Der Pfad kommt vom Hauptfenster, damit die Verwaltung selber
+        /// nichts über Windows Forms wissen muss.
         /// </summary>
         /// <param name="dateipfad">Vollständiger Pfad zur XML-Datei</param>
         public Kontaktverwaltung(string dateipfad)
@@ -86,6 +77,24 @@ namespace ContactManager.Controller
         {
             MitarbeiternummerVergeben(person);
             personen.Add(person);
+            Speichern();
+        }
+
+        /// <summary>
+        /// Fügt mehrere Personen auf einmal hinzu und speichert erst
+        /// ganz am Schluss. Wird beim CSV-Import gebraucht: dort wäre es
+        /// unnötig langsam, die ganze Datei nach jeder einzelnen Zeile
+        /// neu zu schreiben.
+        /// </summary>
+        /// <param name="neuePersonen">Die zu erfassenden Personen</param>
+        public void MehrereHinzufuegen(List<Person> neuePersonen)
+        {
+            foreach (Person person in neuePersonen)
+            {
+                MitarbeiternummerVergeben(person);
+                personen.Add(person);
+            }
+
             Speichern();
         }
 

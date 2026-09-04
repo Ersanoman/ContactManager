@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using ContactManager.Controller;
 using ContactManager.Model;
@@ -28,13 +29,17 @@ namespace ContactManager.View
         {
             InitializeComponent();
 
-            verwaltung = new Kontaktverwaltung();
+            // Die Datendatei liegt im gleichen Ordner wie die Programmdatei
+            verwaltung = new Kontaktverwaltung(
+                Path.Combine(Application.StartupPath, "kontaktdaten.xml"));
 
-            // Auswahlfeld für die Such-Kategorie füllen
+            // Auswahlfeld für die Such-Kategorie füllen. Die Texte sind
+            // bewusst ausführlich: ein Lernender ist auch ein Mitarbeiter,
+            // darum findet "Mitarbeiter" auch die Lernenden.
             CmbKategorie.Items.Add("Alle");
-            CmbKategorie.Items.Add("Kunde");
-            CmbKategorie.Items.Add("Mitarbeiter");
-            CmbKategorie.Items.Add("Lernender");
+            CmbKategorie.Items.Add("Kunden");
+            CmbKategorie.Items.Add("Mitarbeiter (inkl. Lernende)");
+            CmbKategorie.Items.Add("Nur Lernende");
             CmbKategorie.SelectedIndex = 0;
         }
 
@@ -89,9 +94,58 @@ namespace ContactManager.View
                 TxtVorname.Text.Trim(),
                 ChkGeburtsdatum.Checked,
                 DtpGeburtsdatum.Value.Date,
-                Convert.ToString(CmbKategorie.SelectedItem));
+                GewaehlteKategorie());
 
             ListeAnzeigen(resultate);
+        }
+
+        /// <summary>
+        /// Wandelt den angezeigten Text der Auswahlliste in die Kategorie
+        /// um, welche die Kontaktverwaltung versteht.
+        /// </summary>
+        /// <returns>"Alle", "Kunde", "Mitarbeiter" oder "Lernender"</returns>
+        private string GewaehlteKategorie()
+        {
+            string auswahl = Convert.ToString(CmbKategorie.SelectedItem);
+
+            if (auswahl == "Kunden")
+            {
+                return "Kunde";
+            }
+            else if (auswahl == "Mitarbeiter (inkl. Lernende)")
+            {
+                return "Mitarbeiter";
+            }
+            else if (auswahl == "Nur Lernende")
+            {
+                return "Lernender";
+            }
+
+            return "Alle";
+        }
+
+        /// <summary>
+        /// Fragt nach, wenn bereits eine Person mit gleichem Vornamen,
+        /// Nachnamen und Geburtsdatum erfasst ist. Doppelerfassungen
+        /// werden so bemerkt, aber nicht ganz verboten: es kann echte
+        /// Namensgleichheit geben.
+        /// </summary>
+        /// <param name="person">Die neu erfasste Person</param>
+        /// <returns>true, wenn die Person erfasst werden soll</returns>
+        private bool ErfassenBestaetigt(Person person)
+        {
+            if (!verwaltung.ExistiertBereits(person))
+            {
+                return true;
+            }
+
+            DialogResult antwort = MessageBox.Show(
+                "Es ist bereits eine Person mit diesem Vornamen, Nachnamen " +
+                "und Geburtsdatum erfasst.\n\nSoll sie trotzdem erfasst werden?",
+                "Mögliche Doppelerfassung",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            return antwort == DialogResult.Yes;
         }
 
         /// <summary>
@@ -160,6 +214,11 @@ namespace ContactManager.View
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
+                if (!ErfassenBestaetigt(dialog.Ergebnis))
+                {
+                    return;
+                }
+
                 verwaltung.Hinzufuegen(dialog.Ergebnis);
 
                 // Filter zurücksetzen, damit die neue Person sicher
@@ -181,6 +240,11 @@ namespace ContactManager.View
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
+                if (!ErfassenBestaetigt(dialog.Ergebnis))
+                {
+                    return;
+                }
+
                 verwaltung.Hinzufuegen(dialog.Ergebnis);
 
                 // Filter zurücksetzen, damit die neue Person sicher
@@ -320,7 +384,7 @@ namespace ContactManager.View
                 CsvImporter importer = new CsvImporter();
                 List<Person> geleseneKontakte = importer.Einlesen(dateiauswahl.FileName);
 
-                int importiert = 0;
+                List<Person> neueKontakte = new List<Person>();
                 int uebersprungen = 0;
 
                 foreach (Person kontakt in geleseneKontakte)
@@ -331,15 +395,18 @@ namespace ContactManager.View
                     }
                     else
                     {
-                        // Mitarbeiter und Lernende erhalten hier automatisch
-                        // ihre Mitarbeiternummer
-                        verwaltung.Hinzufuegen(kontakt);
-                        importiert++;
+                        neueKontakte.Add(kontakt);
                     }
                 }
 
+                // Alle auf einmal erfassen: so wird die Datei nur ein
+                // einziges Mal geschrieben statt nach jeder Zeile.
+                // Mitarbeiter und Lernende erhalten dabei automatisch
+                // ihre Mitarbeiternummer.
+                verwaltung.MehrereHinzufuegen(neueKontakte);
+
                 CmdAlleAnzeigen_Click(sender, e);
-                MeldungNachImport(importiert, uebersprungen, importer);
+                MeldungNachImport(neueKontakte.Count, uebersprungen, importer);
             }
             catch (Exception ex)
             {

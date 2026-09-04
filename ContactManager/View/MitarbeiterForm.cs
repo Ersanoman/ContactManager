@@ -164,13 +164,27 @@ namespace ContactManager.View
         }
 
         /// <summary>
-        /// Prüft alle Eingaben. Bei einem Fehler wird eine verständliche
-        /// Meldung angezeigt und false zurückgegeben.
+        /// Prüft alle Eingaben. Die einzelnen Prüfungen stehen in eigenen
+        /// Methoden, damit jede nur eine Aufgabe hat. Sobald eine davon
+        /// false liefert, wird abgebrochen und der Benutzer sieht die
+        /// erste unpassende Eingabe.
         /// </summary>
         /// <returns>true, wenn alle Eingaben gültig sind</returns>
         private bool EingabenGueltig()
         {
-            // Pflichtfelder prüfen (im Formular mit * markiert)
+            return PflichtfelderAusgefuellt()
+                && NamenOhneZahlen()
+                && FormateGueltig()
+                && DatenLogischStimmig();
+        }
+
+        /// <summary>
+        /// Prüft, ob alle Pflichtfelder ausgefüllt sind
+        /// (im Formular mit einem Stern markiert).
+        /// </summary>
+        /// <returns>true, wenn kein Pflichtfeld leer ist</returns>
+        private bool PflichtfelderAusgefuellt()
+        {
             if (TxtVorname.Text.Trim() == "")
             {
                 Meldung("Bitte einen Vornamen eingeben (Pflichtfeld).");
@@ -195,7 +209,15 @@ namespace ContactManager.View
                 return false;
             }
 
-            // In Namen, Titel, Wohnort und Nationalität gehören keine Zahlen
+            return true;
+        }
+
+        /// <summary>
+        /// Prüft die Felder, in die keine Zahlen gehören.
+        /// </summary>
+        /// <returns>true, wenn keines dieser Felder eine Zahl enthält</returns>
+        private bool NamenOhneZahlen()
+        {
             if (!Pruefung.OhneZiffern(TxtVorname.Text))
             {
                 Meldung("Der Vorname darf keine Zahlen enthalten.");
@@ -226,7 +248,16 @@ namespace ContactManager.View
                 return false;
             }
 
-            // AHV-Nummer auf das Schweizer Format prüfen
+            return true;
+        }
+
+        /// <summary>
+        /// Prüft die Felder mit einem vorgegebenen Format:
+        /// AHV-Nummer, E-Mail-Adresse, Telefonnummern und Postleitzahl.
+        /// </summary>
+        /// <returns>true, wenn alle Formate stimmen</returns>
+        private bool FormateGueltig()
+        {
             if (!Pruefung.AhvNummerGueltig(TxtAhvNummer.Text.Trim()))
             {
                 Meldung("Die AHV-Nummer ist ungültig. " +
@@ -234,14 +265,13 @@ namespace ContactManager.View
                 return false;
             }
 
-            // E-Mail-Adresse prüfen (nur wenn eine eingegeben wurde)
+            // E-Mail-Adresse nur prüfen, wenn eine eingegeben wurde
             if (TxtEMail.Text.Trim() != "" && !Pruefung.EMailGueltig(TxtEMail.Text.Trim()))
             {
                 Meldung("Die E-Mail-Adresse ist ungültig. Beispiel: name@firma.ch");
                 return false;
             }
 
-            // Telefonnummern dürfen nur Zahlen enthalten
             if (!Pruefung.TelefonnummerGueltig(TxtTelefonGeschaeft.Text))
             {
                 Meldung("Die Telefonnummer Geschäft darf nur Zahlen enthalten.");
@@ -254,7 +284,7 @@ namespace ContactManager.View
                 return false;
             }
 
-            // Postleitzahl prüfen (nur wenn eine eingegeben wurde)
+            // Postleitzahl nur prüfen, wenn eine eingegeben wurde
             if (TxtPostleitzahl.Text.Trim() != "" &&
                 !Pruefung.PostleitzahlGueltig(TxtPostleitzahl.Text.Trim()))
             {
@@ -263,14 +293,22 @@ namespace ContactManager.View
                 return false;
             }
 
-            // Das Austrittsdatum darf nicht vor dem Eintrittsdatum liegen
+            return true;
+        }
+
+        /// <summary>
+        /// Prüft die Angaben, die zueinander passen müssen:
+        /// Austritt nach Eintritt und Lehrjahr innerhalb der Lehrdauer.
+        /// </summary>
+        /// <returns>true, wenn die Angaben zueinander passen</returns>
+        private bool DatenLogischStimmig()
+        {
             if (ChkAusgetreten.Checked && DtpAustrittsdatum.Value.Date < DtpEintrittsdatum.Value.Date)
             {
                 Meldung("Das Austrittsdatum darf nicht vor dem Eintrittsdatum liegen.");
                 return false;
             }
 
-            // Das aktuelle Lehrjahr kann nicht grösser als die Lehrdauer sein
             if (ChkLernender.Checked && NumAktuellesLehrjahr.Value > NumLehrjahre.Value)
             {
                 Meldung("Das aktuelle Lehrjahr kann nicht grösser sein " +
@@ -294,7 +332,7 @@ namespace ContactManager.View
 
         /// <summary>
         /// Prüft die Eingaben, baut daraus das Mitarbeiter- oder
-        /// Lernender-Objekt und schliesst den Dialog mit OK
+        /// Lernender-Objekt und schliesst den Dialog mit OK.
         /// </summary>
         private void CmdSpeichern_Click(object sender, EventArgs e)
         {
@@ -303,35 +341,68 @@ namespace ContactManager.View
                 return;
             }
 
-            Mitarbeiter mitarbeiter;
+            Mitarbeiter mitarbeiter = PassendesObjektErzeugen();
+            PersonendatenUebernehmen(mitarbeiter);
+            AnstellungsdatenUebernehmen(mitarbeiter);
 
-            // Je nach Checkbox wird ein Lernender oder ein "normaler"
-            // Mitarbeiter erzeugt (Vererbungshierarchie)
+            // Beim Bearbeiten bleibt die bestehende Mitarbeiternummer erhalten.
+            // Bei einer Neuerfassung bleibt sie 0 und wird von der
+            // Kontaktverwaltung automatisch vergeben.
+            if (original != null)
+            {
+                mitarbeiter.Mitarbeiternummer = original.Mitarbeiternummer;
+            }
+
+            Ergebnis = mitarbeiter;
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        /// <summary>
+        /// Erzeugt je nach Häkchen einen Lernenden oder einen "normalen"
+        /// Mitarbeiter. Weil ein Lernender von Mitarbeiter erbt, kann in
+        /// beiden Fällen mit dem Typ Mitarbeiter weitergearbeitet werden.
+        /// </summary>
+        /// <returns>Das leere Objekt der passenden Klasse</returns>
+        private Mitarbeiter PassendesObjektErzeugen()
+        {
             if (ChkLernender.Checked)
             {
                 Lernender lernender = new Lernender();
                 lernender.Lehrjahre = (int)NumLehrjahre.Value;
                 lernender.AktuellesLehrjahr = (int)NumAktuellesLehrjahr.Value;
-                mitarbeiter = lernender;
-            }
-            else
-            {
-                mitarbeiter = new Mitarbeiter();
+                return lernender;
             }
 
-            // Allgemeine Personendaten (aus der Basisklasse Person)
-            mitarbeiter.Anrede = (Anrede)CmbAnrede.SelectedIndex;
-            mitarbeiter.Titel = TxtTitel.Text.Trim();
-            mitarbeiter.Vorname = TxtVorname.Text.Trim();
-            mitarbeiter.Nachname = TxtNachname.Text.Trim();
-            mitarbeiter.Geburtsdatum = DtpGeburtsdatum.Value.Date;
-            mitarbeiter.Geschlecht = (Geschlecht)CmbGeschlecht.SelectedIndex;
-            mitarbeiter.TelefonnummerGeschaeft = TxtTelefonGeschaeft.Text.Trim();
-            mitarbeiter.Mobiltelefonnummer = TxtMobiltelefon.Text.Trim();
-            mitarbeiter.EMailAdresse = TxtEMail.Text.Trim();
-            mitarbeiter.Aktiv = ChkAktiv.Checked;
+            return new Mitarbeiter();
+        }
 
-            // Anstellungsdaten des Mitarbeiters
+        /// <summary>
+        /// Überträgt die Angaben, die jede Person hat (aus der Basisklasse
+        /// Person), aus dem Formular in das Objekt.
+        /// </summary>
+        /// <param name="person">Das zu füllende Objekt</param>
+        private void PersonendatenUebernehmen(Person person)
+        {
+            person.Anrede = (Anrede)CmbAnrede.SelectedIndex;
+            person.Titel = TxtTitel.Text.Trim();
+            person.Vorname = TxtVorname.Text.Trim();
+            person.Nachname = TxtNachname.Text.Trim();
+            person.Geburtsdatum = DtpGeburtsdatum.Value.Date;
+            person.Geschlecht = (Geschlecht)CmbGeschlecht.SelectedIndex;
+            person.TelefonnummerGeschaeft = TxtTelefonGeschaeft.Text.Trim();
+            person.Mobiltelefonnummer = TxtMobiltelefon.Text.Trim();
+            person.EMailAdresse = TxtEMail.Text.Trim();
+            person.Aktiv = ChkAktiv.Checked;
+        }
+
+        /// <summary>
+        /// Überträgt die Angaben zur Anstellung aus dem Formular
+        /// in das Objekt.
+        /// </summary>
+        /// <param name="mitarbeiter">Der zu füllende Mitarbeiter</param>
+        private void AnstellungsdatenUebernehmen(Mitarbeiter mitarbeiter)
+        {
             mitarbeiter.Abteilung = TxtAbteilung.Text.Trim();
             mitarbeiter.AhvNummer = TxtAhvNummer.Text.Trim();
             mitarbeiter.Adresse = TxtAdresse.Text.Trim();
@@ -344,23 +415,10 @@ namespace ContactManager.View
             mitarbeiter.Kaderstufe = (int)NumKaderstufe.Value;
             mitarbeiter.Geschaeftsadresse = TxtGeschaeftsadresse.Text.Trim();
 
-            // DateTime.MinValue bedeutet: kein Austrittsdatum
-            // (ternärer Operator)
+            // DateTime.MinValue bedeutet: kein Austrittsdatum (ternärer Operator)
             mitarbeiter.Austrittsdatum = ChkAusgetreten.Checked
                 ? DtpAustrittsdatum.Value.Date
                 : DateTime.MinValue;
-
-            // Beim Bearbeiten bleibt die bestehende Mitarbeiternummer
-            // erhalten. Bei einer Neuerfassung bleibt sie 0 und wird von
-            // der Kontaktverwaltung automatisch vergeben.
-            if (original != null)
-            {
-                mitarbeiter.Mitarbeiternummer = original.Mitarbeiternummer;
-            }
-
-            Ergebnis = mitarbeiter;
-            DialogResult = DialogResult.OK;
-            Close();
         }
 
         /// <summary>
