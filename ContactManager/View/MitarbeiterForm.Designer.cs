@@ -159,7 +159,7 @@
             this.LblVorname.Name = "LblVorname";
             this.LblVorname.Size = new System.Drawing.Size(52, 13);
             this.LblVorname.TabIndex = 4;
-            this.LblVorname.Text = "Vorname*:";
+            this.LblVorname.Text = "Vorname:*";
             //
             // TxtVorname
             //
@@ -176,7 +176,7 @@
             this.LblNachname.Name = "LblNachname";
             this.LblNachname.Size = new System.Drawing.Size(61, 13);
             this.LblNachname.TabIndex = 6;
-            this.LblNachname.Text = "Nachname*:";
+            this.LblNachname.Text = "Nachname:*";
             //
             // TxtNachname
             //
@@ -425,7 +425,7 @@
             this.LblAbteilung.Name = "LblAbteilung";
             this.LblAbteilung.Size = new System.Drawing.Size(53, 13);
             this.LblAbteilung.TabIndex = 2;
-            this.LblAbteilung.Text = "Abteilung*:";
+            this.LblAbteilung.Text = "Abteilung:*";
             //
             // TxtAbteilung
             //
@@ -442,7 +442,7 @@
             this.LblAhvNummer.Name = "LblAhvNummer";
             this.LblAhvNummer.Size = new System.Drawing.Size(74, 13);
             this.LblAhvNummer.TabIndex = 4;
-            this.LblAhvNummer.Text = "AHV-Nummer*:";
+            this.LblAhvNummer.Text = "AHV-Nummer:*";
             //
             // TxtAhvNummer
             //

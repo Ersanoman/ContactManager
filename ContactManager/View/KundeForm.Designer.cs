@@ -126,7 +126,7 @@
             this.LblVorname.Name = "LblVorname";
             this.LblVorname.Size = new System.Drawing.Size(52, 13);
             this.LblVorname.TabIndex = 4;
-            this.LblVorname.Text = "Vorname*:";
+            this.LblVorname.Text = "Vorname:*";
             //
             // TxtVorname
             //
@@ -143,7 +143,7 @@
             this.LblNachname.Name = "LblNachname";
             this.LblNachname.Size = new System.Drawing.Size(61, 13);
             this.LblNachname.TabIndex = 6;
-            this.LblNachname.Text = "Nachname*:";
+            this.LblNachname.Text = "Nachname:*";
             //
             // TxtNachname
             //
