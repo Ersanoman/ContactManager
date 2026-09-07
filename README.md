@@ -11,133 +11,89 @@ Was funktioniert:
 - Erfassen, Bearbeiten (Mutieren) und Löschen von Kunden, Mitarbeitern
   und Lernenden
 - Aktivieren und Deaktivieren von Personen (Status aktiv/passiv)
-- Automatische Vergabe der Mitarbeiternummern (ab Nummer 1000)
-- Protokollieren von Notizen in Kundenkontakten inkl. Kontakthistorie
-  mit Zeitstempel
+- Automatische Vergabe der Mitarbeiternummern ab 1000
+- Notizen zu Kundenkontakten mit Zeitstempel (Kontakthistorie);
+  ein Doppelklick zeigt die ganze Notiz in einem eigenen Fenster
 - Suche nach Nachname, Vorname, Geburtsdatum und Kategorie, auch
-  kombinierbar; der Suchfilter bleibt nach Aktionen wie Bearbeiten
-  oder Löschen aktiv. Die Kategorien heissen "Alle", "Kunden",
-  "Mitarbeiter (inkl. Lernende)" und "Nur Lernende" - der Zusatz
-  ist wichtig, weil ein Lernender auch ein Mitarbeiter ist.
-- Die Personenliste ist alphabetisch nach Nachname sortiert
-  (selbst implementierter Bubblesort in der Kontaktverwaltung)
-- Die Auswahl in der Liste bleibt nach dem Bearbeiten oder nach einem
-  Statuswechsel erhalten
-- Bedienung ganz ohne Maus: mit Tab zwischen den Feldern wechseln, mit
-  den Pfeiltasten durch die Liste gehen, Enter öffnet den markierten
-  Eintrag zum Bearbeiten und die Entf-Taste löscht ihn (mit Nachfrage)
-- In der Kontakthistorie zeigt ein Doppelklick die ganze Notiz in einem
-  eigenen Fenster; in der Liste wird ein langer Text sonst abgeschnitten
-- Die Suche kann auch mit der Enter-Taste ausgelöst werden; in den
-  Erfassungsfenstern speichert Enter, Escape bricht ab
-- Alle Schaltflächen haben ein Tastenkürzel (z.B. Alt+K für einen
-  neuen Kunden, Alt+L für Löschen)
-- Die Statuszeile erklärt eine leere Liste: entweder ist noch nichts
-  erfasst oder die Suche hat keinen Treffer geliefert
-- Moderne Benutzeroberfläche: Schriftart Segoe UI, farbige Kopfzeile,
-  Suche und Liste als abgesetzte Flächen, nach Aufgabe gruppierte
-  Schaltflächen (Neu erfassen / Ausgewählte Person / Werkzeuge)
-  sowie eine Statuszeile am unteren Rand
+  kombinierbar; der Filter bleibt nach dem Bearbeiten aktiv
+- Liste alphabetisch nach Nachname sortiert (selbst geschriebener
+  Bubblesort in der Kontaktverwaltung)
+- Bedienung ohne Maus: mit Tab durch die Felder, mit den Pfeiltasten
+  durch die Liste, Enter öffnet den markierten Eintrag, Entf löscht
+  ihn (mit Nachfrage), alle Schaltflächen haben ein Alt-Kürzel
+- Eingabevalidierung: Pflichtfelder sind mit * markiert, Telefon nur
+  Ziffern, keine Zahlen in Namen, E-Mail-Format, AHV-Nummer
+  756.XXXX.XXXX.XX und nur einmal vergeben, Postleitzahl 1000-9999,
+  Geburtsdatum nicht in der Zukunft und nicht vor 1900, Austritt nicht
+  vor Eintritt, aktuelles Lehrjahr nicht grösser als die Lehrdauer
+- Nationalität als Dropdown mit allen Ländern, freie Eingabe bleibt
+  möglich (z.B. für Doppelbürger)
+- Warnung bei möglicher Doppelerfassung (gleicher Name und gleiches
+  Geburtsdatum)
 - Automatisches Speichern nach jeder Änderung und automatisches Laden
-  beim Programmstart (XML-Datei "kontaktdaten.xml" im Programmordner).
-  Gespeichert wird über eine Hilfsdatei, die erst nach vollständigem
-  Schreiben die richtige Datei ersetzt - so gehen bei einem Fehler
-  mitten im Speichern nicht alle Daten verloren.
-  Schlägt das Speichern trotzdem fehl (z.B. Datei schreibgeschützt),
-  erscheint sofort eine Meldung; der Benutzer glaubt nie, seine Daten
-  seien gesichert, obwohl sie es nicht sind.
-- Eingabevalidierung:
-  * Pflichtfelder sind mit einem Stern nach dem Doppelpunkt markiert
-    (z.B. "Vorname:*") und werden geprüft: beim Kunden Vorname und
-    Nachname, beim Mitarbeiter zusätzlich Abteilung und AHV-Nummer
-  * Telefonnummern akzeptieren nur Ziffern (Tastatur ist gesperrt,
-    eingefügter Text wird beim Speichern geprüft)
-  * In Vorname, Nachname, Titel, Wohnort und Nationalität sind keine
-    Zahlen erlaubt
-  * Die nötigen Formate (AHV-Nummer, Postleitzahl) stehen als Hinweis
-    unten im Fenster, bevor man etwas falsch machen kann
-  * E-Mail-Adresse: genau ein @, davor und danach Text, im hinteren
-    Teil ein Punkt mit einer Endung von mindestens zwei Zeichen
-  * AHV-Nummer (756.XXXX.XXXX.XX), Postleitzahl (1000 bis 9999),
-    Austritt nicht vor Eintritt, aktuelles Lehrjahr nicht grösser
-    als Lehrjahre total
-  * Eine AHV-Nummer darf nur einmal vorkommen: sie wird gegen alle
-    anderen Mitarbeiter geprüft, beim Bearbeiten ohne die Person
-    selbst. Auch der CSV-Import weist doppelte Nummern zurück -
-    innerhalb der Datei und gegen den bestehenden Datenstamm.
-  * Geburtsdatum kann nicht in der Zukunft und nicht vor 1900 liegen
-  * Alle diese Regeln stehen in der statischen Klasse Pruefung und
-    gelten sowohl für die Formulare als auch für den CSV-Import
-- Nationalität als Dropdown mit allen Ländern (freie Eingabe bleibt
-  möglich, z.B. für Doppelbürger)
-- Warnung bei möglicher Doppelerfassung: Ist bereits eine Person mit
-  gleichem Vornamen, Nachnamen und Geburtsdatum erfasst, wird
-  nachgefragt. Erfassen bleibt erlaubt, denn es kann echte
-  Namensgleichheit geben.
+  beim Programmstart (XML-Datei "kontaktdaten.xml"). Schlägt das
+  Speichern fehl, erscheint sofort eine Meldung.
 
 Zusätzlich umgesetzte optionale Anforderungen:
 ----------------------------------------------
-- Dashboard: zeigt eine Übersicht über den Datenstamm (Anzahl Kunden,
-  Mitarbeiter, Lernende, aktive und passive Personen, erfasste
-  Kundennotizen sowie die nächste freie Mitarbeiternummer).
-  Dazu ein selbst gezeichnetes Kreisdiagramm mit der Verteilung der
-  drei Kategorien: Kunden dunkelblau, Mitarbeiter orange, Lernende
-  grün, mit Legende und Prozentangaben.
-- CSV-Import: liest Kunden, Mitarbeiter UND Lernende aus einer mit
-  Strichpunkt getrennten Datei ein. Die erste Spalte "Typ" bestimmt,
-  welche Art von Person erzeugt wird. Mitarbeiter und Lernende erhalten
-  beim Import automatisch ihre Mitarbeiternummer.
-  Fehlerhafte Zeilen werden übersprungen und dem Benutzer mit
-  Zeilennummer gemeldet, bereits vorhandene Personen werden nicht
-  doppelt importiert. Zeilen, die mit einem # beginnen, gelten als
-  Kommentar - so erklären die Beispieldateien sich selbst.
-  Dem Projekt liegen zwei Beispieldateien bei:
-  * "Beispiel-Kontakte.csv" enthält 11 fehlerfreie Kontakte
-    (6 Kunden, 3 Mitarbeiter, 2 Lernende).
-  * "Beispiel-Kontakte-mit-Fehlern.csv" enthält absichtlich fehlerhafte
-    Zeilen sowie einen bereits vorhandenen Kunden. Damit lässt sich
-    zeigen, dass das Programm bei fehlerhaften Daten nicht abstürzt.
-    Enthaltene Fehler: ungültiges Datum (31.02.2000), fehlender Vorname,
-    zu wenige Spalten, unbekannter Typ, Text statt Zahl.
-    Der Import weist zusätzlich Zahlen in Namen, Geburtsdaten in der
-    Zukunft, Beschäftigungsgrade ausserhalb 0-100, Kaderstufen
-    ausserhalb 0-5 sowie einen Austritt vor dem Eintritt zurück.
-    Erwartetes Resultat nach dem Import der ersten Datei:
-    2 neu importiert, 1 übersprungen, 5 fehlerhafte Zeilen.
+- Dashboard mit Kennzahlen zum Datenstamm und einem selbst
+  gezeichneten Kreisdiagramm inkl. Legende und Prozentangaben
+- CSV-Import für Kunden, Mitarbeiter und Lernende. Fehlerhafte Zeilen
+  werden mit Zeilennummer gemeldet und übersprungen, bereits
+  vorhandene Personen werden nicht doppelt importiert.
+  Beigelegte Beispieldateien:
+  * "Beispiel-Kontakte.csv" -> 11 importiert, 0 Fehler
+  * "Beispiel-Kontakte-mit-Fehlern.csv" -> 2 importiert,
+    1 übersprungen, 5 fehlerhafte Zeilen
 
 Was nicht funktioniert / bewusste Einschränkungen:
 ---------------------------------------------------
 - Es gibt keinen Login und keine Mutationshistorie
-- Ein Export der Daten ist nicht vorgesehen (in der Aufgabenstellung
-  auch nicht verlangt; die Daten stehen als lesbare XML-Datei bereit)
+- Ein Export ist nicht vorgesehen (in der Aufgabenstellung auch nicht
+  verlangt; die Daten stehen als lesbare XML-Datei bereit)
 - Läuft das Programm zweimal gleichzeitig, überschreibt die zuletzt
   geschlossene Instanz die Datei der anderen
+
+Überlegungen und bewusste Entscheide:
+--------------------------------------
+- Lernender erbt von Mitarbeiter und nicht direkt von Person. Ein
+  Lernender hat nämlich alle Mitarbeiterdaten und zusätzlich die
+  Lehrjahre. Darum heisst der Filter auch "Mitarbeiter (inkl.
+  Lernende)" - sonst hätten wir Lernende beim Suchen verloren.
+- Alle Prüfregeln liegen in einer eigenen statischen Klasse Pruefung
+  statt in den Formularen. So gelten beim CSV-Import genau dieselben
+  Regeln wie bei der Eingabe von Hand, und wir mussten sie nur
+  einmal schreiben.
+- Der Controller kennt kein Windows Forms. Meldungen zeigen immer die
+  Fenster an. Dadurch ist die Logik von der Oberfläche getrennt und
+  könnte auch ohne die Formulare geprüft werden.
+- Beim Speichern schreiben wir zuerst in eine Hilfsdatei und ersetzen
+  erst danach die richtige Datei. Würden wir direkt schreiben, wären
+  bei einem Abbruch mittendrin alle bisherigen Daten weg.
+- Eine doppelte Person wird nur gemeldet, nicht verboten: zwei
+  Menschen können gleich heissen und am gleichen Tag Geburtstag
+  haben. Die AHV-Nummer dagegen ist wirklich eindeutig, sie wird
+  darum hart zurückgewiesen.
+- Sortiert wird mit einem selbst geschriebenen Bubblesort statt mit
+  einer fertigen Methode, weil das Sortierverfahren Unterrichtsstoff
+  ist und wir zeigen wollten, dass wir es verstanden haben.
+- Gespeichert wird per XML-Serialisierung statt in einer Datenbank.
+  Das entspricht dem Unterrichtsstoff und die Datei lässt sich mit
+  einem Texteditor kontrollieren.
 
 Zusatzinformationen:
 --------------------
 - Kein Login notwendig
 - Die Daten werden in der Datei "kontaktdaten.xml" im gleichen Ordner
   wie die ContactManager.exe gespeichert (bin\Debug bzw. bin\Release)
-- Architektur: Model-View-Controller-Prinzip mit Vererbungshierarchie
+- Architektur: Model-View-Controller mit der Vererbungshierarchie
   Person -> Kunde und Person -> Mitarbeiter -> Lernender
   * Model:      Person, Kunde, Mitarbeiter, Lernender, Kontakteintrag,
-                die Enumerationen Anrede und Geschlecht sowie die
-                statische Länderliste
-  * Controller: Kontaktverwaltung (CRUD, Suche, Sortierung mit
-                Bubblesort, Mitarbeiternummern), Datenspeicher
-                (XML-Serialisierung), CsvImporter und Pruefung.
-                Der Controller kommt ohne Windows Forms aus; Meldungen
-                zeigen immer die Fenster an, nie die Logik.
+                die Enumerationen Anrede und Geschlecht, Länderliste
+  * Controller: Kontaktverwaltung, Datenspeicher, CsvImporter, Pruefung
   * View:       HauptForm, KundeForm, MitarbeiterForm, DashboardForm
-                (die Formulare enthalten keine Verwaltungslogik).
-                Das Hauptfenster bestimmt den Pfad der Datendatei und
-                übergibt ihn der Kontaktverwaltung.
-- Aufbau einer Zeile in der CSV-Datei (Trennzeichen ist der Strichpunkt):
-  Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;
-  TelefonGeschaeft;Mobiltelefon;EMail;Status;
-  Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;
-  Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;
-  Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
-  Erlaubte Werte für "Typ": Kunde, Mitarbeiter oder Lernender.
-  Bei Kunden dürfen die Spalten ab "Abteilung" ganz weggelassen werden,
-  bei Mitarbeitern die beiden letzten Spalten zu den Lehrjahren.
+- Aufbau einer CSV-Zeile (Trennzeichen ist der Strichpunkt): siehe die
+  Überschriftszeile in den Beispieldateien. Erlaubte Werte für "Typ"
+  sind Kunde, Mitarbeiter oder Lernender. Bei Kunden dürfen die
+  Spalten ab "Abteilung" weggelassen werden, bei Mitarbeitern die
+  beiden letzten Spalten zu den Lehrjahren.
