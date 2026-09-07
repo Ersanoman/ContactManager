@@ -1,4 +1,4 @@
-﻿# Beispieldatei fuer den CSV-Import: 11 fehlerfreie Kontakte
+﻿# Beispieldatei für den CSV-Import: 11 fehlerfreie Kontakte
 # (6 Kunden, 3 Mitarbeiter, 2 Lernende). Zeilen mit # sind Kommentare.
 Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;TelefonGeschaeft;Mobiltelefon;EMail;Status;Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
 Kunde;Frau;Dr.;Anna;Müller;17.05.1985;Weiblich;071 222 33 44;079 555 66 77;anna.mueller@example.ch;aktiv

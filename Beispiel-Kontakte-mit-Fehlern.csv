@@ -1,5 +1,5 @@
 ﻿# Beispieldatei mit ABSICHTLICHEN Fehlern, um zu zeigen dass das
-# Programm nicht abstuerzt: ungueltiges Datum, fehlender Vorname,
+# Programm nicht abstürzt: ungültiges Datum, fehlender Vorname,
 # zu wenige Spalten, unbekannter Typ, Text statt Zahl.
 Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;TelefonGeschaeft;Mobiltelefon;EMail;Status;Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
 Kunde;Herr;;Luca;Fontana;05.06.1988;Männlich;091 111 22 33;079 111 22 33;luca.fontana@example.ch;aktiv
