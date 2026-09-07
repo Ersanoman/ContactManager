@@ -20,6 +20,12 @@ namespace ContactManager.View
         private Mitarbeiter original;
 
         /// <summary>
+        /// Die Kontaktverwaltung. Wird gebraucht, um zu prüfen, ob eine
+        /// AHV-Nummer bereits einem anderen Mitarbeiter gehört.
+        /// </summary>
+        private Kontaktverwaltung verwaltung;
+
+        /// <summary>
         /// Der fertige Mitarbeiter (oder Lernende). Ist erst gefüllt,
         /// nachdem der Dialog mit "Speichern" geschlossen wurde.
         /// </summary>
@@ -30,11 +36,13 @@ namespace ContactManager.View
         /// oder null, wenn eine neue Person erfasst werden soll.
         /// </summary>
         /// <param name="vorhandenerMitarbeiter">Der zu bearbeitende Mitarbeiter oder null für eine Neuerfassung</param>
-        public MitarbeiterForm(Mitarbeiter vorhandenerMitarbeiter)
+        /// <param name="kontaktverwaltung">Verwaltung für die Prüfung der AHV-Nummer</param>
+        public MitarbeiterForm(Mitarbeiter vorhandenerMitarbeiter, Kontaktverwaltung kontaktverwaltung)
         {
             InitializeComponent();
 
             original = vorhandenerMitarbeiter;
+            verwaltung = kontaktverwaltung;
 
             // Auswahlfelder füllen. Die Reihenfolge muss zu den
             // Zahlenwerten der Enumerationen Anrede und Geschlecht passen.
@@ -262,6 +270,16 @@ namespace ContactManager.View
             {
                 Meldung("Die AHV-Nummer ist ungültig. " +
                     "Erwartet wird das Format 756.XXXX.XXXX.XX.");
+                return false;
+            }
+
+            // Eine AHV-Nummer gibt es nur einmal. Beim Bearbeiten wird die
+            // Person selbst ausgenommen, sonst würde sie ihre eigene
+            // Nummer blockieren.
+            if (verwaltung.AhvNummerVergeben(TxtAhvNummer.Text.Trim(), original))
+            {
+                Meldung("Diese AHV-Nummer gehört bereits einem anderen " +
+                    "Mitarbeiter. Eine AHV-Nummer darf nur einmal vorkommen.");
                 return false;
             }
 

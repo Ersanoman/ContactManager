@@ -274,7 +274,7 @@ namespace ContactManager.View
         /// </summary>
         private void CmdNeuerMitarbeiter_Click(object sender, EventArgs e)
         {
-            MitarbeiterForm dialog = new MitarbeiterForm(null);
+            MitarbeiterForm dialog = new MitarbeiterForm(null, verwaltung);
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -329,7 +329,7 @@ namespace ContactManager.View
             else if (person is Mitarbeiter)
             {
                 // Gilt auch für Lernende, denn ein Lernender ist ein Mitarbeiter
-                MitarbeiterForm dialog = new MitarbeiterForm((Mitarbeiter)person);
+                MitarbeiterForm dialog = new MitarbeiterForm((Mitarbeiter)person, verwaltung);
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -351,6 +351,29 @@ namespace ContactManager.View
                     "Mitarbeiter und kann darum nicht bearbeitet werden.",
                     "Unbekannte Art von Eintrag",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        /// <summary>
+        /// Tastaturbedienung in der Personenliste: mit den Pfeiltasten wird
+        /// ausgewählt (das macht die Liste selber), Enter öffnet den Eintrag
+        /// zum Bearbeiten und die Entf-Taste löscht ihn.
+        /// </summary>
+        private void LstPersonen_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CmdBearbeiten_Click(sender, e);
+
+                // Verhindert, dass zusätzlich die Suche ausgelöst wird
+                // (Enter gehört sonst der Schaltfläche "Suchen")
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                CmdLoeschen_Click(sender, e);
+                e.Handled = true;
             }
         }
 
@@ -442,7 +465,7 @@ namespace ContactManager.View
 
                 foreach (Person kontakt in geleseneKontakte)
                 {
-                    if (verwaltung.ExistiertBereits(kontakt))
+                    if (verwaltung.ExistiertBereits(kontakt) || AhvSchonVergeben(kontakt))
                     {
                         uebersprungen++;
                     }
@@ -468,6 +491,25 @@ namespace ContactManager.View
                 MessageBox.Show("Die Datei konnte nicht gelesen werden:\n" + ex.Message,
                     "Fehler beim Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Prüft beim Import, ob die AHV-Nummer eines Kontakts bereits
+        /// einem erfassten Mitarbeiter gehört. Solche Zeilen werden
+        /// übersprungen, denn eine AHV-Nummer gibt es nur einmal.
+        /// </summary>
+        /// <param name="kontakt">Der einzulesende Kontakt</param>
+        /// <returns>true, wenn die Nummer schon vergeben ist</returns>
+        private bool AhvSchonVergeben(Person kontakt)
+        {
+            // Nur Mitarbeiter und Lernende haben eine AHV-Nummer
+            if (!(kontakt is Mitarbeiter))
+            {
+                return false;
+            }
+
+            Mitarbeiter mitarbeiter = (Mitarbeiter)kontakt;
+            return verwaltung.AhvNummerVergeben(mitarbeiter.AhvNummer, null);
         }
 
         /// <summary>

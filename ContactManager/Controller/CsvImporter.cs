@@ -20,7 +20,8 @@ namespace ContactManager.Controller
     /// Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
     ///
     /// Bei Kunden bleiben die Spalten ab "Abteilung" leer.
-    /// Die erste Zeile darf eine Überschriftszeile sein, sie wird übersprungen.
+    /// Eine Überschriftszeile (beginnt mit "Typ;") wird übersprungen,
+    /// ebenso Zeilen, die mit einem # beginnen (Kommentare).
     /// </summary>
     public class CsvImporter
     {
@@ -39,6 +40,12 @@ namespace ContactManager.Controller
         /// Beschreibung der fehlerhaften Zeilen für die Meldung an den Benutzer
         /// </summary>
         public string Fehlermeldungen { get; private set; }
+
+        /// <summary>
+        /// Alle AHV-Nummern, die in dieser Datei schon vorgekommen sind.
+        /// Damit fällt auf, wenn dieselbe Nummer zweimal in der Datei steht.
+        /// </summary>
+        private List<string> gelesenAhvNummern;
 
         /// <summary>
         /// Konstruktor
@@ -60,6 +67,7 @@ namespace ContactManager.Controller
             List<Person> kontakte = new List<Person>();
             AnzahlFehlerhaft = 0;
             Fehlermeldungen = "";
+            gelesenAhvNummern = new List<string>();
 
             // Encoding.Default entspricht der Windows-Einstellung, damit
             // Umlaute aus einer Excel-Datei richtig ankommen. Ist die Datei
@@ -76,8 +84,15 @@ namespace ContactManager.Controller
                     continue;
                 }
 
-                // Überschriftszeile überspringen (nur die allererste Zeile)
-                if (i == 0 && zeile.ToLower().StartsWith("typ"))
+                // Kommentarzeilen überspringen. So kann in der Datei
+                // erklärt werden, wofür sie da ist.
+                if (zeile.StartsWith("#"))
+                {
+                    continue;
+                }
+
+                // Überschriftszeile überspringen (beginnt mit "Typ")
+                if (zeile.ToLower().StartsWith("typ;"))
                 {
                     continue;
                 }
@@ -230,6 +245,19 @@ namespace ContactManager.Controller
             mitarbeiter.Rolle = Feld(teile, 20);
             mitarbeiter.Kaderstufe = ZahlImBereich(Feld(teile, 21), 0, 0, 5, "Kaderstufe");
             mitarbeiter.Geschaeftsadresse = Feld(teile, 22);
+
+            // Eine AHV-Nummer gibt es nur einmal, also darf sie auch
+            // innerhalb der Datei nicht zweimal vorkommen
+            if (mitarbeiter.AhvNummer != "")
+            {
+                if (gelesenAhvNummern.Contains(mitarbeiter.AhvNummer))
+                {
+                    throw new Exception("Die AHV-Nummer " + mitarbeiter.AhvNummer +
+                                        " kommt in der Datei mehrfach vor.");
+                }
+
+                gelesenAhvNummern.Add(mitarbeiter.AhvNummer);
+            }
 
             // Ein Austritt kann nicht vor dem Eintritt liegen
             if (mitarbeiter.Austrittsdatum != DateTime.MinValue &&

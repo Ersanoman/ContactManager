@@ -109,6 +109,25 @@ namespace ContactManager.View
         }
 
         /// <summary>
+        /// Zeigt die angeklickte Notiz vollständig in einem Meldungsfenster.
+        /// In der Liste wird ein langer Text abgeschnitten, mit einem
+        /// Doppelklick lässt er sich ganz lesen.
+        /// </summary>
+        private void LstKontakthistorie_DoubleClick(object sender, EventArgs e)
+        {
+            if (LstKontakthistorie.SelectedItem == null)
+            {
+                return;
+            }
+
+            Kontakteintrag eintrag = (Kontakteintrag)LstKontakthistorie.SelectedItem;
+
+            MessageBox.Show(eintrag.Notiz,
+                "Notiz vom " + eintrag.Zeitpunkt.ToString("dd.MM.yyyy HH:mm"),
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
         /// Fügt der Kontakthistorie eine neue Notiz mit dem aktuellen
         /// Zeitpunkt hinzu und leert das Eingabefeld
         /// </summary>

@@ -264,6 +264,43 @@ namespace ContactManager.Controller
         }
 
         /// <summary>
+        /// Prüft, ob eine AHV-Nummer bereits einem anderen Mitarbeiter
+        /// gehört. Eine AHV-Nummer gibt es in der Schweiz nur einmal,
+        /// darum darf sie nicht doppelt vergeben werden.
+        /// </summary>
+        /// <param name="ahvNummer">Die zu prüfende AHV-Nummer</param>
+        /// <param name="ausser">
+        /// Person, die nicht mitgeprüft wird. Beim Bearbeiten ist das die
+        /// Person selbst, sonst würde sie ihre eigene Nummer blockieren.
+        /// Wird null übergeben, werden alle geprüft.
+        /// </param>
+        /// <returns>true, wenn die Nummer schon jemand anderem gehört</returns>
+        public bool AhvNummerVergeben(string ahvNummer, Person ausser)
+        {
+            // Eine leere Nummer blockiert nichts
+            if (ahvNummer == "")
+            {
+                return false;
+            }
+
+            foreach (Person person in personen)
+            {
+                // Nur Mitarbeiter und Lernende haben eine AHV-Nummer
+                if (person is Mitarbeiter && person != ausser)
+                {
+                    Mitarbeiter mitarbeiter = (Mitarbeiter)person;
+
+                    if (mitarbeiter.AhvNummer == ahvNummer)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Zählt alle Personen einer Kategorie ("Alle", "Kunde",
         /// "Mitarbeiter" oder "Lernender"). Wird für das Dashboard gebraucht.
         /// </summary>

@@ -238,9 +238,9 @@
             this.LblListe.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51);
             this.LblListe.Location = new System.Drawing.Point(16, 218);
             this.LblListe.Name = "LblListe";
-            this.LblListe.Size = new System.Drawing.Size(122, 17);
+            this.LblListe.Size = new System.Drawing.Size(330, 17);
             this.LblListe.TabIndex = 2;
-            this.LblListe.Text = "Erfasste Personen";
+            this.LblListe.Text = "Erfasste Personen   (Enter = bearbeiten, Entf = löschen)";
             // 
             // LstPersonen
             // 
@@ -258,6 +258,7 @@
             this.LstPersonen.Size = new System.Drawing.Size(736, 380);
             this.LstPersonen.TabIndex = 3;
             this.LstPersonen.DoubleClick += new System.EventHandler(this.LstPersonen_DoubleClick);
+            this.LstPersonen.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LstPersonen_KeyDown);
             // 
             // LblGruppeNeu
             // 

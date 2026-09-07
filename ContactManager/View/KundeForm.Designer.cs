@@ -277,7 +277,7 @@
             this.GrpHistorie.Size = new System.Drawing.Size(344, 434);
             this.GrpHistorie.TabIndex = 2;
             this.GrpHistorie.TabStop = false;
-            this.GrpHistorie.Text = "Kontakthistorie";
+            this.GrpHistorie.Text = "Kontakthistorie   (Doppelklick = ganzer Text)";
             //
             // LstKontakthistorie
             //
@@ -289,6 +289,8 @@
             this.LstKontakthistorie.BackColor = System.Drawing.Color.White;
             this.LstKontakthistorie.Size = new System.Drawing.Size(320, 212);
             this.LstKontakthistorie.TabIndex = 0;
+            this.LstKontakthistorie.HorizontalScrollbar = true;
+            this.LstKontakthistorie.DoubleClick += new System.EventHandler(this.LstKontakthistorie_DoubleClick);
             //
             // LblNeueNotiz
             //
