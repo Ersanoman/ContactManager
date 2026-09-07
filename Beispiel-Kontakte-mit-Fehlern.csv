@@ -1,4 +1,7 @@
-﻿Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;TelefonGeschaeft;Mobiltelefon;EMail;Status;Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
+﻿# Beispieldatei mit ABSICHTLICHEN Fehlern, um zu zeigen dass das
+# Programm nicht abstuerzt: ungueltiges Datum, fehlender Vorname,
+# zu wenige Spalten, unbekannter Typ, Text statt Zahl.
+Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;TelefonGeschaeft;Mobiltelefon;EMail;Status;Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
 Kunde;Herr;;Luca;Fontana;05.06.1988;Männlich;091 111 22 33;079 111 22 33;luca.fontana@example.ch;aktiv
 Mitarbeiter;Frau;;Nadia;Berger;19.12.1995;Weiblich;033 222 33 44;079 222 33 44;nadia.berger@example.ch;aktiv;Marketing;756.6789.0123.42;Lindenweg 7;3000;Bern;Schweiz;01.02.2021;;60;Marketingfachfrau;1;Gaiserwaldstrasse 6, 9015 St. Gallen
 Kunde;Frau;Dr.;Anna;Müller;17.05.1985;Weiblich;071 222 33 44;079 555 66 77;anna.mueller@example.ch;aktiv
