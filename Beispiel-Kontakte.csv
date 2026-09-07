@@ -1,4 +1,6 @@
-﻿Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;TelefonGeschaeft;Mobiltelefon;EMail;Status;Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
+﻿# Beispieldatei fuer den CSV-Import: 11 fehlerfreie Kontakte
+# (6 Kunden, 3 Mitarbeiter, 2 Lernende). Zeilen mit # sind Kommentare.
+Typ;Anrede;Titel;Vorname;Nachname;Geburtsdatum;Geschlecht;TelefonGeschaeft;Mobiltelefon;EMail;Status;Abteilung;AhvNummer;Adresse;Postleitzahl;Wohnort;Nationalitaet;Eintrittsdatum;Austrittsdatum;Beschaeftigungsgrad;Rolle;Kaderstufe;Geschaeftsadresse;Lehrjahre;AktuellesLehrjahr
 Kunde;Frau;Dr.;Anna;Müller;17.05.1985;Weiblich;071 222 33 44;079 555 66 77;anna.mueller@example.ch;aktiv
 Kunde;Herr;;Beat;Schäfli;02.11.1979;Männlich;071 222 33 45;079 555 66 78;beat.schaefli@example.ch;aktiv
 Kunde;Frau;;Céline;Roth;23.09.1992;Weiblich;044 111 22 33;076 444 55 66;celine.roth@example.ch;aktiv
