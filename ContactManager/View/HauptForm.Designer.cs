@@ -142,6 +142,7 @@
             this.TxtNachname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtNachname.Location = new System.Drawing.Point(110, 40);
             this.TxtNachname.Name = "TxtNachname";
+            this.TxtNachname.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Suchfeld_KeyDown);
             this.TxtNachname.Size = new System.Drawing.Size(180, 23);
             this.TxtNachname.TabIndex = 2;
             // 
@@ -159,6 +160,7 @@
             this.TxtVorname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtVorname.Location = new System.Drawing.Point(110, 74);
             this.TxtVorname.Name = "TxtVorname";
+            this.TxtVorname.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Suchfeld_KeyDown);
             this.TxtVorname.Size = new System.Drawing.Size(180, 23);
             this.TxtVorname.TabIndex = 4;
             // 
@@ -179,6 +181,7 @@
             this.DtpGeburtsdatum.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.DtpGeburtsdatum.Location = new System.Drawing.Point(442, 40);
             this.DtpGeburtsdatum.Name = "DtpGeburtsdatum";
+            this.DtpGeburtsdatum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Suchfeld_KeyDown);
             this.DtpGeburtsdatum.Size = new System.Drawing.Size(130, 23);
             this.DtpGeburtsdatum.TabIndex = 6;
             // 
@@ -198,6 +201,7 @@
             this.CmbKategorie.FormattingEnabled = true;
             this.CmbKategorie.Location = new System.Drawing.Point(442, 74);
             this.CmbKategorie.Name = "CmbKategorie";
+            this.CmbKategorie.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Suchfeld_KeyDown);
             this.CmbKategorie.Size = new System.Drawing.Size(130, 23);
             this.CmbKategorie.TabIndex = 8;
             // 
@@ -431,7 +435,6 @@
             // 
             // HauptForm
             // 
-            this.AcceptButton = this.CmdSuchen;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(243, 244, 246);

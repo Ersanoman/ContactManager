@@ -279,6 +279,29 @@ namespace ContactManager.View
                 return;
             }
 
+            // Steht im Notizfeld noch Text, wurde er noch nicht mit
+            // "Hinzufügen" in die Kontakthistorie übernommen und ginge
+            // beim Schliessen verloren. Darum fragen wir kurz nach.
+            if (TxtNeueNotiz.Text.Trim() != "")
+            {
+                DialogResult antwort = MessageBox.Show(
+                    "Im Feld für die neue Notiz steht noch Text, der noch " +
+                    "nicht zur Kontakthistorie hinzugefügt wurde.\n\n" +
+                    "Soll die Notiz jetzt hinzugefügt werden?",
+                    "Notiz noch nicht hinzugefügt",
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                if (antwort == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                if (antwort == DialogResult.Yes)
+                {
+                    CmdNotizHinzufuegen_Click(sender, e);
+                }
+            }
+
             // Neues Kundenobjekt mit den eingegebenen Werten erstellen
             Kunde kunde = new Kunde();
             kunde.Anrede = (Anrede)CmbAnrede.SelectedIndex;

@@ -355,6 +355,25 @@ namespace ContactManager.View
         }
 
         /// <summary>
+        /// Enter in einem der Suchfelder startet die Suche. Zuerst hatten wir
+        /// dafür die Eigenschaft AcceptButton des Fensters gesetzt. Die fängt
+        /// aber jeden Enter-Druck ab, also auch den in der Personenliste, und
+        /// dort soll Enter den Eintrag zum Bearbeiten öffnen. Darum horcht nun
+        /// jedes Suchfeld selber auf die Enter-Taste.
+        /// </summary>
+        private void Suchfeld_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CmdSuchen_Click(sender, e);
+
+                // Unterdrückt den Warnton, den Windows sonst ausgibt
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        /// <summary>
         /// Tastaturbedienung in der Personenliste: mit den Pfeiltasten wird
         /// ausgewählt (das macht die Liste selber), Enter öffnet den Eintrag
         /// zum Bearbeiten und die Entf-Taste löscht ihn.
@@ -365,8 +384,7 @@ namespace ContactManager.View
             {
                 CmdBearbeiten_Click(sender, e);
 
-                // Verhindert, dass zusätzlich die Suche ausgelöst wird
-                // (Enter gehört sonst der Schaltfläche "Suchen")
+                // Unterdrückt den Warnton, den Windows sonst ausgibt
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
