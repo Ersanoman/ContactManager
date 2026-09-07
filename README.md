@@ -23,6 +23,11 @@ Was funktioniert:
   (selbst implementierter Bubblesort in der Kontaktverwaltung)
 - Die Auswahl in der Liste bleibt nach dem Bearbeiten oder nach einem
   Statuswechsel erhalten
+- Bedienung ganz ohne Maus: mit Tab zwischen den Feldern wechseln, mit
+  den Pfeiltasten durch die Liste gehen, Enter öffnet den markierten
+  Eintrag zum Bearbeiten und die Entf-Taste löscht ihn (mit Nachfrage)
+- In der Kontakthistorie zeigt ein Doppelklick die ganze Notiz in einem
+  eigenen Fenster; in der Liste wird ein langer Text sonst abgeschnitten
 - Die Suche kann auch mit der Enter-Taste ausgelöst werden; in den
   Erfassungsfenstern speichert Enter, Escape bricht ab
 - Alle Schaltflächen haben ein Tastenkürzel (z.B. Alt+K für einen
@@ -56,6 +61,10 @@ Was funktioniert:
   * AHV-Nummer (756.XXXX.XXXX.XX), Postleitzahl (1000 bis 9999),
     Austritt nicht vor Eintritt, aktuelles Lehrjahr nicht grösser
     als Lehrjahre total
+  * Eine AHV-Nummer darf nur einmal vorkommen: sie wird gegen alle
+    anderen Mitarbeiter geprüft, beim Bearbeiten ohne die Person
+    selbst. Auch der CSV-Import weist doppelte Nummern zurück -
+    innerhalb der Datei und gegen den bestehenden Datenstamm.
   * Geburtsdatum kann nicht in der Zukunft und nicht vor 1900 liegen
   * Alle diese Regeln stehen in der statischen Klasse Pruefung und
     gelten sowohl für die Formulare als auch für den CSV-Import
@@ -80,7 +89,8 @@ Zusätzlich umgesetzte optionale Anforderungen:
   beim Import automatisch ihre Mitarbeiternummer.
   Fehlerhafte Zeilen werden übersprungen und dem Benutzer mit
   Zeilennummer gemeldet, bereits vorhandene Personen werden nicht
-  doppelt importiert.
+  doppelt importiert. Zeilen, die mit einem # beginnen, gelten als
+  Kommentar - so erklären die Beispieldateien sich selbst.
   Dem Projekt liegen zwei Beispieldateien bei:
   * "Beispiel-Kontakte.csv" enthält 11 fehlerfreie Kontakte
     (6 Kunden, 3 Mitarbeiter, 2 Lernende).
