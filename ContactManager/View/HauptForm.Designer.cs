@@ -458,7 +458,7 @@
             this.MinimumSize = new System.Drawing.Size(1060, 707);
             this.Name = "HauptForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Contact Manager";
+            this.Text = "Contact Manager 1.0";
             this.Load += new System.EventHandler(this.HauptForm_Load);
             this.PnlKopf.ResumeLayout(false);
             this.PnlKopf.PerformLayout();

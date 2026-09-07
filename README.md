@@ -1,5 +1,6 @@
 ﻿Semesterprojekt Contact Manager
 Programming Foundation II
+Version 1.0 (Abgabeversion)
 
 Gruppenmitglieder:
 ------------------
