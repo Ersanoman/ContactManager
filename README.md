@@ -4,7 +4,7 @@ Version 1.0 (Abgabeversion)
 
 Gruppenmitglieder:
 ------------------
-- Nando Ramsauer
+- Nando Ramsauer (Teamleiter)
 - Ersan Krizevac
 
 Was funktioniert:

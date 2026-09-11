@@ -29,37 +29,52 @@ namespace ContactManager.Model
         public string Titel { get; set; }
 
         /// <summary>
-        /// Vorname der Person
+        /// Vorname der Person. Pflichtfeld, darf keine Ziffern enthalten
+        /// (wird in der Klasse Pruefung kontrolliert). Die Suche findet
+        /// auch Teiltreffer, Gross-/Kleinschreibung spielt keine Rolle.
         /// </summary>
         public string Vorname { get; set; }
 
         /// <summary>
-        /// Nachname der Person
+        /// Nachname der Person. Pflichtfeld, darf keine Ziffern enthalten.
+        /// Nach diesem Feld wird die Personenliste sortiert (Bubblesort),
+        /// und zusammen mit Vorname und Geburtsdatum dient er der
+        /// Warnung vor einer Doppelerfassung.
         /// </summary>
         public string Nachname { get; set; }
 
         /// <summary>
-        /// Geburtsdatum der Person
+        /// Geburtsdatum der Person. Darf nicht in der Zukunft und nicht
+        /// vor 1900 liegen (Pruefung.GeburtsdatumPlausibel). Kann in der
+        /// Suche als Kriterium verwendet werden.
         /// </summary>
         public DateTime Geburtsdatum { get; set; }
 
         /// <summary>
-        /// Geschlecht der Person
+        /// Geschlecht der Person als Wert der Enumeration Geschlecht.
+        /// Im Formular wird es über eine Dropdown-Liste gewählt, damit
+        /// keine Tippfehler möglich sind.
         /// </summary>
         public Geschlecht Geschlecht { get; set; }
 
         /// <summary>
-        /// Geschäftliche Telefonnummer
+        /// Geschäftliche Telefonnummer. Kein Pflichtfeld, darf leer sein.
+        /// Erlaubt sind nur Ziffern und Leerzeichen, z.B. "071 222 33 44"
+        /// (Pruefung.TelefonnummerGueltig).
         /// </summary>
         public string TelefonnummerGeschaeft { get; set; }
 
         /// <summary>
-        /// Mobiltelefonnummer
+        /// Mobiltelefonnummer. Kein Pflichtfeld, darf leer sein.
+        /// Gleiche Regel wie beim Geschäftstelefon: nur Ziffern und
+        /// Leerzeichen, im Formular ist die Tastatur entsprechend gesperrt.
         /// </summary>
         public string Mobiltelefonnummer { get; set; }
 
         /// <summary>
-        /// E-Mail-Adresse
+        /// E-Mail-Adresse. Kein Pflichtfeld, darf leer sein. Wenn etwas
+        /// eingegeben wird, muss es genau ein @ enthalten und dahinter
+        /// einen Punkt mit einer Endung (Pruefung.EMailGueltig).
         /// </summary>
         public string EMailAdresse { get; set; }
 

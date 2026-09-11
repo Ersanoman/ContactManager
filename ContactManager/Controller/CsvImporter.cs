@@ -48,7 +48,8 @@ namespace ContactManager.Controller
         private List<string> gelesenAhvNummern;
 
         /// <summary>
-        /// Konstruktor
+        /// Konstruktor. Setzt die Fehlermeldungen auf einen leeren Text,
+        /// damit vor dem ersten Einlesen nie null zurückgegeben wird.
         /// </summary>
         public CsvImporter()
         {

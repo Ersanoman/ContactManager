@@ -48,17 +48,22 @@ namespace ContactManager.Model
         public string Postleitzahl { get; set; }
 
         /// <summary>
-        /// Wohnort des Mitarbeiters
+        /// Wohnort des Mitarbeiters. Kein Pflichtfeld, darf aber keine
+        /// Ziffern enthalten (Pruefung.OhneZiffern).
         /// </summary>
         public string Wohnort { get; set; }
 
         /// <summary>
-        /// Nationalität des Mitarbeiters
+        /// Nationalität des Mitarbeiters als Text. Im Formular wird sie aus
+        /// der Laenderliste gewählt, eine freie Eingabe bleibt aber möglich
+        /// (z.B. für Doppelbürger). Ziffern sind nicht erlaubt.
         /// </summary>
         public string Nationalitaet { get; set; }
 
         /// <summary>
-        /// Datum des Firmeneintritts
+        /// Datum des Firmeneintritts. Dient als untere Grenze für das
+        /// Austrittsdatum: ein Austritt vor dem Eintritt wird im Formular
+        /// und beim CSV-Import abgewiesen.
         /// </summary>
         public DateTime Eintrittsdatum { get; set; }
 
@@ -108,7 +113,10 @@ namespace ContactManager.Model
         }
 
         /// <summary>
-        /// Geschäftsadresse des Arbeitsorts
+        /// Geschäftsadresse des Arbeitsorts als freier Text, z.B.
+        /// "Gaiserwaldstrasse 6, 9015 St. Gallen". Kein Pflichtfeld und
+        /// bewusst ohne Formatprüfung, weil Firmenadressen sehr
+        /// unterschiedlich aussehen können.
         /// </summary>
         public string Geschaeftsadresse { get; set; }
 

@@ -44,7 +44,8 @@ namespace ContactManager.View
         private int anzahlMitarbeiter;
 
         /// <summary>
-        /// Anzahl Lernende
+        /// Anzahl Lernende (werden bei den Mitarbeitern nicht mitgezählt,
+        /// damit die drei Zahlen zusammen das Total ergeben)
         /// </summary>
         private int anzahlLernende;
 
